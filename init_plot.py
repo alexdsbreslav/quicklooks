@@ -158,8 +158,9 @@ def def_fonts(style, size):
     fontsize = {'small': (24,18), 'default': (26,20), 'poster':(20,20), 'poster_small':(20,20)}
 
     # define fonts
-    title_path = '/Users/alex/Library/Fonts/SourceSansPro-Black.ttf'
-    text_path = '/Users/alex/Library/Fonts/SourceSansPro-Regular.ttf'
+    # title_path = './fonts/SourceSansPro-Black.ttf'
+    title_path = './fonts/Futura.ttc'
+    text_path = './fonts/SourceSansPro-Regular.ttf'
 
     fonts = {'title':font_manager.FontProperties(fname=title_path, size = fontsize[size][0]),
              'label':font_manager.FontProperties(fname=text_path, size = fontsize[size][1]),
