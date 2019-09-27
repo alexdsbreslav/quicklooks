@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 from matplotlib import font_manager
+import numpy as np
 
 
 def find_text_width(text):
