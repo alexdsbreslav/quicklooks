@@ -6,13 +6,17 @@ from .plot_func_internal import def_fonts
 
 
 def init_plot(style, size, title, ylabel, xlabel, xlim, ylim, xticks, yticks, ygrid_on, xgrid_on, mid_line_on, perf_corr_line_on, axes_type):
-    """fig, ax, c_lib, size, style, fonts = init_plot(style = 'dark', size = 'default',
+    """fig, ax, c_lib, size, style, fonts = quicklook.init_plot(style = 'dark', size = 'default',
     title = '',
     xlabel = '',
     ylabel = '',
     xlim = (0,1), ylim = (0,1), xticks = 5, yticks = 5,
     ygrid_on = False, xgrid_on = False,
-    mid_line_on = False, perf_corr_line_on = False, axes_type = 0);"""
+    mid_line_on = False, perf_corr_line_on = False, axes_type = 0);
+
+    style = ['dark', 'light']
+    size = ['default', 'small', 'poster', 'poster_small']
+    axes_type {0:'1 quadrant (L shaped)', 1:'4 quadrants (+ shaped)'}"""
 
     # define fonts
     fonts = def_fonts(style, size)
@@ -132,7 +136,7 @@ def init_plot(style, size, title, ylabel, xlabel, xlim, ylim, xticks, yticks, yg
 
 def plot_line(ax, c_lib, size, x, y, linewidth, color_str, marker_on, marker_shape, label, zorder):
     """
-    line = plot_line(ax, c_lib, size,
+    line = quicklook.plot_line(ax, c_lib, size,
     x = ,
     y = ,
     linewidth = 3,
@@ -177,7 +181,7 @@ def plot_line(ax, c_lib, size, x, y, linewidth, color_str, marker_on, marker_sha
 
 def plot_err_line(ax, c_lib, size, x, y_mean, y_err, linewidth, color_str, marker_on, marker_shape, label, zorder):
     """
-    mean, ub, lb, fill = plot_err_line(ax, c_lib, size,
+    mean, ub, lb, fill = quicklook.plot_err_line(ax, c_lib, size,
     x = ,
     y_mean = ,
     y_err = ,
@@ -241,7 +245,7 @@ def plot_err_line(ax, c_lib, size, x, y_mean, y_err, linewidth, color_str, marke
 
 def plot_vert_line(ax, c_lib, x, ylim, width, style, color, label, zorder):
     """
-    vert_line = plot_style.vert_line(ax, c_lib,
+    vert_line = quicklook.vert_line(ax, c_lib,
     x = ,
     ylim = (,),
     width = 3,
@@ -256,7 +260,7 @@ def plot_vert_line(ax, c_lib, x, ylim, width, style, color, label, zorder):
 
 def plot_hor_line(ax, c_lib, y, xlim, width, style, color, label, zorder):
     """
-    hor_line = plot_style.hor_line(ax, c_lib,
+    hor_line = quicklook.hor_line(ax, c_lib,
     y = ,
     xlim = (,),
     width = 3,
@@ -274,7 +278,7 @@ def plot_hor_line(ax, c_lib, y, xlim, width, style, color, label, zorder):
 # Plot scatter
 def plot_scatter(ax, c_lib, size, x, y, color_str, zorder, label):
     """
-    scatter = plot_scatter(ax, c_lib, size,
+    scatter = quicklook.plot_scatter(ax, c_lib, size,
     x = ,
     y = ,
     color_str = ,
@@ -309,7 +313,7 @@ def plot_scatter(ax, c_lib, size, x, y, color_str, zorder, label):
 
 def plot_err_scatter(ax, c_lib, x, y, xerr, yerr, color_str, zorder, label):
     """
-    scatter, err_fill, err_outline = plot_err_scatter(ax, c_lib,
+    scatter, err_fill, err_outline = quicklook.plot_err_scatter(ax, c_lib,
     x = ,
     y = ,
     xerr = ,
@@ -341,7 +345,7 @@ def plot_err_scatter(ax, c_lib, x, y, xerr, yerr, color_str, zorder, label):
 
 def add_text(ax, c_lib, fonts, frame_on, text, x_loc, y_loc, hor_align, vert_align, zorder):
     """
-    text = add_text(ax, c_lib, fonts,
+    text = quicklook.add_text(ax, c_lib, fonts,
     frame_on = True,
     text = '',
     x_loc = ,
@@ -367,7 +371,7 @@ def add_text(ax, c_lib, fonts, frame_on, text, x_loc, y_loc, hor_align, vert_ali
 
 def add_legend(ax, c_lib, size, fonts, frame_on, loc, bbox_coord, markerscale, markercolor_str_set):
     """
-    legend = add_legend(ax, c_lib, size, fonts,
+    legend = quicklook.add_legend(ax, c_lib, size, fonts,
     frame_on=False, loc = 'best', bbox_coord = (1,1),
     markerscale = 1, markercolor_str_set = []);
     """
@@ -389,7 +393,7 @@ def add_legend(ax, c_lib, size, fonts, frame_on, loc, bbox_coord, markerscale, m
 
 def show_c_lib(c_lib, fonts):
     """
-    show_c_lib(c_lib, fonts)
+    quicklook.show_c_lib(c_lib, fonts)
     """
     fig, ax = plt.subplots(nrows=1, figsize = (6,12))
 
