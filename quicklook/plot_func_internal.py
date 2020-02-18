@@ -62,8 +62,8 @@ def define_plot_style(style, size, ylabel):
                          'background': '#ffffff',
                          'text': '#000000',
                          'labels': '#000000',
-                         'gray': ['#f8f9fa', '#f1f3f5', '#e9ecef', '#dee2e6', '#ced4da', '#adb5bd', '#868e96', '#495057', '#343a40', '#212529'],
-                         'red': ['#fff5f5', '#ffe3e3', '#ffc9c9', '#ffa8a8', '#ff8787', '#ff6b6b', '#fa5252', '#f03e3e', '#e03131', '#c92a2a'],
+                         'gray': ['#f8f9fa','#f1f3f5','#e9ecef','#dee2e6','#ced4da','#adb5bd','#868e96','#495057','#343a40','#212529'],
+                         'red': ['#fff5f5','#ffe3e3','#ffc9c9','#ffa8a8','#ff8787','#ff6b6b','#fa5252','#f03e3e','#e03131','#c92a2a'],
                          'pink': ['#fff0f6','#ffdeeb','#fcc2d7','#faa2c1','#f783ac','#f06595','#e64980','#d6336c','#c2255c','#a61e4d'],
                          'grape': ['#f8f0fc','#f3d9fa','#eebefa','#e599f7','#da77f2','#cc5de8','#be4bdb','#ae3ec9','#9c36b5','#862e9c'],
                          'violet': ['#f3f0ff','#e5dbff','#d0bfff','#b197fc','#9775fa','#845ef7','#7950f2','#7048e8','#6741d9','#5f3dc4'],
@@ -91,7 +91,7 @@ def define_plot_style(style, size, ylabel):
 
     elif style == 'simple_light':
         # ---- created by alex breslav using https://learnui.design/tools/data-color-picker.html
-        color_library = {'name': 'sime_light',
+        color_library = {'name': 'simple_light',
                         'background':'#fafbfc',
                         'text':'#393b43',
                         'labels':'#393b43',
