@@ -112,7 +112,7 @@ def build_chart_skeleton(style, size, title, ylabel, xlabel, x_min_max,
 
 def add_line_to_chart(chart_skeleton, x, y, linewidth, linestyle,
               color_name, color_brightness, marker_shape,
-              label_for_legend, zorder):
+              label_for_legend, layer_order):
     """
     quicklook.add_line_to_chart(chart_skeleton,
     x = ,
@@ -123,7 +123,7 @@ def add_line_to_chart(chart_skeleton, x, y, linewidth, linestyle,
     linestyle = '-',
     marker_shape = 'o',
     label_for_legend = '',
-    zorder = 1)
+    layer_order = 1)
 
     Options
     -------
@@ -150,13 +150,13 @@ def add_line_to_chart(chart_skeleton, x, y, linewidth, linestyle,
             mfc = chart_skeleton['color_library'][color_name][fill],
             mew = 2,
             label = label_for_legend,
-            zorder = zorder);
+            zorder = layer_order);
     return
 
 
 def add_line_with_error_to_chart(chart_skeleton, x, y_mean, y_error, linewidth,
                          linestyle, color_name, color_brightness, marker_shape,
-                         label_for_legend, zorder):
+                         label_for_legend, layer_order):
     """
     quicklook.add_line_with_error_to_chart(ax, color_library, size,
     x = ,
@@ -168,7 +168,7 @@ def add_line_with_error_to_chart(chart_skeleton, x, y_mean, y_error, linewidth,
     linestyle = '-',
     marker_shape = 'o',
     label_for_legend = '',
-    zorder = 1)
+    layer_order = 1)
 
     Options
     -------
@@ -191,7 +191,7 @@ def add_line_with_error_to_chart(chart_skeleton, x, y_mean, y_error, linewidth,
                           color = chart_skeleton['color_library'][color_name][fill],
                           label = None,
                           alpha = 0.2,
-                          zorder = zorder);
+                          zorder = layer_order);
     mean = chart_skeleton['ax'].plot(
                 x,
                 y_mean,
@@ -201,27 +201,27 @@ def add_line_with_error_to_chart(chart_skeleton, x, y_mean, y_error, linewidth,
                 marker = marker_shape,
                 markersize = markersize,
                 label = label_for_legend,
-                zorder = zorder);
+                zorder = layer_order);
     ub = chart_skeleton['ax'].plot(
                 x,
                 y_mean + y_error,
                 linewidth = 0.5,
                 color = chart_skeleton['color_library'][color_name][edge],
                 label = None,
-                zorder = zorder);
+                zorder = layer_order);
     lb = chart_skeleton['ax'].plot(
                 x,
                 y_mean - y_error,
                 linewidth = 0.5,
                 color = chart_skeleton['color_library'][color_name][edge],
                 label = None,
-                zorder = zorder);
+                zorder = layer_order);
     return
 
 
 def add_vertical_line_to_chart(chart_skeleton, x, linewidth, linestyle,
                        color_name, color_brightness, marker_shape,
-                       label_for_legend, zorder):
+                       label_for_legend, layer_order):
     """
     quicklook.add_vertical_line_to_chart(chart_skeleton,
     x = ,
@@ -231,7 +231,7 @@ def add_vertical_line_to_chart(chart_skeleton, x, linewidth, linestyle,
     linestyle = '-',
     marker_shape = 'None',
     label_for_legend = '',
-    zorder = 1)
+    layer_order = 1)
 
     Options
     -------
@@ -258,13 +258,13 @@ def add_vertical_line_to_chart(chart_skeleton, x, linewidth, linestyle,
             mfc = chart_skeleton['color_library'][color_name][fill],
             mew = 2,
             label = label_for_legend,
-            zorder = zorder);
+            zorder = layer_order);
     return
 
 
 def add_horizontal_line_to_chart(chart_skeleton, y, linewidth, linestyle,
                          color_name, color_brightness, marker_shape,
-                         label_for_legend, zorder):
+                         label_for_legend, layer_order):
     """
     quicklook.add_vertical_line_to_chart(ax, color_library, size,
     y = ,
@@ -274,7 +274,7 @@ def add_horizontal_line_to_chart(chart_skeleton, y, linewidth, linestyle,
     linestyle = '-',
     marker_shape = 'None',
     label_for_legend = '',
-    zorder = 1)
+    layer_order = 1)
 
     Options
     -------
@@ -301,7 +301,7 @@ def add_horizontal_line_to_chart(chart_skeleton, y, linewidth, linestyle,
             mfc = chart_skeleton['color_library'][color_name][fill],
             mew = 2,
             label = label_for_legend,
-            zorder = zorder);
+            zorder = layer_order);
     return
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
