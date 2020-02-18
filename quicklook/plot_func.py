@@ -4,8 +4,8 @@ import matplotlib.patches as patch
 import plot_func_internal
 
 
-def init_plot(style, size, title, ylabel, xlabel, xlim, ylim, xticks, yticks, horizontal_gridlines_on, vertical_gridlines_on):
-    """fig, ax, color_library, size, style, fonts = quicklook.init_plot(style = 'default', size = 'default',
+def initialize_plot(style, size, title, ylabel, xlabel, xlim, ylim, xticks, yticks, horizontal_gridlines_on, vertical_gridlines_on):
+    """fig, ax, color_library, size, style, fonts = quicklook.initialize_plot(style = 'default', size = 'default',
     title = '',
     xlabel = '',
     ylabel = '',
