@@ -33,7 +33,7 @@ def find_text_width(text):
 
 
 # ---- define the fonts
-def define_plot_style(style, size):
+def define_plot_style(style, size, ylabel):
     """
     Only used internally
     """
@@ -58,11 +58,10 @@ def define_plot_style(style, size):
 
     # ---- define the color library
     if style == 'default':
-        color_library = {'background': '#ffffff',
+        color_library = {'name': 'default',
+                         'background': '#ffffff',
                          'text': '#000000',
                          'labels': '#000000',
-                         'white': '#ffffff',
-                         'black': '#000000',
                          'gray': ['#f8f9fa', '#f1f3f5', '#e9ecef', '#dee2e6', '#ced4da', '#adb5bd', '#868e96', '#495057', '#343a40', '#212529'],
                          'red': ['#fff5f5', '#ffe3e3', '#ffc9c9', '#ffa8a8', '#ff8787', '#ff6b6b', '#fa5252', '#f03e3e', '#e03131', '#c92a2a'],
                          'pink': ['#fff0f6','#ffdeeb','#fcc2d7','#faa2c1','#f783ac','#f06595','#e64980','#d6336c','#c2255c','#a61e4d'],
@@ -79,7 +78,8 @@ def define_plot_style(style, size):
 
     elif style == 'simple_dark':
         # ---- created by alex breslav using https://learnui.design/tools/data-color-picker.html
-        color_library = {'background':'#292d34',
+        color_library = {'name': 'simple_dark',
+                        'background':'#292d34',
                         'text':'#abb2bf',
                         'labels':'#292d34',
                         'green':('#69e788', '#44c168', '#179c49'),
@@ -89,9 +89,10 @@ def define_plot_style(style, size):
                         'red': ('#ff9f95', '#f57970', '#e84f4e'),
                         'gray':('#cfcfcf', '#b4b4b4', '#999999')}
 
-    elif style = 'simple_light':
+    elif style == 'simple_light':
         # ---- created by alex breslav using https://learnui.design/tools/data-color-picker.html
-        color_library = {'background':'#fafbfc',
+        color_library = {'name': 'sime_light',
+                        'background':'#fafbfc',
                         'text':'#393b43',
                         'labels':'#393b43',
                         'green':('#b1d9a0', '#179c49', '#0e4f25'),
@@ -102,3 +103,48 @@ def define_plot_style(style, size):
                         'gray':('#999999', '#40403f', '#000000')}
 
     return figsize, label_pad, title_pad, linewidth, tick_pad, tick_length, color_library, fonts
+
+# ---- define the colors based on the style
+def define_line_colors(color_library, color_string, color_brightness):
+    # ---- check to make sure that the colors were entered properly
+    if color_string not in list(color_library.keys())[4:]:
+        raise Exception('Color entered is not in the color library. Enter one of the follow colors:\n''{}'\
+                        .format([i for i in list(color_library.keys())[4:]]))
+    if color_brightness not in ['default', 'light', 'dark']:
+        raise Exception('Color brightness is not properly define. color_brightness must be set to default, light, or dark')
+    else:
+        pass
+
+    # ---- define the colors based on the palette
+    if color_library['name'] == 'simple_dark':
+        fill = 1
+        edge = 0
+        line = 1
+    elif color_library['name'] == 'simple_light':
+        fill = 1
+        edge = 2
+        line = 1
+    elif color_library['name'] == 'default':
+        if color_brightness == 'default':
+            line = 4
+            fill = 4
+            edge = 6
+        elif color_brightness == 'light':
+            line = 1
+            fill = 1
+            edge = 3
+        else:
+            line = 7
+            fill = 7
+            edge = 9
+    return line, fill, edge
+
+
+# ---- define the marker size based on the plot size
+def define_markersize(size, marker_shape):
+    markersize = {'small':8, 'default':10}[size]
+    if marker_shape not in ['', False, 'none', 'None', None, 'na', 'NA', 'n/a']:
+        markersize = markersize
+    else:
+        markersize = 0
+    return markersize

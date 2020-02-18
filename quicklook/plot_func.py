@@ -1,19 +1,25 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patch
-import plot_func_internal
+from .add_func_internal import define_add_style, find_text_width, \
+                                define_line_colors, define_markersize
 
 
-def initialize_plot(style, size, title, ylabel, xlabel, xlim, ylim, xticks, yticks, horizontal_gridlines_on, vertical_gridlines_on):
-    """fig, ax, color_library, size, style, fonts = quicklook.initialize_plot(style = 'default', size = 'default',
+def build_chart_skeleton(style, size, title, ylabel, xlabel, x_min_max,
+                         y_min_max, xtick_interval, ytick_interval,
+                         horizontal_gridlines_on, vertical_gridlines_on):
+
+    """chart_skeleton = quicklook.build_chart_skeleton(style = 'default', size = 'default',
     title = '',
     xlabel = '',
     ylabel = '',
-    xlim = (0,1), ylim = (0,1),
-    xticks = 5, yticks = 5,
+    x_min_max = (0,1), y_min_max = (0,1),
+    xtick_interval = 1, ytick_interval = 1,
     horizontal_gridlines_on = False,
     vertical_gridlines_on = False);
 
+    Options
+    -------
     style = ['default', 'simple_dark', 'simple_light']
     size = ['default', 'small']"""
 
@@ -34,9 +40,9 @@ def initialize_plot(style, size, title, ylabel, xlabel, xlim, ylim, xticks, ytic
         horizontal_gridlines_on must be set to True or False')
 
     # ---- define plot style based on style and size choice
-    figsize, label_pad, title_pad, linewidth,
-    tick_pad, tick_length, color_library,
-    fonts = plot_func_internal.define_plot_style(style, size)
+    figsize, label_pad, title_pad, linewidth, \
+    tick_pad, tick_length, color_library, \
+    fonts = define_add_style(style, size, ylabel)
 
     # ---- create the plot
     fig, ax = plt.subplots(nrows=1, figsize = figsize)
@@ -56,6 +62,7 @@ def initialize_plot(style, size, title, ylabel, xlabel, xlim, ylim, xticks, ytic
         ax.spines[spine].set_visible(False)
     for spine in ['bottom', 'left']:
         ax.spines[spine].set_linewidth(linewidth)
+        ax.spines[spine].set_color(color_library['text'])
 
     # ---- style the axis ticks
     ax.tick_params('x', colors=color_library['text'], labelsize=fonts['size'][1],
@@ -65,12 +72,12 @@ def initialize_plot(style, size, title, ylabel, xlabel, xlim, ylim, xticks, ytic
                    width = linewidth, pad = tick_pad[1], length = tick_length)
 
     # ---- set the axis limits and number of ticks
-    ax.set_ylim(ylim)
-    ax.set_xlim(xlim)
+    ax.set_ylim(y_min_max)
+    ax.set_xlim(x_min_max)
 
     # ---- set the number of ticks on the axes
-    ax.yaxis.set_major_locator(plt.MaxNLocator(yticks))
-    ax.xaxis.set_major_locator(plt.MaxNLocator(xticks))
+    ax.yaxis.set_major_locator(plt.MultipleLocator(ytick_interval))
+    ax.xaxis.set_major_locator(plt.MultipleLocator(xtick_interval))
 
     # ---- label the y axis
     ax.set_ylabel(ylabel, color=color_library['labels'],
@@ -92,158 +99,218 @@ def initialize_plot(style, size, title, ylabel, xlabel, xlim, ylim, xticks, ytic
         linewidth = '0.3', color = '0.5', zorder = 0)
 
     plt.tight_layout()
-    return(fig, ax, color_library, size, style, fonts)
+    chart_skeleton = {'fig': fig, 'ax': ax, 'color_library': color_library,
+                      'size': size, 'fonts': fonts, 'x_min_max': x_min_max,
+                      'y_min_max': y_min_max}
+
+    return chart_skeleton
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Plot lines
 
-def plot_line(ax, color_library, size, x, y, linewidth, color_str, marker_on, marker_shape, label, zorder):
+def add_line_to_chart(chart_skeleton, x, y, linewidth, linestyle,
+              color_name, color_brightness, marker_shape,
+              label_for_legend, zorder):
     """
-    line = quicklook.plot_line(ax, color_library, size,
+    quicklook.add_line_to_chart(chart_skeleton,
     x = ,
     y = ,
+    color_name = '',
+    color_brightness = 'default',
     linewidth = 3,
-    color_str = '',
-    marker_on = True,
+    linestyle = '-',
     marker_shape = 'o',
-    label = '',
+    label_for_legend = '',
     zorder = 1)
+
+    Options
+    -------
+    color_name: options depend on the style. Run quicklook.show_color_library(color_library, fonts)
+    color_brightness = ['light', 'default', 'dark'] (only works for default color library)
+    marker_shape = ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
+    linestyle = ['-', '--', ':', '-.']
     """
+    if not chart_skeleton['ax']:
+        raise Exception('Plot has not been initalized. Make sure to run quicklook.initialize_plot() first.')
 
-    markersize = {'small':8, 'default':10, 'poster':10, 'poster_small':8}
+    line, fill, edge = define_line_colors(chart_skeleton['color_library'], color_name, color_brightness)
+    markersize = define_markersize(chart_skeleton['size'], marker_shape)
 
-    if marker_on == True:
-        markersize = markersize[size]
-    else:
-        markersize = 0
-
-    #light style
-    if color_library['background'] == '#fafbfc':
-        fill = 0
-        edge = 2
-    #dark style
-    elif color_library['background'] == '#292d34':
-        fill = 0
-        edge = 1
-
-
-    line = ax.plot(
+    line = chart_skeleton['ax'].plot(
             x,
             y,
             linewidth = linewidth,
-            color = color_library[color_str][0],
+            linestyle = linestyle,
+            color = chart_skeleton['color_library'][color_name][line],
             marker = marker_shape,
             markersize = markersize,
-            mec = color_library[color_str][edge],
-            mfc = color_library[color_str][fill],
+            mec = chart_skeleton['color_library'][color_name][edge],
+            mfc = chart_skeleton['color_library'][color_name][fill],
             mew = 2,
-            label = label,
+            label = label_for_legend,
             zorder = zorder);
-    return(line)
+    return
 
 
-def plot_err_line(ax, color_library, size, x, y_mean, y_err, linewidth, color_str, marker_on, marker_shape, label, zorder):
+def add_line_with_error_to_chart(chart_skeleton, x, y_mean, y_error, linewidth,
+                         linestyle, color_name, color_brightness, marker_shape,
+                         label_for_legend, zorder):
     """
-    mean, ub, lb, fill = quicklook.plot_err_line(ax, color_library, size,
+    quicklook.add_line_with_error_to_chart(ax, color_library, size,
     x = ,
     y_mean = ,
-    y_err = ,
+    y_error = ,
+    color_name = '',
+    color_brightness = 'default',
     linewidth = 3,
-    color_str = '',
-    marker_on = True,
+    linestyle = '-',
     marker_shape = 'o',
-    label = '',
+    label_for_legend = '',
     zorder = 1)
+
+    Options
+    -------
+    color_name: options depend on the style. Run quicklook.show_color_library(color_library, fonts)
+    color_brightness = ['light', 'default', 'dark'] (only works for default color library)
+    marker_shape = ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+    linestyle = ['-', '--', ':', '-.']
     """
 
-    markersize = {'small':8, 'default':10, 'poster':10, 'poster_small':8}
+    if not chart_skeleton['ax']:
+        raise Exception('Plot has not been initalized. Make sure to run quicklook.initialize_plot() first.')
 
-    if marker_on == True:
-        markersize = markersize[size]
-    else:
-        markersize = 0
+    line, fill, edge = define_line_colors(chart_skeleton['color_library'], color_name, color_brightness)
+    markersize = define_markersize(chart_skeleton['size'], marker_shape)
 
-    #light style
-    if color_library['background'] == '#fafbfc':
-        fill = 1
-        edge = 2
-    #dark style
-    elif color_library['background'] == '#292d34':
-        fill = 2
-        edge = 1
-
-    fill = ax.fill_between(
+    fill = chart_skeleton['ax'].fill_between(
                           x,
-                          y_mean - y_err,
-                          y_mean + y_err,
-                          color = color_library[color_str][fill],
+                          y_mean - y_error,
+                          y_mean + y_error,
+                          color = chart_skeleton['color_library'][color_name][fill],
                           label = None,
                           alpha = 0.2,
                           zorder = zorder);
-    mean = ax.plot(
+    mean = chart_skeleton['ax'].plot(
                 x,
                 y_mean,
                 linewidth = linewidth,
-                color = color_library[color_str][0],
+                linestyle = linestyle,
+                color = chart_skeleton['color_library'][color_name][line],
                 marker = marker_shape,
                 markersize = markersize,
-                label = label,
+                label = label_for_legend,
                 zorder = zorder);
-    ub = ax.plot(
+    ub = chart_skeleton['ax'].plot(
                 x,
-                y_mean + y_err,
+                y_mean + y_error,
                 linewidth = 0.5,
-                color = color_library[color_str][edge],
+                color = chart_skeleton['color_library'][color_name][edge],
                 label = None,
                 zorder = zorder);
-    lb = ax.plot(
+    lb = chart_skeleton['ax'].plot(
                 x,
-                y_mean - y_err,
+                y_mean - y_error,
                 linewidth = 0.5,
-                color = color_library[color_str][edge],
+                color = chart_skeleton['color_library'][color_name][edge],
                 label = None,
                 zorder = zorder);
-    return(mean, ub, lb, fill)
+    return
 
 
-def plot_vert_line(ax, color_library, x, ylim, width, style, color, label, zorder):
+def add_vertical_line_to_chart(chart_skeleton, x, linewidth, linestyle,
+                       color_name, color_brightness, marker_shape,
+                       label_for_legend, zorder):
     """
-    vert_line = quicklook.plot_vert_line(ax, color_library,
+    quicklook.add_vertical_line_to_chart(chart_skeleton,
     x = ,
-    ylim = (,),
-    width = 3,
-    style = '--',
-    color = color_library[''][0],
-    label = '',
+    color_name = '',
+    color_brightness = 'default',
+    linewidth = 3,
+    linestyle = '-',
+    marker_shape = 'None',
+    label_for_legend = '',
     zorder = 1)
+
+    Options
+    -------
+    color_name: options depend on the style. Run quicklook.show_color_library(color_library, fonts)
+    color_brightness = ['light', 'default', 'dark'] (only works for default color library)
+    marker_shape = ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
+    linestyle = ['-', '--', ':', '-.']
     """
-    vert_line = ax.plot(np.full(100,x), np.linspace(ylim[0],ylim[1],100), linestyle = style, linewidth = width, label = label, color = color, zorder = zorder)
-    return(vert_line)
+    if not chart_skeleton['ax']:
+        raise Exception('Plot has not been initalized. Make sure to run quicklook.initialize_plot() first.')
+
+    line, fill, edge = define_line_colors(chart_skeleton['color_library'], color_name, color_brightness)
+    markersize = define_markersize(chart_skeleton['size'], marker_shape)
+
+    line = chart_skeleton['ax'].plot(
+            np.full(100,x),
+            np.linspace(chart_skeleton['y_min_max'][0],chart_skeleton['y_min_max'][1],100),
+            linewidth = linewidth,
+            linestyle = linestyle,
+            color = chart_skeleton['color_library'][color_name][line],
+            marker = marker_shape,
+            markersize = markersize,
+            mec = chart_skeleton['color_library'][color_name][edge],
+            mfc = chart_skeleton['color_library'][color_name][fill],
+            mew = 2,
+            label = label_for_legend,
+            zorder = zorder);
+    return
 
 
-def plot_hor_line(ax, color_library, y, xlim, width, style, color, label, zorder):
+def add_horizontal_line_to_chart(chart_skeleton, y, linewidth, linestyle,
+                         color_name, color_brightness, marker_shape,
+                         label_for_legend, zorder):
     """
-    hor_line = quicklook.plot_hor_line(ax, color_library,
+    quicklook.add_vertical_line_to_chart(ax, color_library, size,
     y = ,
-    xlim = (,),
-    width = 3,
-    style = '--',
-    color = color_library[''][0],
-    label = '',
+    color_name = '',
+    color_brightness = 'default',
+    linewidth = 3,
+    linestyle = '-',
+    marker_shape = 'None',
+    label_for_legend = '',
     zorder = 1)
+
+    Options
+    -------
+    color_name: options depend on the style. Run quicklook.show_color_library(color_library, fonts)
+    color_brightness = ['light', 'default', 'dark'] (only works for default color library)
+    marker_shape = ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
+    linestyle = ['-', '--', ':', '-.']
     """
-    hor_line = ax.plot(np.linspace(xlim[0],xlim[1],100), np.full(100,y), linestyle = style, linewidth = width, label = label, color = color, zorder = zorder)
-    return(hor_line)
+    if not chart_skeleton['ax']:
+        raise Exception('Plot has not been initalized. Make sure to run quicklook.initialize_plot() first.')
+
+    line, fill, edge = define_line_colors(chart_skeleton['color_library'], color_name, color_brightness)
+    markersize = define_markersize(chart_skeleton['size'], marker_shape)
+
+    line = chart_skeleton['ax'].plot(
+            np.linspace(chart_skeleton['x_min_max'][0],chart_skeleton['x_min_max'][1],100),
+            np.full(100,y),
+            linewidth = linewidth,
+            linestyle = linestyle,
+            color = chart_skeleton['color_library'][color_name][line],
+            marker = marker_shape,
+            markersize = markersize,
+            mec = chart_skeleton['color_library'][color_name][edge],
+            mfc = chart_skeleton['color_library'][color_name][fill],
+            mew = 2,
+            label = label_for_legend,
+            zorder = zorder);
+    return
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Plot scatter
-def plot_scatter(ax, color_library, size, x, y, color_str, zorder, label):
+def add_scatter(ax, color_library, size, x, y, color_str, zorder, label):
     """
-    scatter = quicklook.plot_scatter(ax, color_library, size,
+    quicklook.add_scatter(ax, color_library, size,
     x = ,
     y = ,
     color_str = ,
@@ -276,9 +343,9 @@ def plot_scatter(ax, color_library, size, x, y, color_str, zorder, label):
     return(scatter)
 
 
-def plot_err_scatter(ax, color_library, x, y, xerr, yerr, color_str, zorder, label):
+def add_err_scatter(ax, color_library, x, y, xerr, yerr, color_str, zorder, label):
     """
-    scatter, err_fill, err_outline = quicklook.plot_err_scatter(ax, color_library,
+    quicklook.add_err_scatter(ax, color_library,
     x = ,
     y = ,
     xerr = ,
@@ -310,7 +377,7 @@ def plot_err_scatter(ax, color_library, x, y, xerr, yerr, color_str, zorder, lab
 
 def add_text(ax, color_library, fonts, frame_on, text, x_loc, y_loc, hor_align, vert_align, zorder):
     """
-    text = quicklook.add_text(ax, color_library, fonts,
+    quicklook.add_text(ax, color_library, fonts,
     frame_on = True,
     text = '',
     x_loc = ,
@@ -336,7 +403,7 @@ def add_text(ax, color_library, fonts, frame_on, text, x_loc, y_loc, hor_align, 
 
 def add_legend(ax, color_library, size, fonts, frame_on, loc, bbox_coord, markerscale, markercolor_str_set):
     """
-    legend = quicklook.add_legend(ax, color_library, size, fonts,
+    quicklook.add_legend(ax, color_library, size, fonts,
     frame_on=False, loc = 'best', bbox_coord = (1,1),
     markerscale = 1, markercolor_str_set = []);
     """
@@ -356,7 +423,7 @@ def add_legend(ax, color_library, size, fonts, frame_on, loc, bbox_coord, marker
     return(legend)
 
 
-def show_color_library(color_library=color_library, fonts=fonts):
+def show_color_library(color_library, fonts):
     """
     quicklook.show_color_library(color_library, fonts)
     """
