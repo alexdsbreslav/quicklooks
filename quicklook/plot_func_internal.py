@@ -57,6 +57,7 @@ def define_plot_style(style, size, ylabel):
     tick_length = {'small': 5, 'default': 10}[size]
 
     # ---- define the color library
+    # ---- based on Open Color https://yeun.github.io/open-color/
     if style == 'default':
         color_library = {'name': 'default',
                          'background': '#ffffff',
