@@ -112,7 +112,7 @@ def define_line_colors(color_library, color_string, color_brightness):
         raise Exception('Color entered is not in the color library. Enter one of the follow colors:\n''{}'\
                         .format([i for i in list(color_library.keys())[4:]]))
     if color_brightness not in ['default', 'light', 'dark']:
-        raise Exception('Color brightness is not properly define. color_brightness must be set to default, light, or dark')
+        raise Exception('Color brightness is not properly defined. color_brightness must be set to default, light, or dark')
     else:
         pass
 
