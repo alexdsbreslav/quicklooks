@@ -18,3 +18,6 @@ In quicklook, I do my best to keep the language, examples, and documentation acc
 ## To get started...
 I would not recommend downloading and quicklook just yet. I'll update this page when it is in good shape to share with others!
 
+## Acknowledgments
+quicklook is built using [Matplotlib](https://matplotlib.org/), [NumPy](https://numpy.org/), [Open Color](https://yeun.github.io/open-color/), and [seaborn](https://seaborn.pydata.org/).
+
