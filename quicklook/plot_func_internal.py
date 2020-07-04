@@ -39,9 +39,9 @@ def define_plot_style(style, size, ylabel):
     """
     # ---- define fonts
     fontsize = {'small': (24,18), 'default': (26,20)}
-    font_folder = os.path.abspath('fonts')
-    title_path = os.path.join(font_folder, 'Futura.ttc')
-    text_path = os.path.join(font_folder, 'SourceSansPro-Regular.ttf')
+    font_folder = os.path.dirname(os.path.abspath(__file__))
+    title_path = os.path.join(font_folder, 'fonts', 'SourceSansPro-Black.ttf')
+    text_path = os.path.join(font_folder, 'fonts', 'SourceSansPro-Regular.ttf')
 
     fonts = {'title':font_manager.FontProperties(fname=title_path, size = fontsize[size][0]),
              'label':font_manager.FontProperties(fname=text_path, size = fontsize[size][1]),
@@ -106,38 +106,38 @@ def define_plot_style(style, size, ylabel):
     return figsize, label_pad, title_pad, linewidth, tick_pad, tick_length, color_library, fonts
 
 # ---- define the colors based on the style
-def define_line_colors(color_library, color_string, color_brightness):
+def define_colors(chart_skeleton, color_name, color_brightness):
     # ---- check to make sure that the colors were entered properly
-    if color_string not in list(color_library.keys())[4:]:
+    if color_name not in list(chart_skeleton['color_library'].keys())[4:]:
         raise Exception('Color entered is not in the color library. Enter one of the follow colors:\n''{}'\
-                        .format([i for i in list(color_library.keys())[4:]]))
+                        .format([i for i in list(chart_skeleton['color_library'].keys())[4:]]))
     if color_brightness not in ['default', 'light', 'dark']:
-        raise Exception('Color brightness is not properly defined. color_brightness must be set to default, light, or dark')
+        raise Exception('Color brightness is not properly define. color_brightness must be set to default, light, or dark')
     else:
         pass
 
     # ---- define the colors based on the palette
-    if color_library['name'] == 'simple_dark':
-        fill = 1
-        edge = 0
-        line = 1
-    elif color_library['name'] == 'simple_light':
-        fill = 1
-        edge = 2
-        line = 1
-    elif color_library['name'] == 'default':
+    if chart_skeleton['color_library']['name'] == 'simple_dark':
+        fill = chart_skeleton['color_library'][color_name][1]
+        edge = chart_skeleton['color_library'][color_name][0]
+        line = chart_skeleton['color_library'][color_name][1]
+    elif chart_skeleton['color_library']['name'] == 'simple_light':
+        fill = chart_skeleton['color_library'][color_name][1]
+        edge = chart_skeleton['color_library'][color_name][2]
+        line = chart_skeleton['color_library'][color_name][1]
+    elif chart_skeleton['color_library']['name'] == 'default':
         if color_brightness == 'default':
-            line = 4
-            fill = 4
-            edge = 6
+            line = chart_skeleton['color_library'][color_name][4]
+            fill = chart_skeleton['color_library'][color_name][4]
+            edge = chart_skeleton['color_library'][color_name][6]
         elif color_brightness == 'light':
-            line = 1
-            fill = 1
-            edge = 3
+            line = chart_skeleton['color_library'][color_name][1]
+            fill = chart_skeleton['color_library'][color_name][1]
+            edge = chart_skeleton['color_library'][color_name][3]
         else:
-            line = 7
-            fill = 7
-            edge = 9
+            line = chart_skeleton['color_library'][color_name][7]
+            fill = chart_skeleton['color_library'][color_name][7]
+            edge = chart_skeleton['color_library'][color_name][9]
     return line, fill, edge
 
 
