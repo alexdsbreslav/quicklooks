@@ -1,7 +1,7 @@
 ![example_image](https://github.com/alexdsbreslav/quicklook/blob/master/images/quicklook_example.png)
 
 # quicklook
-quicklook is a package for visualizing data quickly.
+quicklook is a Python package for visualizing data quickly.
 
 ## Why quicklook?
 My name is Alex. I am a soon-to-be-graduating PhD candidate at Duke, cognitive scientist, and quantitative user researcher; you can check out my [LinkedIn here](https://www.linkedin.com/in/alexanderbreslav/). I taught myself how to code during my PhD. As I was learning, data visualization posed a big problem. I constantly needed to visualize data, but creating visualizations that were attractive, easy-to-read, and shareable took forreevvverrrrr. 
@@ -14,6 +14,11 @@ I started writing quicklook to solve my own data visualization problems; now I a
 This package is written for **researchers that have limited experience programming in Python**. I am a researcher that was in your shoes not too long ago. I was looking for material online that could help me learn how to visualize my data. I remember looking at documentaton for matplotlib, seaborn, bokeh, plotly etc. and being completely confused. quicklook aims to solve this problem; I want you to be able to visualize your data in Python without the incredibly time-consuming learning curve.
 
 In quicklook, I do my best to keep the language, examples, and documentation accessible for people just learning how to code.
+
+**To use quicklook, you'll need to know the basics of Python and Jupyter Notebooks.**
+
+## Still learning Python or how to use Jupyter Notebooks? 
+[Check out my python_for_uxr tutorial](https://github.com/alexdsbreslav/python_for_uxr)! This tutorial is designed specifically for researchers interested in learning how to code.
 
 ## To get started...
 I would not recommend downloading and quicklook just yet. I'll update this page when it is in good shape to share with others!
