@@ -1,4 +1,4 @@
-![example_image](https://github.com/alexdsbreslav/quicklook/images/quicklook_example.png)
+![example_image](https://github.com/alexdsbreslav/quicklook/blob/master/images/quicklook_example.png)
 
 # quicklook
 quicklook is a package for visualizing data quickly.
