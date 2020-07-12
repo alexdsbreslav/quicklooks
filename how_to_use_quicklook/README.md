@@ -3,6 +3,9 @@ quicklook is written to be copied-and-pasted into your code. It makes visualizat
 I use quicklook in JupyterLab (and Jupyter Notebook) and I wrote it with that user interface in mind.
 If you do not already use JupyterLab and are interested in learning how, check out my python_for_uxr tutorial.
 
+## Before you start...
+(Click here)[how_to_use_quicklook/using_features_in_Jupyter.md] to view a very quick tutorial on using features in JupyterLab to copy-and-paste code.
+
 ## Step 1: Build a chart skeleton.
 A **chart skeleton** is the background, title, axes, and axis labels. It is a skeleton (or wireframe, or background) that we will layer **plots** onto.
 **Plots** are various ways that we can visualize data like line plots, bar plots, histograms, scatter plots etc.
