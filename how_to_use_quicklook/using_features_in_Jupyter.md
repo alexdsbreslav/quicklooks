@@ -24,7 +24,7 @@ quicklook.build_chart_skeleton
 - **Step 4:** hold `shift` and hit `tab`. When you do, you should see a pop-up with the function's documentation. Scroll down to the part that says `Docstring:`. Copy everything under `Docstring:` though to the last `)`. Select the code in the cell and paste over it. The code in your cell should match what was in the `Docstring:`
 ![shift_tab](https://github.com/alexdsbreslav/quicklook/blob/master/images/shift_tab.png)
 
-- **Step 5:** Fill in any blanks and adjust default settings in the code as needed. Hold `shift` and hit `enter` to execute the code cell and show your new chart!
+- **Step 5:** Fill in any blanks and adjust default settings in the code as needed. Hold `shift` and hit `enter` to execute the code cell and show your new chart! Notice in the code below, I changed the title, xlabel, ylabel, x_min_max, x_tick_interval, horizontal_gridlines_on, and vertical_gridlines_on from the defaults in the Docstring.
 ```python
 import quicklook
 ```
