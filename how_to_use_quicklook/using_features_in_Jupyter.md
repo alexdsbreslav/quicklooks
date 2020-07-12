@@ -20,4 +20,4 @@ quicklook.build_chart_skeleton
 ![shift_tab](https://github.com/alexdsbreslav/quicklook/blob/master/images/shift_tab.png)
 
 - **Step 5:** Fill in any blanks and adjust default settings in the code as needed. Hold `shift` and hit `enter` to execute the code cell and show your new chart!
-![chart](https://github.com/alexdsbreslav/quicklook/blob/master/images/chart.png)
+![chart](https://github.com/alexdsbreslav/quicklook/blob/master/images/chart.html)
