@@ -4,7 +4,7 @@ JupyterLab and Jupyter Notebooks make it easy to copy and paste code directly in
 ```python
 import quicklook
 ```
-- **Step 2:** in the next cell below type `quicklook.` and hit `tab`. When you do that a drop down of all of the functions in quicklook should show up. Notice that they all have a blue f next to them.
+- **Step 2:** in the next cell below type `quicklook.` and hit `tab`. When you hit `tab`, a drop-down of all of the functions in quicklook should show up. Notice that they all have a blue f next to them. This indicates that they are functions.
 ```python
 import quicklook
 ```
