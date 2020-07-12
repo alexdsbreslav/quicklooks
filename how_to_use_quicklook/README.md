@@ -4,7 +4,7 @@ I use quicklook in JupyterLab (and Jupyter Notebook) and I wrote it with that us
 If you do not already use JupyterLab and are interested in learning how, check out my python_for_uxr tutorial.
 
 ## Before you start...
-(Click here)[how_to_use_quicklook/using_features_in_Jupyter.md] to view a very quick tutorial on using features in JupyterLab to copy-and-paste code.
+(Right-click here)[https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/using_features_in_Jupyter.md] to open (in a new tab) a quick tutorial on using features in JupyterLab to copy-and-paste quicklook code.
 
 ## Step 1: Build a chart skeleton.
 A **chart skeleton** is the background, title, axes, and axis labels. It is a skeleton (or wireframe, or background) that we will layer **plots** onto.
