@@ -30,4 +30,4 @@ horizontal_gridlines_on = True,
 vertical_gridlines_on = True)
 ```
 
-![chart](https://github.com/alexdsbreslav/quicklook/blob/master/copy_paste/images/chart.png)
+![chart](https://github.com/alexdsbreslav/quicklook/blob/master/images/copy_paste/chart.png)
