@@ -1,7 +1,7 @@
 # Build a chart skeleton
 A chart skeleton is the background, title, axes, and axis labels. It is a skeleton (or wireframe, or background) that we will layer plots onto. Plots are various ways that we can visualize data like line plots, bar plots, histograms, scatter plots etc.
 ## Default code copied from `Docstring`
-Always copy the default code into your notebook first. For tips on how to easily copy-and-paste quicklook code into your notebook, [click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md).
+Always copy the default code into your notebook first. For tips on how to easily copy-and-paste quicklook code into your notebook, [click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md). Notice that our plot doesn't have a title or labels on the x-axis or y-axis. This is because the `title`, `xlabel`, and `ylabel` options are all set to `= ''`.
 ```python
 chart_skeleton = quicklook.build_chart_skeleton(style = 'default', size = 'default',
 title = '',
