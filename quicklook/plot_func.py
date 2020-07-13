@@ -42,21 +42,21 @@ def build_chart_skeleton(style, size, title, ylabel, xlabel, x_min_max,
         raise Exception('Horizontal gridlines is not properly defined: '
                         'horizontal_gridlines_on must be set to True or False.')
 
-    if xtick_interval > x_min_max[1] or xtick_interval < x_min_max[0]:
+    if xtick_interval > x_min_max[1] - x_min_max[0]:
         raise Exception('xtick_interval is not properly defined: ' \
-                        'xtick_interval should be greater than x_min and less than x_max. \n'
-                        'Imagine the x-axis as a number line from x_min to x_max. xtick_interval '
+                        'xtick_interval should be greater than x_max minus x_min. \n'
+                        'Imagine the x-axis as a number line from x_min to x_max. xtick_interval'
                         'is the increment that you want to mark off on the number line.\n'
-                        'For example, if x_min = 0, x_max = 1, and xtick_interval = 0.25 your x-axis '
-                        'would have 0, 0.25, 0.5, 0.75, and 1 marked on it.')
+                        'For example, if x_min = 1, x_max = 3, and xtick_interval = 0.5 your x-axis'
+                        'would have 1, 1.5, 2, 2.5, and 3 marked on it.')
 
-    if ytick_interval > y_min_max[1] or ytick_interval < y_min_max[0]:
+    if ytick_interval > y_min_max[1] - y_min_max[0]:
         raise Exception('ytick_interval is not properly defined: ' \
-                        'ytick_interval should be greater than y_min and less than y_max. \n'
+                        'ytick_interval should be greater than y_max minus y_min. \n'
                         'Imagine the y-axis as a number line from y_min to y_max. ytick_interval'
                         'is the increment that you want to mark off on the number line.\n'
-                        'For example, if y_min = 0, y_max = 1, and ytick_interval = 0.25 your y-axis'
-                        'would have 0, 0.25, 0.5, 0.75, and 1 marked on it.')
+                        'For example, if y_min = 1, y_max = 3, and ytick_interval = 0.5 your y-axis'
+                        'would have 1, 1.5, 2, 2.5, and 3 marked on it.')
 
     # ---- define plot style based on style and size choice
     figsize, label_pad, title_pad, linewidth, \
