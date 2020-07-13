@@ -1,5 +1,5 @@
 ## Build a chart skeleton
-To build a chart skeleton, use the function:
+To build a chart skeleton, we will use the function:
 ```python
 quicklook.build_chart_skeleton
 ```
