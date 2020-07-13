@@ -6,17 +6,11 @@ import quicklook
 ```
 - **Step 2:** in the next cell below type `quicklook.` and hit `tab`. When you hit `tab`, a drop-down of all of the functions in quicklook should show up. Notice that they all have a blue f next to them. This indicates that they are functions.
 ```python
-import quicklook
-```
-```python
 quicklook.
 ```
 ![tab](https://github.com/alexdsbreslav/quicklook/blob/master/images/copy_paste/tab.png)
 
 - **Step 3:** start typing out the function that you want, once it is the only one left in the list, you can hit `enter` and it will fill in the rest.
-```python
-import quicklook
-```
 ```python
 quicklook.build_chart_skeleton
 ```
@@ -25,9 +19,6 @@ quicklook.build_chart_skeleton
 ![shift_tab](https://github.com/alexdsbreslav/quicklook/blob/master/images/copy_paste/shift_tab.png)
 
 - **Step 5:** Fill in any blanks and adjust default settings in the code as needed. Hold `shift` and hit `enter` to execute the code cell and show your new chart! Notice in the code below that I changed the title, xlabel, ylabel, x_min_max, x_tick_interval, horizontal_gridlines_on, and vertical_gridlines_on from the defaults in the Docstring.
-```python
-import quicklook
-```
 ```python
 chart_skeleton = quicklook.build_chart_skeleton(style = 'default', size = 'default',
 title = 'Title',
