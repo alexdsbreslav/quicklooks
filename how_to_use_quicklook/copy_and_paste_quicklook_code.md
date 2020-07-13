@@ -1,7 +1,10 @@
 # Copy-and-paste code quicklook code using JupyterLab
-JupyterLab and Jupyter Notebooks make it easy to copy and paste code directly into your notebook.
-- **Step 1:** import quicklook into your notebook
+JupyterLab and Jupyter Notebooks make it easy to copy and paste code directly into your notebook. Review these tips for making quicklook easy and efficient to use!
+- **Step 1:** Make sure that quicklook is imported into your notebook. At the top of every one of my notebooks, I import quicklook along with several other key packages:
 ```python
+import pandas as pd
+import numpy as np
+import os
 import quicklook
 ```
 - **Step 2:** in the next cell below type `quicklook.` and hit `tab`. When you hit `tab`, a drop-down of all of the functions in quicklook should show up. Notice that they all have a blue f next to them. This indicates that they are functions.
