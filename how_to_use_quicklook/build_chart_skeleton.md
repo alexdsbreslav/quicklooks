@@ -1,6 +1,13 @@
-# Build a chart skeleton
-A chart skeleton is the background, title, axes, and axis labels. It is a skeleton (or wireframe, or background) that we will layer plots onto. Plots are various ways that we can visualize data like line plots, bar plots, histograms, scatter plots etc.
-## Default code copied from `Docstring`
+## Build a chart skeleton
+To build a chart skeleton, use the function:
+```python
+quicklook.build_chart_skeleton
+```
+
+A chart skeleton is the background, title, axes, and axis labels. It is a skeleton (or wireframe, or background) that we will layer plots on to. Plots are various ways that we can visualize data like line plots, bar plots, histograms, scatter plots etc.
+
+**Every time you want to create a new plot with quicklook, you need to build a chart skeleton.**
+## Step 1: Copy-and-paste the default code from the Docstring.
 Always copy the default code into your notebook first. For tips on how to easily copy-and-paste quicklook code into your notebook, [click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md). Notice that our plot doesn't have a title or labels on the x-axis or y-axis. This is because the `title`, `xlabel`, and `ylabel` options are all set to `= ''`.
 ```python
 chart_skeleton = quicklook.build_chart_skeleton(style = 'default', size = 'default',
@@ -15,7 +22,7 @@ vertical_gridlines_on = False);
 ![default](https://github.com/alexdsbreslav/quicklook/blob/master/images/build_chart_skeleton/default.png)
 
 
-## Add a title, x-axis label, and y-axis label
+## Step 2: Add a title, x-axis label, and y-axis label.
 Simply add text in between the quotation marks! Notice the `\n` in the ylabel. This is how you indicate a line break.
 ```python
 chart_skeleton = quicklook.build_chart_skeleton(style = 'default', size = 'default',
@@ -29,7 +36,7 @@ vertical_gridlines_on = False);
 ```
 ![titles](https://github.com/alexdsbreslav/quicklook/blob/master/images/build_chart_skeleton/titles.png)
 
-## Change the X and Y Axis
+## Step 3: Change the X and Y Axis.
 There are two settings you can change on each axis:
 1. The range of values that your axes cover.
   - `x_min_max` and `y_min_max` indicate the minimum and maximum values on your axes. `x_min_max` and `y_min_max` need to be formatted as a tuple where the first number is the min and the second number is the max `(min number on axis, max number on axis)`. 
@@ -48,7 +55,7 @@ vertical_gridlines_on = False);
 ```
 ![axes](https://github.com/alexdsbreslav/quicklook/blob/master/images/build_chart_skeleton/axes.png)
 
-## Add gridlines
+## Optional: Add gridlines.
 Gridlines are light grey lines that extend across your plot. These can be turned on and off using the `horizontal_gridlines_on` and the `vertical_gridlines_on` arguments. If these are set to `True`, the gridlines will be shown; if these are set to `False`, the gridlines will not be shown.
 ```python
 chart_skeleton = quicklook.build_chart_skeleton(style = 'default', size = 'default',
@@ -62,7 +69,7 @@ vertical_gridlines_on = True);
 ```
 ![gridlines](https://github.com/alexdsbreslav/quicklook/blob/master/images/build_chart_skeleton/gridlines.png)
 
-## Change the size - `'default'` or `'small'`
+## Optional: Change the size - `'default'` or `'small'`.
 If you prefer, you can change the size to small.
 ```python
 chart_skeleton = quicklook.build_chart_skeleton(style = 'default', size = 'small',
