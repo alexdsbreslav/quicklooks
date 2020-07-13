@@ -9,9 +9,10 @@ If you do not already use JupyterLab and are interested in learning how, check o
 ## Step 1: Build a chart skeleton.
 A **chart skeleton** is the background, title, axes, and axis labels. It is a skeleton (or wireframe, or background) that we will layer **plots** onto.
 **Plots** are various ways that we can visualize data like line plots, bar plots, histograms, scatter plots etc.
+- Click on the link here to go to directions for building a chart skeleton.
 
 ## Step 2: Add plots to your chart skeleton to visualize your data.
-Click on any of the links below to go to directions for that plot:
+Click on the links below to go to directions for that plot:
 - Add a line plot to your chart
 - Add a line plot (with error) to your chart
 - Add a vertical line to your chart
