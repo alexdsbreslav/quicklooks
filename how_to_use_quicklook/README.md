@@ -30,7 +30,7 @@ Click on the links below to go to directions for that plot:
 - Add a histogram to your chart
 - Add a bar plot to your chart
 
-For each of these plots, you need to **choose colors**! [Click here]() for directions of specifying colors in your plots.
+For each of these plots, you need to **choose colors**! [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/setting_your_chart_style.md) for directions of specifying colors in your plots.
 
 ### Step 3: Add text and/or a legend to provide context for your visualization.
 Click on the links below to go to directions for that feature:
