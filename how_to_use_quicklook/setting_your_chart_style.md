@@ -1,5 +1,5 @@
 # Setting your chart style
-When you build your chart skeleton (see [build a chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for directions), there is a `style` argument. `Style` can be set as:
+When you build your chart skeleton (see [build a chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for directions), there is a `style` argument. `style` can be set as:
 - `default`
 - `simple_dark`
 - `simple_light`
@@ -7,6 +7,8 @@ When you build your chart skeleton (see [build a chart skeleton](https://github.
 The style argument sets up two things:
 1. It determines the text, background, and axis color for your chart skeleton.
 2. It creates a color library. You will use the colors in the color library when you create plots on top of your chart skeleton.
+
+**I recommend sticking to the `default` style.**
 
 ## This is the `default` style.
 **The `default` style has a white background, black text, and black axes.**
