@@ -8,15 +8,6 @@ The style argument sets up two things:
 1. It determines the text, background, and axis color for your chart skeleton.
 2. It creates a color library. You will use the colors in the color library when you create plots on top of your chart skeleton.
 
-
-```python
-# --- Make sure that quicklook is imported into your notebook. At the top of every one of my notebooks, I import quicklook along with several other key packages:
-import pandas as pd
-import numpy as np
-import os
-import quicklook
-```
-
 ## This is the `default` style.
 **The `default` style has a white background, black text, and black axes.**
 
