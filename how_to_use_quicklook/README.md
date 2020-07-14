@@ -9,7 +9,7 @@ import numpy as np
 import os
 import quicklook
 ```
-2. Learn a few tips that will make copying-and-pasting quicklook code into your Jupyter Notebook quick and easy. [Right-click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/using_features_in_Jupyter.md) to open the cheat-sheet in a new tab.
+2. Learn a few tips that will make copying-and-pasting quicklook code into your Jupyter Notebook quick and easy. [Right-click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md) to open the cheat-sheet in a new tab.
 
 ## For each new chart that you want to create...
 ### Step 1: Build a chart skeleton.
