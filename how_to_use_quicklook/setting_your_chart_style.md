@@ -69,7 +69,7 @@ quicklook.show_color_library(chart_skeleton)
 
 
 ## This is the `simple_dark` style.
-**The `simple_dark` style has a dark background, grey text, and grey axes.**
+**The `simple_dark` style has a dark background, gray text, and gray axes.**
 
 
 ```python
