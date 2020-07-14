@@ -156,7 +156,8 @@ def add_line_to_chart(chart_skeleton, x, y, linewidth, linestyle,
     linestyle:          ['-', '--', ':', '-.']
     """
     if not chart_skeleton['ax']:
-        raise Exception('Plot has not been initalized. Make sure to run quicklook.initialize_plot() first.')
+        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
+                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
 
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
     markersize = define_markersize(chart_skeleton['size'], marker_shape)
@@ -204,7 +205,8 @@ def add_line_with_error_to_chart(chart_skeleton, x, y_mean, y_error, linewidth,
     """
 
     if not chart_skeleton['ax']:
-        raise Exception('Plot has not been initalized. Make sure to run quicklook.initialize_plot() first.')
+        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
+                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
 
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
     markersize = define_markersize(chart_skeleton['size'], marker_shape)
@@ -268,7 +270,8 @@ def add_vertical_line_to_chart(chart_skeleton, x, linewidth, linestyle,
     linestyle:          ['-', '--', ':', '-.']
     """
     if not chart_skeleton['ax']:
-        raise Exception('Plot has not been initalized. Make sure to run quicklook.initialize_plot() first.')
+        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
+                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
 
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
     markersize = define_markersize(chart_skeleton['size'], marker_shape)
@@ -314,7 +317,8 @@ def add_horizontal_line_to_chart(chart_skeleton, y, linewidth, linestyle,
     linestyle:          ['-', '--', ':', '-.']
     """
     if not chart_skeleton['ax']:
-        raise Exception('Plot has not been initalized. Make sure to run quicklook.initialize_plot() first.')
+        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
+                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
 
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
     markersize = define_markersize(chart_skeleton['size'], marker_shape)
@@ -361,7 +365,8 @@ def add_scatter_to_chart(chart_skeleton, x, y,
     marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
     """
     if not chart_skeleton['ax']:
-        raise Exception('Plot has not been initalized. Make sure to run quicklook.initialize_plot() first.')
+        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
+                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
 
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
     markersize = define_markersize(chart_skeleton['size'], marker_shape)
@@ -405,7 +410,8 @@ def add_scatter_with_error_to_chart(chart_skeleton, x, y, x_error, y_error,
     marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
     """
     if not chart_skeleton['ax']:
-        raise Exception('Plot has not been initalized. Make sure to run quicklook.initialize_plot() first.')
+        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
+                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
 
     shape = [np.shape(i) for i in [x,y,x_error,y_error]]
     if not shape[0] == shape[1] == shape[2] == shape[3]:
@@ -474,6 +480,10 @@ def add_text(chart_skeleton, text, text_color, text_location_on_x_axis,
     frame_around_text:  [True, False],
     """
 
+    if not chart_skeleton['ax']:
+        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
+                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
+
     if text_color == 'default':
         text_color = chart_skeleton['color_library']['text']
     else:
@@ -510,30 +520,27 @@ def add_text(chart_skeleton, text, text_color, text_location_on_x_axis,
 
 
 def add_legend(chart_skeleton, legend_location, frame_around_legend,
-                size_of_marker_in_legend, markercolor_str_set):
+                size_of_marker_in_legend):
     """
     quicklook.add_legend(chart_skeleton,
     legend_location = 'best', frame_around_legend=False,
-    size_of_marker_in_legend = 1, markercolor_str_set = []);
+    size_of_marker_in_legend = 1);
     """
-    legend = ax.legend(
+    if not chart_skeleton['ax']:
+        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
+                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
+
+    legend = chart_skeleton['ax'].legend(
                         loc = legend_location,
                         prop = chart_skeleton['fonts']['label'],
                         frameon = frame_around_legend,
                         fancybox = True,
                         markerscale = size_of_marker_in_legend,
-                        facecolor = chart_skeleton['color_library']['background']);
-
+                        facecolor = chart_skeleton['color_library']['background'],
+                        framealpha = 1);
     for text in legend.get_texts():
         text.set_color(chart_skeleton['color_library']['text'])
-
-    # check if I've entered a list of strs for colors
-    if not markercolor_str_set:
-        markercolor_set = [color_library[i][0] for i in markercolor_str_set]
-
-        for idx in range(len(markercolor_str_set)):
-            legend.legendHandles[-len(markercolor_set)+idx].set_color(markercolor_set[idx])
-    return(legend)
+    return
 
 
 def show_color_library(chart_skeleton):

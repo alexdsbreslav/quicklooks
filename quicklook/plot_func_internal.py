@@ -112,7 +112,11 @@ def define_colors(chart_skeleton, color_name, color_brightness):
         raise Exception('Color entered is not in the color library. Enter one of the follow colors:\n''{}'\
                         .format([i for i in list(chart_skeleton['color_library'].keys())[4:]]))
     if color_brightness not in ['default', 'light', 'dark']:
-        raise Exception('Color brightness is not properly define. color_brightness must be set to default, light, or dark')
+        raise Exception('Color brightness is not properly defined. color_brightness must be set to default, light, or dark')
+    if chart_skeleton['color_library']['name'] in ['simple_dark', 'simple_light'] and color_brightness != 'default':
+        raise Exception('Color brightness is not properly defined. For simple_dark '
+                        'and simple_light styles, color_brightness must be set to default. \n'
+                        'Light and dark color_brightness settings only work for the default style.')
     else:
         pass
 
