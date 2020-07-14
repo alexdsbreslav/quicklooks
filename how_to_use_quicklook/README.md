@@ -1,7 +1,5 @@
 # quicklook How-To
-**quicklook is written to be copied-and-pasted into your code**. It makes visualization easy and lowers to barrier to creating attractive plots.
-I use quicklook in JupyterLab (and Jupyter Notebook) and I wrote it with that user interface in mind.
-If you do not already use JupyterLab and are interested in learning how, check out my [python_for_uxr tutorial](https://github.com/alexdsbreslav/python_for_uxr).
+**quicklook is written to be copied-and-pasted into your code**. I use quicklook in JupyterLab (and Jupyter Notebook) and I wrote it with that user interface in mind. If you do not already use JupyterLab and are interested in learning how, check out my [python_for_uxr tutorial](https://github.com/alexdsbreslav/python_for_uxr).
 
 ## Before you start...
 1. Make sure that quicklook is imported into your notebook. At the top of every one of my notebooks, I import quicklook along with several other key packages:
