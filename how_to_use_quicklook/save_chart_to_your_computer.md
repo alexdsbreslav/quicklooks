@@ -49,7 +49,8 @@ label_for_legend = 'Blue Circles',
 layer_order = 2)
 
 # ---- save plot
+current_directory = os.path.abspath('')
 quicklook.save_chart(chart_name = 'example_chart_name', 
-                     path_to_folder_to_save_chart_in = os.path.abspath('charts'),
+                     path_to_folder_to_save_chart_in = os.path.join(current_directory, 'charts'),
                      print_confirmation=True);
 ```
