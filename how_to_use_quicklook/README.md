@@ -33,5 +33,5 @@ Click on the links below to go to directions for that feature:
 - Add a vertical line to your chart
 - Add a horizontal line to your chart
 
-### Optional: Export your chart.
-Most of the time, my charts live within my Jupyter Notebooks. Sometimes you may want to export your charts to put them in slides or share them with colleagues. [Click here]() for directions for exporting your plots.
+### Optional: Save chart to your computer.
+Most of the time, my charts live within my Jupyter Notebooks. Sometimes you may want to save your chart to your computer so that you put them in slides or share them with colleagues. [Click here]() for directions for exporting your plots.
