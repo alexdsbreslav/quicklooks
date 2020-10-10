@@ -299,7 +299,7 @@ def add_horizontal_line_to_chart(chart_skeleton, y, linewidth, linestyle,
                          color_name, color_brightness, marker_shape,
                          opacity, label_for_legend, layer_order):
     """
-    quicklook.add_vertical_line_to_chart(chart_skeleton,
+    quicklook.add_horizontal_line_to_chart(chart_skeleton,
     y = ,
     color_name = 'blue',
     color_brightness = 'default',
