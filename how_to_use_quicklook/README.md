@@ -28,7 +28,7 @@ Click on the links below to go to directions for that plot:
 
 ### Step 3: Add a legend, text, and/or reference lines to provide context for your visualization.
 Click on the links below to go to directions for that feature:
-- Add a legend to your chart
+- [Add a legend to your chart](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_legend.md)
 - Add text to your chart
 - Add a vertical line to your chart
 - Add a horizontal line to your chart
