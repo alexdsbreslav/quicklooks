@@ -1,4 +1,4 @@
-# quicklook How-To
+# How to use quicklook
 **quicklook is written to be copied-and-pasted into your code**. I use quicklook in JupyterLab (and Jupyter Notebook) and I wrote it with that user interface in mind. If you do not already use JupyterLab and are interested in learning how, check out my [python_for_uxr tutorial](https://github.com/alexdsbreslav/python_for_uxr).
 
 ## Before you start...
