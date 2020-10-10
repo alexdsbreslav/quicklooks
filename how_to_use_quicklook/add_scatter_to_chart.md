@@ -114,7 +114,7 @@ legend_location = 'best', frame_around_legend=True);
 
 # ---- save plot
 quicklook.save_chart(chart_name = 'complete_example', 
-                     path_to_folder_to_save_chart_in = fp.join(fp.abspath('images'), 'plots', 'scatter'),
+                     path_to_folder_to_save_chart_in = os.path.join(os.path.abspath('images'), 'plots', 'scatter'),
                      print_confirmation=False);
 ```
 ![complete_example](https://github.com/alexdsbreslav/quicklook/blob/master/images/plots/scatter/complete_example.png)
