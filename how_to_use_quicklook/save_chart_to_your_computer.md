@@ -12,7 +12,7 @@ To save your chart to your computer, you'll need to do two things:
 2. Add the `path_to_folder_to_save_chart_in`. This is a filepath that dicates which folder on your computer the file save your chart in(e.g. `/Users/alex/Documents`).
 3. Set `print_confirmation` to True or False. If True, your code will print where exactly the image file was saved. (e.g. `example_chart_name was save in the folder: /Users/alex/Documents`. I would recommend setting this to True.
 
-I strongly recommend writing `path_to_folder_to_save_chart_in` as a relative filepath using the package `os`. [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/creating_relative_filepaths.md) for a brief introduction on relative filepaths.
+I strongly recommend writing `path_to_folder_to_save_chart_in` as a relative filepath using the package `os`. [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/creating_relative_filepaths.md) for a brief introduction to relative filepaths.
 
 ## Example:
 ```python
