@@ -35,7 +35,7 @@ line_y_values = [i**2 for i in x_values]
 
 # ---- create the chart skeleton
 chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
-title = 'Making a Scatter Plot',
+title = 'Add a Legend to My Chart',
 xlabel = 'X Values',
 ylabel = 'Y\nValues',
 x_min_max = (0,10), y_min_max = (-15,100),
