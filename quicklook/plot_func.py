@@ -2,13 +2,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patch
 from .plot_func_internal import *
+import os
 
 
-def build_chart_skeleton(style, size, title, ylabel, xlabel, x_min_max,
+def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
                          y_min_max, xtick_interval, ytick_interval,
                          horizontal_gridlines_on, vertical_gridlines_on):
 
-    """chart_skeleton = quicklook.build_chart_skeleton(style = 'default', size = 'default',
+    """chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
     title = '',
     xlabel = '',
     ylabel = '',
@@ -19,9 +20,8 @@ def build_chart_skeleton(style, size, title, ylabel, xlabel, x_min_max,
 
     Options
     -------
-    Title, xlabel, ylabel       Add text to describe your plot. Leave as '' to leave out labels.
-    style:                      ['default', 'simple_dark', 'simple_light']
     size:                       ['default', 'small']
+    title, xlabel, ylabel       Add text to describe your plot. Leave as '' to leave out labels.
     horizontal_gridlines_on:    [True, False]
     vertical_gridlines_on:      [True, False]
     """
@@ -29,10 +29,6 @@ def build_chart_skeleton(style, size, title, ylabel, xlabel, x_min_max,
     # ---- raise exceptions if things are not properly defined
     if size not in ['small', 'default']:
         raise Exception('Size not properly defind: size must be set to default or small.')
-
-    if style not in ['default', 'simple_dark', 'simple_light']:
-        raise Exception('Style not properly defined: '
-                        'style must be set to default, simple_dark, or simple_light.')
 
     if vertical_gridlines_on not in [True, False]:
         raise Exception('Vertical gridlines is not properly defined: '
@@ -61,7 +57,7 @@ def build_chart_skeleton(style, size, title, ylabel, xlabel, x_min_max,
     # ---- define plot style based on style and size choice
     figsize, label_pad, title_pad, linewidth, \
     tick_pad, tick_length, color_library, \
-    fonts = define_plot_style(style, size, ylabel)
+    fonts = define_plot_style(size, ylabel)
 
     # ---- create the plot
     fig, ax = plt.subplots(nrows=1, figsize = figsize)
@@ -138,20 +134,22 @@ def add_line_to_chart(chart_skeleton, x, y, linewidth, linestyle,
     quicklook.add_line_to_chart(chart_skeleton,
     x = ,
     y = ,
-    color_name = '',
+    color_name = 'blue',
     color_brightness = 'default',
-    linewidth = 3,
+    linewidth = 7,
     linestyle = '-',
-    marker_shape = 'o',
+    marker_shape = '.',
     opacity = 1,
     label_for_legend = '',
     layer_order = 1)
 
     Options
     -------
-    color_name:         Options depend on the style.
+    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
+                         'indigo', 'blue', 'cyan', 'teal', 'green',
+                         'lime', 'yellow', 'orange']
                         Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark'] (only works for default color library)
+    color_brightness:   ['light', 'default', 'dark']
     marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
     linestyle:          ['-', '--', ':', '-.']
     """
@@ -187,19 +185,21 @@ def add_line_with_error_to_chart(chart_skeleton, x, y_mean, y_error, linewidth,
     x = ,
     y_mean = ,
     y_error = ,
-    color_name = '',
+    color_name = 'blue',
     color_brightness = 'default',
-    linewidth = 3,
+    linewidth = 7,
     linestyle = '-',
-    marker_shape = 'o',
+    marker_shape = '.',
     label_for_legend = '',
     layer_order = 1)
 
     Options
     -------
-    color_name:         Options depend on the style.
+    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
+                         'indigo', 'blue', 'cyan', 'teal', 'green',
+                         'lime', 'yellow', 'orange']
                         Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark'] (only works for default color library)
+    color_brightness:   ['light', 'default', 'dark']
     marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
     linestyle:          ['-', '--', ':', '-.']
     """
@@ -252,7 +252,7 @@ def add_vertical_line_to_chart(chart_skeleton, x, linewidth, linestyle,
     """
     quicklook.add_vertical_line_to_chart(chart_skeleton,
     x = ,
-    color_name = '',
+    color_name = 'blue',
     color_brightness = 'default',
     linewidth = 3,
     linestyle = '-',
@@ -263,9 +263,11 @@ def add_vertical_line_to_chart(chart_skeleton, x, linewidth, linestyle,
 
     Options
     -------
-    color_name:         Options depend on the style.
+    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
+                         'indigo', 'blue', 'cyan', 'teal', 'green',
+                         'lime', 'yellow', 'orange']
                         Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark'] (only works for default color library)
+    color_brightness:   ['light', 'default', 'dark']
     marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
     linestyle:          ['-', '--', ':', '-.']
     """
@@ -299,7 +301,7 @@ def add_horizontal_line_to_chart(chart_skeleton, y, linewidth, linestyle,
     """
     quicklook.add_vertical_line_to_chart(chart_skeleton,
     y = ,
-    color_name = '',
+    color_name = 'blue',
     color_brightness = 'default',
     linewidth = 3,
     linestyle = '-',
@@ -310,9 +312,11 @@ def add_horizontal_line_to_chart(chart_skeleton, y, linewidth, linestyle,
 
     Options
     -------
-    color_name:         Options depend on the style.
+    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
+                         'indigo', 'blue', 'cyan', 'teal', 'green',
+                         'lime', 'yellow', 'orange']
                         Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark'] (only works for default color library)
+    color_brightness:   ['light', 'default', 'dark']
     marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
     linestyle:          ['-', '--', ':', '-.']
     """
@@ -350,7 +354,7 @@ def add_scatter_to_chart(chart_skeleton, x, y,
     quicklook.add_scatter_to_chart(chart_skeleton,
     x = ,
     y = ,
-    color_name = '',
+    color_name = 'blue',
     color_brightness = 'default',
     marker_shape = 'o',
     opacity = 1,
@@ -359,9 +363,11 @@ def add_scatter_to_chart(chart_skeleton, x, y,
 
     Options
     -------
-    color_name:         Options depend on the style.
+    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
+                         'indigo', 'blue', 'cyan', 'teal', 'green',
+                         'lime', 'yellow', 'orange']
                         Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark'] (only works for default color library)
+    color_brightness:   ['light', 'default', 'dark']
     marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
     """
     if not chart_skeleton['ax']:
@@ -396,7 +402,7 @@ def add_scatter_with_error_to_chart(chart_skeleton, x, y, x_error, y_error,
     y = ,
     x_error = ,
     y_error = ,
-    color_name = '',
+    color_name = 'blue',
     color_brightness = 'default',
     marker_shape = 'o',
     label_for_legend = '',
@@ -404,9 +410,11 @@ def add_scatter_with_error_to_chart(chart_skeleton, x, y, x_error, y_error,
 
     Options
     -------
-    color_name:         Options depend on the style.
+    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
+                         'indigo', 'blue', 'cyan', 'teal', 'green',
+                         'lime', 'yellow', 'orange']
                         Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark'] (only works for default color library)
+    color_brightness:   ['light', 'default', 'dark']
     marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
     """
     if not chart_skeleton['ax']:
@@ -472,12 +480,14 @@ def add_text(chart_skeleton, text, text_color, text_location_on_x_axis,
     Options
     -------
     text_color:         Defaults to same color as text in the plot.
-                        You can swap out 'default' with another color
-                        Color options depend on the style.
+                        You can swap out 'default' with another color.
+                        ['gray', 'red', 'pink', 'grape', 'violet',
+                         'indigo', 'blue', 'cyan', 'teal', 'green',
+                         'lime', 'yellow', 'orange']
                         Run quicklook.show_color_library(chart_skeleton)
     horizontal_align:   ['center', 'left', 'right']
     vertical_align:     ['center', 'top', 'bottom']
-    frame_around_text:  [True, False],
+    frame_around_text:  [True, False]
     """
 
     if not chart_skeleton['ax']:
@@ -519,12 +529,17 @@ def add_text(chart_skeleton, text, text_color, text_location_on_x_axis,
     return
 
 
-def add_legend(chart_skeleton, legend_location, frame_around_legend,
-                size_of_marker_in_legend):
+def add_legend(chart_skeleton, legend_location, frame_around_legend):
     """
     quicklook.add_legend(chart_skeleton,
-    legend_location = 'best', frame_around_legend=False,
-    size_of_marker_in_legend = 1);
+    legend_location = 'best', frame_around_legend=False);
+
+        Options
+        -------
+        legend_location:      ['best', 'upper right', 'upper left', 'lower left',
+                               'lower right', 'right', 'center left', 'center right',
+                               'lower center', 'upper center', 'center']
+        frame_around_legend:  [True, False]
     """
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
@@ -535,9 +550,9 @@ def add_legend(chart_skeleton, legend_location, frame_around_legend,
                         prop = chart_skeleton['fonts']['label'],
                         frameon = frame_around_legend,
                         fancybox = True,
-                        markerscale = size_of_marker_in_legend,
                         facecolor = chart_skeleton['color_library']['background'],
                         framealpha = 1);
+
     for text in legend.get_texts():
         text.set_color(chart_skeleton['color_library']['text'])
     return
@@ -577,3 +592,15 @@ def show_color_library(chart_skeleton):
             ax.add_patch(patch.Ellipse((x_loc[col],y_loc[row]), 0.075, 0.1, color=chart_skeleton['color_library'][color_strs[row]][col]));
 
     return
+
+def save_chart(chart_name, path_to_folder_to_save_chart_in, print_confirmation=True):
+    """
+    quicklook.save_chart(chart_name = '',
+                         path_to_folder_to_save_chart_in = '',
+                         print_confirmation=True)
+    """
+
+    plt.savefig(os.path.join(path_to_folder_to_save_chart_in, chart_name+'.png'), format='png', dpi=300);
+    if print_confirmation:
+        print('{} saved in the folder: {}'.format(chart_name, path_to_folder_to_save_chart_in));
+    return()
