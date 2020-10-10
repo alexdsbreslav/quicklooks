@@ -68,7 +68,8 @@ layer_order = 1)
 4. Add multiple lines using `quicklook.add_line_to_chart` and adjust the style options.
 5. Add a legend.
    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_legend.md) for more details on adding a legend to your chart
-6. Save the chart to a folder on your computer.
+6. Save the chart to your computer.
+    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/save_chart_to_your_computer.md) for more details on how to save your chart to your computer.
 
 ```python
 import pandas as pd
