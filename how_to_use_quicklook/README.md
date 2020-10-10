@@ -19,7 +19,7 @@ A **chart skeleton** is the background, title, axes, and axis labels. It is a sk
 
 ### Step 2: Add plots to your chart skeleton to visualize your data.
 Click on the links below to go to directions for that plot:
-- Add a line plot to your chart
+- [Add a line plot to your chart](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_line_to_chart.md)
 - Add a line plot (with error) to your chart
 - Add a vertical line to your chart
 - Add a horizontal line to your chart
