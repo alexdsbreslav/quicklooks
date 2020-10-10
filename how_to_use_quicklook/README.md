@@ -21,19 +21,17 @@ A **chart skeleton** is the background, title, axes, and axis labels. It is a sk
 Click on the links below to go to directions for that plot:
 - [Add a line plot to your chart](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_line_to_chart.md)
 - Add a line plot (with error) to your chart
-- Add a vertical line to your chart
-- Add a horizontal line to your chart
 - [Add a scatter plot to your chart](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_scatter_to_chart.md)
 - Add a scatter plot (with error) to your chart
 - Add a histogram to your chart
 - Add a bar plot to your chart
 
-For each of these plots, you need to **choose colors**! [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/setting_your_chart_style.md) for directions of specifying colors in your plots.
-
-### Step 3: Add text and/or a legend to provide context for your visualization.
+### Step 3: Add a legend, text, and/or reference lines to provide context for your visualization.
 Click on the links below to go to directions for that feature:
-- Add a legend to your chart
+- [Add a legend to your chart](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_legend.md)
 - Add text to your chart
+- Add a vertical line to your chart
+- Add a horizontal line to your chart
 
-### Optional: Export your plot.
-Most of the time, my plots live within my Jupyter Notebooks. Sometimes you may want to export your plots to put them in slides or share them with colleagues. [Click here]() for directions for exporting your plots.
+### Optional: Export your chart.
+Most of the time, my charts live within my Jupyter Notebooks. Sometimes you may want to export your charts to put them in slides or share them with colleagues. [Click here]() for directions for exporting your plots.

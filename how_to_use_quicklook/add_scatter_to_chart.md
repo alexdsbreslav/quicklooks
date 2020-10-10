@@ -58,10 +58,12 @@ layer_order = 1)
 ## Complete Example:
 1. Make sure that quicklook is imported into your notebook.
 2. Get your data! Here, I'll create some arbitrary data.
-3. Create your chart skeleton. [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
+3. Create your chart skeleton.
+    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
 4. Add multiple scatters using `quicklook.add_scatter_to_chart` and adjust the style options.
 5. Add a legend.
-6. Save the chart to a folder on my computer.
+    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_legend.md) for more details on how to add a legend to your chart
+6. Save the chart to a folder on your computer.
 
 ```python
 import pandas as pd
@@ -114,7 +116,7 @@ legend_location = 'best', frame_around_legend=True);
 
 # ---- save plot
 quicklook.save_chart(chart_name = 'complete_example', 
-                     path_to_folder_to_save_chart_in = fp.join(fp.abspath('images'), 'plots', 'scatter'),
+                     path_to_folder_to_save_chart_in = os.path.join(os.path.abspath('images'), 'plots', 'scatter'),
                      print_confirmation=False);
 ```
 ![complete_example](https://github.com/alexdsbreslav/quicklook/blob/master/images/plots/scatter/complete_example.png)
