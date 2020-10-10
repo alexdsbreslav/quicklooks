@@ -34,4 +34,4 @@ Click on the links below to go to directions for that feature:
 - Add a horizontal line to your chart
 
 ### Optional: Export your chart.
-Most of the time, my plots live within my Jupyter Notebooks. Sometimes you may want to export your plots to put them in slides or share them with colleagues. [Click here]() for directions for exporting your plots.
+Most of the time, my charts live within my Jupyter Notebooks. Sometimes you may want to export your charts to put them in slides or share them with colleagues. [Click here]() for directions for exporting your plots.
