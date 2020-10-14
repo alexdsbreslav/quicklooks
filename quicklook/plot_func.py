@@ -125,71 +125,20 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Plot lines
-
-def add_line_to_chart(chart_skeleton, x, y, linewidth, linestyle,
-              color_name, color_brightness, marker_shape,
-              opacity, label_for_legend, layer_order):
+# Plot Line
+def add_plot_line(chart_skeleton, x, y, y_error, linewidth,
+                      linestyle, color_name, color_brightness, marker_shape,
+                      label_for_legend, layer_order):
     """
-    quicklook.add_line_to_chart(chart_skeleton,
+    quicklook.add_plot_line(chart_skeleton,
     x = ,
     y = ,
-    color_name = 'blue',
-    color_brightness = 'default',
+    y_error = None, #If no values, None
+    color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
+    color_brightness = 'default', #['default', 'light', 'dark']
     linewidth = 7,
-    linestyle = '-',
-    marker_shape = '.',
-    opacity = 1,
-    label_for_legend = '',
-    layer_order = 1)
-
-    Options
-    -------
-    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
-                         'indigo', 'blue', 'cyan', 'teal', 'green',
-                         'lime', 'yellow', 'orange']
-                        Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark']
-    marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
-    linestyle:          ['-', '--', ':', '-.']
-    """
-    if not chart_skeleton['ax']:
-        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
-                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
-
-    line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
-    markersize = define_markersize(chart_skeleton['size'], marker_shape)
-
-    line = chart_skeleton['ax'].plot(
-            x,
-            y,
-            linewidth = linewidth,
-            linestyle = linestyle,
-            color = line,
-            marker = marker_shape,
-            markersize = markersize,
-            mec = edge,
-            mfc = fill,
-            mew = 2,
-            alpha = opacity,
-            label = label_for_legend,
-            zorder = layer_order);
-    return
-
-
-def add_line_with_error_to_chart(chart_skeleton, x, y_mean, y_error, linewidth,
-                         linestyle, color_name, color_brightness, marker_shape,
-                         label_for_legend, layer_order):
-    """
-    quicklook.add_line_with_error_to_chart(chart_skeleton,
-    x = ,
-    y_mean = ,
-    y_error = ,
-    color_name = 'blue',
-    color_brightness = 'default',
-    linewidth = 7,
-    linestyle = '-',
-    marker_shape = '.',
+    linestyle = ':', #['-', '--', ':', '-.']
+    marker_shape = '.', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
     label_for_legend = '',
     layer_order = 1)
 
@@ -207,18 +156,24 @@ def add_line_with_error_to_chart(chart_skeleton, x, y_mean, y_error, linewidth,
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
+    if type(y_error) in [str, float, bool]:
+        raise Exception('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
+                        'If you need y_error on your line plot, ensure that it is a 1 dimensional array of values.')
 
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
     markersize = define_markersize(chart_skeleton['size'], marker_shape)
 
-    fill = chart_skeleton['ax'].fill_between(
-                          x,
-                          y_mean - y_error,
-                          y_mean + y_error,
-                          color = fill,
-                          label = None,
-                          alpha = 0.2,
-                          zorder = layer_order);
+    # ---- plot y error as fill between
+    if y_error not in [False, None]:
+        fill = chart_skeleton['ax'].fill_between(
+                              x,
+                              y_mean - y_error,
+                              y_mean + y_error,
+                              color = fill,
+                              label = None,
+                              alpha = 0.2,
+                              zorder = layer_order);
+    # ---- plot mean line
     mean = chart_skeleton['ax'].plot(
                 x,
                 y_mean,
@@ -229,135 +184,41 @@ def add_line_with_error_to_chart(chart_skeleton, x, y_mean, y_error, linewidth,
                 markersize = markersize,
                 label = label_for_legend,
                 zorder = layer_order);
-    ub = chart_skeleton['ax'].plot(
-                x,
-                y_mean + y_error,
-                linewidth = 0.5,
-                color = edge,
-                label = None,
-                zorder = layer_order);
-    lb = chart_skeleton['ax'].plot(
-                x,
-                y_mean - y_error,
-                linewidth = 0.5,
-                color = edge,
-                label = None,
-                zorder = layer_order);
-    return
 
-
-def add_vertical_line_to_chart(chart_skeleton, x, linewidth, linestyle,
-                       color_name, color_brightness, marker_shape,
-                       opacity, label_for_legend, layer_order):
-    """
-    quicklook.add_vertical_line_to_chart(chart_skeleton,
-    x = ,
-    color_name = 'blue',
-    color_brightness = 'default',
-    linewidth = 3,
-    linestyle = '-',
-    marker_shape = 'None',
-    opacity = 1,
-    label_for_legend = '',
-    layer_order = 1)
-
-    Options
-    -------
-    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
-                         'indigo', 'blue', 'cyan', 'teal', 'green',
-                         'lime', 'yellow', 'orange']
-                        Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark']
-    marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
-    linestyle:          ['-', '--', ':', '-.']
-    """
-    if not chart_skeleton['ax']:
-        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
-                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
-
-    line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
-    markersize = define_markersize(chart_skeleton['size'], marker_shape)
-
-    line = chart_skeleton['ax'].plot(
-            np.full(100,x),
-            np.linspace(chart_skeleton['y_min_max'][0],chart_skeleton['y_min_max'][1],100),
-            linewidth = linewidth,
-            linestyle = linestyle,
-            color = line,
-            marker = marker_shape,
-            markersize = markersize,
-            mec = edge,
-            mfc = fill,
-            mew = 2,
-            alpha = opacity,
-            label = label_for_legend,
-            zorder = layer_order);
-    return
-
-
-def add_horizontal_line_to_chart(chart_skeleton, y, linewidth, linestyle,
-                         color_name, color_brightness, marker_shape,
-                         opacity, label_for_legend, layer_order):
-    """
-    quicklook.add_horizontal_line_to_chart(chart_skeleton,
-    y = ,
-    color_name = 'blue',
-    color_brightness = 'default',
-    linewidth = 3,
-    linestyle = '-',
-    marker_shape = 'None',
-    opacity = 1,
-    label_for_legend = '',
-    layer_order = 1)
-
-    Options
-    -------
-    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
-                         'indigo', 'blue', 'cyan', 'teal', 'green',
-                         'lime', 'yellow', 'orange']
-                        Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark']
-    marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
-    linestyle:          ['-', '--', ':', '-.']
-    """
-    if not chart_skeleton['ax']:
-        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
-                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
-
-    line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
-    markersize = define_markersize(chart_skeleton['size'], marker_shape)
-
-    line = chart_skeleton['ax'].plot(
-            np.linspace(chart_skeleton['x_min_max'][0],chart_skeleton['x_min_max'][1],100),
-            np.full(100,y),
-            linewidth = linewidth,
-            linestyle = linestyle,
-            color = line,
-            marker = marker_shape,
-            markersize = markersize,
-            mec = edge,
-            mfc = fill,
-            mew = 2,
-            alpha = opacity,
-            label = label_for_legend,
-            zorder = layer_order);
-    return
+    # ---- outline fill between
+    if y_error not in [False, None]:
+        ub = chart_skeleton['ax'].plot(
+                    x,
+                    y_mean + y_error,
+                    linewidth = 0.5,
+                    color = edge,
+                    label = None,
+                    zorder = layer_order);
+        lb = chart_skeleton['ax'].plot(
+                    x,
+                    y_mean - y_error,
+                    linewidth = 0.5,
+                    color = edge,
+                    label = None,
+                    zorder = layer_order);
+        return
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Plot scatter
-def add_scatter_to_chart(chart_skeleton, x, y,
-              color_name, color_brightness, marker_shape,
-              opacity, label_for_legend, layer_order):
+def add_plot_scatter(chart_skeleton, x, y, x_error, y_error,
+                         color_name, color_brightness, marker_shape,
+                         label_for_legend, layer_order):
     """
-    quicklook.add_scatter_to_chart(chart_skeleton,
+    quicklook.add_plot_scatter(chart_skeleton,
     x = ,
     y = ,
-    color_name = 'blue',
-    color_brightness = 'default',
-    marker_shape = 'o',
-    opacity = 1,
+    x_error = None, #If no values, None
+    y_error = None, #If no values, None
+    color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
+    color_brightness = 'default', #['default', 'light', 'dark']
+    marker_shape = 'o', #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
     label_for_legend = '',
     layer_order = 1)
 
@@ -373,14 +234,129 @@ def add_scatter_to_chart(chart_skeleton, x, y,
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
+    if type(x_error) in [str, float, bool]:
+        raise Exception('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
+                        'If you need y_error on your line plot, ensure that it is a 1 dimensional array of values.')
+    if type(y_error) in [str, float, bool]:
+        raise Exception('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
+                        'If you need y_error on your line plot, ensure that it is a 1 dimensional array of values.')
 
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
     markersize = define_markersize(chart_skeleton['size'], marker_shape)
 
-    scatter = chart_skeleton['ax'].plot(
+    # ---- If X and Y Error, plot clouds
+    if x_error is not None and y_error is not None:
+        shape = [np.shape(i) for i in [x,y,x_error,y_error]]
+        if not shape[0] == shape[1] == shape[2] == shape[3]:
+            raise Exception('x, y, x_error, and y_error are not the same length. All four inputs must have the same number of items in them.')
+
+        if not shape[0]:
+            x = [x]
+            y = [y]
+            x_error = [x_error]
+            y_error = [y_error]
+
+        coord = tuple(zip(x,y))
+        err = tuple(zip(x_error,y_error))
+
+        for pt in range(len(coord)):
+            err_fill = chart_skeleton['ax'].add_patch(patch.Ellipse((coord[pt][0],coord[pt][1]), err[pt][0] * 2, err[pt][1] * 2,
+                                                    facecolor = fill, alpha = .8, zorder = layer_order))
+            err_outline = chart_skeleton['ax'].add_patch(patch.Ellipse((coord[pt][0],coord[pt][1]), err[pt][0] * 2, err[pt][1] * 2,
+                                                    facecolor = 'none', edgecolor = edge, alpha = 0.3, linewidth = 2, zorder = layer_order))
+    # Just x error, plot error bars
+    elif x_error is not None and y_error is None:
+        chart_skeleton['ax'].errorbar(x,y,xerr=x_error,linestyle='',
+        ecolor=edge, elinewidth=2, capsize=2, capthick=2, zorder=layer_order)
+
+    # Just y error, plot error bars
+    elif x_error is None and y_error is not None:
+        chart_skeleton['ax'].errorbar(x,y,yerr=x_error,linestyle='',
+        ecolor=edge, elinewidth=2, capsize=2, zorder=layer_order)
+
+    # ---- plot points
+    chart_skeleton['ax'].plot(
             x,
             y,
             linewidth = 0,
+            color = line,
+            marker = marker_shape,
+            markersize = markersize,
+            mec = edge,
+            mfc = fill,
+            mew = 2,
+            label = label_for_legend,
+            zorder = layer_order);
+
+    return
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Plot bar
+
+
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# add reference features
+def add_reference_line(chart_skeleton, line_type, location, linewidth, linestyle,
+                                color_name, color_brightness, marker_shape,
+                                opacity, label_for_legend, layer_order):
+    """
+    quicklook.add_reference_line(chart_skeleton,
+    line_type = , #['horizontal','vertical','diagonal_up','diagonal_down']
+    location = ,
+    color_name = 'gray', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
+    color_brightness = 'default', #['default', 'light', 'dark']
+    linewidth = 3,
+    linestyle = ':', #['-', '--', ':', '-.']
+    marker_shape = 'None', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+    opacity = 1,
+    label_for_legend = '',
+    layer_order = 1)
+
+
+    Options
+    -------
+    line_type:          ['horizontal', 'vertical', 'diagonal_up', 'diagonal_down']
+    location:           If type is horizontal, x = location; If type is vertical, y = location.
+                        If type is diagonal_up or diagonal_down, location is not used.
+    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
+                         'indigo', 'blue', 'cyan', 'teal', 'green',
+                         'lime', 'yellow', 'orange']
+                        Run quicklook.show_color_library(chart_skeleton)
+    color_brightness:   ['light', 'default', 'dark']
+    marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
+    linestyle:          ['-', '--', ':', '-.']
+    """
+    if not chart_skeleton['ax']:
+        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
+                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
+
+    line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
+    markersize = define_markersize(chart_skeleton['size'], marker_shape)
+
+    if line_type == 'horizontal':
+        x = np.linspace(chart_skeleton['x_min_max'][0],chart_skeleton['x_min_max'][1],10)
+        y = np.full(10,location)
+    elif line_type == 'vertical':
+        x = np.full(10,location)
+        y = np.linspace(chart_skeleton['y_min_max'][0],chart_skeleton['y_min_max'][1],10)
+    elif line_type == 'diagonal_up':
+        x = np.linspace(chart_skeleton['x_min_max'][0],chart_skeleton['x_min_max'][1],10)
+        y = np.linspace(chart_skeleton['y_min_max'][0],chart_skeleton['y_min_max'][1],10)
+    elif line_type == 'diagonal_down':
+        x = np.linspace(chart_skeleton['x_min_max'][0],chart_skeleton['x_min_max'][1],10)
+        y = np.linspace(chart_skeleton['y_min_max'][1],chart_skeleton['y_min_max'][0],10)
+    else:
+        raise Exception('type is not properly defined. type must be defined as horizontal, vertical, diagonal_up, or diagonal_down')
+
+    line = chart_skeleton['ax'].plot(
+            x,
+            y,
+            linewidth = linewidth,
+            linestyle = linestyle,
             color = line,
             marker = marker_shape,
             markersize = markersize,
@@ -392,82 +368,11 @@ def add_scatter_to_chart(chart_skeleton, x, y,
             zorder = layer_order);
     return
 
-
-def add_scatter_with_error_to_chart(chart_skeleton, x, y, x_error, y_error,
-              color_name, color_brightness, marker_shape,
-              label_for_legend, layer_order):
-    """
-    quicklook.add_scatter_with_error_to_chart(chart_skeleton,
-    x = ,
-    y = ,
-    x_error = ,
-    y_error = ,
-    color_name = 'blue',
-    color_brightness = 'default',
-    marker_shape = 'o',
-    label_for_legend = '',
-    layer_order = 1)
-
-    Options
-    -------
-    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
-                         'indigo', 'blue', 'cyan', 'teal', 'green',
-                         'lime', 'yellow', 'orange']
-                        Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark']
-    marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
-    """
-    if not chart_skeleton['ax']:
-        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
-                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
-
-    shape = [np.shape(i) for i in [x,y,x_error,y_error]]
-    if not shape[0] == shape[1] == shape[2] == shape[3]:
-        raise Exception('x, y, x_error, and y_error are not the same length. All four inputs must have the same number of items in them.')
-
-    if not shape[0]:
-        x = [x]
-        y = [y]
-        x_error = [x_error]
-        y_error = [y_error]
-
-    line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
-    markersize = define_markersize(chart_skeleton['size'], marker_shape)
-
-    scatter = chart_skeleton['ax'].plot(
-            x,
-            y,
-            linewidth = 0,
-            color = line,
-            marker = marker_shape,
-            markersize = markersize,
-            mec = edge,
-            mfc = fill,
-            mew = 2,
-            label = label_for_legend,
-            zorder = layer_order+0.5);
-
-    coord = tuple(zip(x,y))
-    err = tuple(zip(x_error,y_error))
-
-    for pt in range(len(coord)):
-        err_fill = chart_skeleton['ax'].add_patch(patch.Ellipse((coord[pt][0],coord[pt][1]), err[pt][0] * 2, err[pt][1] * 2,
-                                                facecolor = fill, alpha = .8, zorder = layer_order))
-        err_outline = chart_skeleton['ax'].add_patch(patch.Ellipse((coord[pt][0],coord[pt][1]), err[pt][0] * 2, err[pt][1] * 2,
-                                                facecolor = 'none', edgecolor = edge, alpha = 0.3, linewidth = 2, zorder = layer_order))
-
-    return
-
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Other
-
-def add_text(chart_skeleton, text, text_color, text_location_on_x_axis,
+def add_reference_text(chart_skeleton, text, text_color, text_location_on_x_axis,
              text_location_on_y_axis, horizontal_align, vertical_align,
              box_around_text, layer_order):
     """
-    quicklook.add_text(chart_skeleton,
+    quicklook.add_reference_text(chart_skeleton,
     text = '',
     text_color = 'default',
     text_location_on_x_axis = ,
@@ -529,9 +434,9 @@ def add_text(chart_skeleton, text, text_color, text_location_on_x_axis,
     return
 
 
-def add_legend(chart_skeleton, legend_location, frame_around_legend):
+def add_reference_legend(chart_skeleton, legend_location, frame_around_legend):
     """
-    quicklook.add_legend(chart_skeleton,
+    quicklook.add_reference_legend(chart_skeleton,
     legend_location = 'best', frame_around_legend=False);
 
         Options
@@ -557,7 +462,10 @@ def add_legend(chart_skeleton, legend_location, frame_around_legend):
         text.set_color(chart_skeleton['color_library']['text'])
     return
 
-
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# see colors
 def show_color_library(chart_skeleton):
     """
     quicklook.show_color_library(chart_skeleton)
@@ -593,9 +501,13 @@ def show_color_library(chart_skeleton):
 
     return
 
-def save_chart(chart_name, path_to_folder_to_save_chart_in, print_confirmation=True):
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# save chart
+def save_chart_to_computer(chart_name, path_to_folder_to_save_chart_in, print_confirmation=True):
     """
-    quicklook.save_chart(chart_name = '',
+    quicklook.save_chart_to_computer(chart_name = '',
                          path_to_folder_to_save_chart_in = '',
                          print_confirmation=True)
     """
