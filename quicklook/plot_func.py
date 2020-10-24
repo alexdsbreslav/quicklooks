@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patch
 from .plot_func_internal import *
 import os
+import pandas as pd
 
 
 def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
@@ -128,7 +129,7 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
 # Plot Line
 def add_plot_line(chart_skeleton, x, y, y_error, linewidth,
                       linestyle, color_name, color_brightness, marker_shape,
-                      label_for_legend, layer_order):
+                      opacity, label_for_legend, layer_order):
     """
     quicklook.add_plot_line(chart_skeleton,
     x = ,
@@ -139,6 +140,7 @@ def add_plot_line(chart_skeleton, x, y, y_error, linewidth,
     linewidth = 7,
     linestyle = ':', #['-', '--', ':', '-.']
     marker_shape = '.', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+    opacity = 1,
     label_for_legend = '',
     layer_order = 1)
 
@@ -164,7 +166,7 @@ def add_plot_line(chart_skeleton, x, y, y_error, linewidth,
     markersize = define_markersize(chart_skeleton['size'], marker_shape)
 
     # ---- plot y error as fill between
-    if y_error not in [False, None]:
+    if y_error is not None:
         fill = chart_skeleton['ax'].fill_between(
                               x,
                               y_mean - y_error,
@@ -182,11 +184,12 @@ def add_plot_line(chart_skeleton, x, y, y_error, linewidth,
                 color = line,
                 marker = marker_shape,
                 markersize = markersize,
+                alpha = opacity if y_error is None else 1,
                 label = label_for_legend,
                 zorder = layer_order);
 
     # ---- outline fill between
-    if y_error not in [False, None]:
+    if y_error is not None:
         ub = chart_skeleton['ax'].plot(
                     x,
                     y_mean + y_error,
@@ -208,8 +211,8 @@ def add_plot_line(chart_skeleton, x, y, y_error, linewidth,
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Plot scatter
 def add_plot_scatter(chart_skeleton, x, y, x_error, y_error,
-                         color_name, color_brightness, marker_shape,
-                         label_for_legend, layer_order):
+                     color_name, color_brightness, marker_shape,
+                     opacity, label_for_legend, layer_order):
     """
     quicklook.add_plot_scatter(chart_skeleton,
     x = ,
@@ -219,6 +222,7 @@ def add_plot_scatter(chart_skeleton, x, y, x_error, y_error,
     color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
     color_brightness = 'default', #['default', 'light', 'dark']
     marker_shape = 'o', #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+    opacity = 1,
     label_for_legend = '',
     layer_order = 1)
 
@@ -286,6 +290,7 @@ def add_plot_scatter(chart_skeleton, x, y, x_error, y_error,
             mfc = fill,
             mew = 2,
             label = label_for_legend,
+            alpha = opacity if x_error is None and y_error is None else 1,
             zorder = layer_order);
 
     return
@@ -293,7 +298,127 @@ def add_plot_scatter(chart_skeleton, x, y, x_error, y_error,
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Plot bar
+# Plot distribution
+def add_plot_distribution(chart_skeleton, data, auto_fit_to_data,
+                          distribution_min, distribution_max, bin_interval,
+                          plot_dist_as_pdf,
+                          color_name, color_brightness, opacity,
+                          label_for_legend, layer_order):
+    """
+    quicklook.add_plot_distribution(chart_skeleton,
+    data = ,
+    auto_fit_to_data = True,
+    distribution_min = None,
+    distribution_max = None,
+    bin_interval = None,
+    plot_dist_as_pdf = False,
+    color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
+    color_brightness = 'default', #['default', 'light', 'dark']
+    opacity = 1,
+    label_for_legend = '',
+    layer_order = 1)
+
+    Options
+    -------
+    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
+                         'indigo', 'blue', 'cyan', 'teal', 'green',
+                         'lime', 'yellow', 'orange']
+                        Run quicklook.show_color_library(chart_skeleton)
+    color_brightness:   ['light', 'default', 'dark']
+    """
+    if not chart_skeleton['ax']:
+        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
+                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
+    # ---- check data shape and turn into series
+    if np.shape(np.shape(data))[0] != 1:
+        raise Exception('Data must be 1 dimensional')
+    data = pd.Series(data)
+
+
+    # ---- auto set bins to integers between min and max
+    if auto_fit_to_data:
+        print('autofit_to_data is on:\nyour chart_skeleton settings are being ignored (x_min_max, y_min_max, xtick_interval, ytick_interval)\n'
+        'your plot_distribution settings are being ignored (distribution_min, distribution_max, bin_interval)\n\n'
+        'autofit_to_data helps you understand the shape and limits of your data.\n'
+        'Once you know the shape and limits of your data, we highly recommend turning off autofit_to_data.\n'
+        'When autofit_to_data is off, you must set the x_min_max, y_min_max, and bins manually.\n')
+        # ---- get the data range
+        data_range = np.max(data) - np.min(data)
+
+        # ---- set the bins
+        # ---- if the range is big, work it down until it has < 15 bins
+        if data_range >= 10:
+
+            # ---- set xlim to data min and max
+            plt.xlim(np.floor(np.min(data)), np.ceil(np.max(data)));
+            print('x_min_max = {}'.format(chart_skeleton['ax'].get_xlim()))
+
+            interval = 1
+            bins = np.arange(np.floor(np.min(data)), np.ceil(np.max(data))+1, interval)
+            while np.shape(bins)[0] >= 15:
+                interval += 1
+                bins = np.arange(np.floor(np.min(data)), np.ceil(np.max(data))+1, interval)
+
+            print('bin interval = {}'.format(interval))
+        # ---- if the range is small, work it up until it has >= 10 bins
+        else:
+            i = 0
+            intervals = [0.5, 0.25, 0.2, 0.1, 0.05, 0.01, 0.005, 0.001, 0.0005, 0.00001]
+            interval = intervals[i]
+            decimals = [2,2,2,2,2,3,3,4,4]
+            bins = np.arange(np.floor(np.min(data) * 10**decimals[i]) / 10**decimals[i],
+                             (np.ceil(np.max(data) * 10**decimals[i]) / 10**decimals[i])+interval,
+                             interval)
+            while np.shape(bins)[0] < 10:
+                i += 1
+                interval = intervals[i]
+                bins = np.arange(np.floor(np.min(data) * 10**decimals[i]) / 10**decimals[i],
+                             (np.ceil(np.max(data) * 10**decimals[i]) / 10**decimals[i])+interval,
+                             interval)
+
+            # ---- set xlim to data min and max
+            plt.xlim(np.floor(np.min(data) * 10**decimals[i]) / 10**decimals[i],
+                             (np.ceil(np.max(data) * 10**decimals[i]) / 10**decimals[i])+interval);
+            print('x_min_max = {}'.format(chart_skeleton['ax'].get_xlim()))
+            print('bin interval = {}'.format(interval))
+
+        # ---- set ylim to 0 and max in bin
+        binned_data = pd.cut(data, bins=bins).value_counts()
+        if plot_dist_as_pdf:
+            plt.ylim(0, binned_data.max()/(binned_data.sum()*interval));
+        else:
+            plt.ylim(0, np.ceil(binned_data.max()));
+        print('y_min_max = {}'.format(chart_skeleton['ax'].get_ylim()))
+
+        # ---- set the xticks to be on the bin edges
+        xticks = bins
+        plt.xticks(xticks)
+        # ---- if that creates too many ticks, only plot every nth tick
+        i = 1
+        while chart_skeleton['ax'].get_xticks().shape[0] > 10:
+            i += 1
+            plt.xticks(xticks[::i])
+
+        # ---- set the yticks to a max of 10 ticks
+        chart_skeleton['ax'].yaxis.set_major_locator(plt.MaxNLocator(5))
+
+    # ---- set bins manually if autofit is not on
+    else:
+        bins = np.arange(distribution_min, distribution_max, bin_interval)
+
+    # ---- check for too many ticks
+    if chart_skeleton['ax'].get_xticks().shape[0] > 20:
+        raise Exception('quicklook is trying to plot too many xticks; increase the x_tick_interval')
+    if chart_skeleton['ax'].get_yticks().shape[0] > 20:
+        raise Exception('quicklook is trying to plot too many yticks; increase the y_tick_interval')
+
+    # ---- get colors
+    line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
+
+    # ---- plot distribution
+    chart_skeleton['ax'].hist(data, bins=bins, alpha=opacity, rwidth=0.85, color=fill, density=plot_dist_as_pdf);
+    return
+
 
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
