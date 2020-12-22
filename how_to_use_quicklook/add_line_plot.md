@@ -1,7 +1,7 @@
-## Add a line to your chart
+## Add a line plot to your chart skeleton
 To add a line to your chart, we will use the function:
 ```python
-quicklook.add_line_to_chart
+quicklook.add_line_plot
 ```
 
 **Always copy and paste!** quicklook is designed as a copy-and-paste package. You should always copy the default code into your notebook from the documentation.
