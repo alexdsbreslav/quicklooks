@@ -21,7 +21,7 @@ import os
 import quicklook
 ```
 ```python
-# ---- create arbtrary data
+# ---- create arbitrary data
 x_values = np.linspace(-1,1,20)
 y_values = [1/(1+np.exp(-5*i)) for i in x_values]
 
@@ -68,7 +68,7 @@ import os
 import quicklook
 ```
 ```python
-# ---- create arbtrary x values
+# ---- create arbitrary x values
 x_values = np.linspace(-1,1,20)
 # ---- create y values for gray line
 y_values = [1/(1+np.exp(-5*i)) for i in x_values]
