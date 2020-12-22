@@ -26,6 +26,7 @@ rng = np.random.RandomState(1)
 x_labels = ['Category {}'.format(i) for i in range(4)]
 y_values = rng.rand(4)
 
+# ---- create the chart skeleton
 chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
 title = 'Making a Bar Plot',
 xlabel = 'Categories',
@@ -73,6 +74,7 @@ x_labels = ['Category {}'.format(i) for i in range(4)]
 blue_y_values = rng.rand(4)
 grape_group_y_values = pd.DataFrame(rng.rand(4,10))
 
+# ---- create the chart skeleton
 chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
 title = 'Making a Bar Plot',
 xlabel = 'Categories',
