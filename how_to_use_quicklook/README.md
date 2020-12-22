@@ -19,8 +19,8 @@ A **chart skeleton** is the background, title, axes, and axis labels. It is a sk
 
 ### Step 2: Add plots to your chart skeleton to visualize your data.
 Click on the links below to go to directions for that plot:
-- [Add a line plot to your chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_line_to_chart.md)
-- [Add a scatter plot to your chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_scatter_to_chart.md)
+- [Add a line plot to your chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_line_plot.md)
+- [Add a scatter plot to your chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_scatter_plot.md)
 - [Add a distribution plot to your chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_distribution_plot.md)
 - Add a bar plot to your chart skeleton
 
