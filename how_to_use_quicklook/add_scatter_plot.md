@@ -20,7 +20,7 @@ import os
 import quicklook
 ```
 ```python
-# ---- create arbtrary data
+# ---- create arbitrary data
 rng = np.random.RandomState(1)
 x_values = np.linspace(0,10,20)
 y_values = [i**2+rng.randint(-10,10) for i in x_values]
@@ -68,7 +68,7 @@ import os
 import quicklook
 ```
 ```python
-# ---- create arbtrary data
+# ---- create arbitrary data
 rng = np.random.RandomState(4)
 x_values = np.linspace(0,10,20)
 blue_y_values = [i**2+rng.randint(-10,10) for i in x_values]
