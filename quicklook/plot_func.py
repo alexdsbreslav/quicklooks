@@ -441,7 +441,7 @@ def add_reference_line(chart_skeleton, line_type, location, linewidth, linestyle
     line_type = , #['horizontal','vertical','diagonal_up','diagonal_down']
     location = ,
     color_name = 'gray', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-    color_brightness = 'default', #['default', 'light', 'dark']
+    color_brightness = 'dark', #['default', 'light', 'dark']
     linewidth = 3,
     linestyle = ':', #['-', '--', ':', '-.']
     marker_shape = 'None', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
@@ -501,7 +501,7 @@ def add_reference_line(chart_skeleton, line_type, location, linewidth, linestyle
             zorder = layer_order);
     return
 
-def add_text(chart_skeleton, text, color_name, 
+def add_text(chart_skeleton, text, color_name,
              text_location_on_x_axis,
              text_location_on_y_axis, horizontal_align, vertical_align,
              box_around_text, layer_order):
