@@ -109,9 +109,10 @@ Notice that the distribution looks slightly different than above. This is becaus
 Let's compare the distribution of `variable1` to another variable. To accurately compare variables, I **strongly recommend**:
 - Using the same `distribution_min_max` for both variables
 - Using the same `bin_interval` for both variables
-- Setting `plot_as_density == True` (density refers to a probability density; read through "Summarize Density With a Histogram
-" in [this article](https://machinelearningmastery.com/probability-density-estimation/) by Jason Brownlee for more info)
+- Setting `plot_as_density == True` (density refers to a probability density<sup>*</sup>)
 - Setting `opacity = 0.5` so you can see overlapping parts
+
+<sup>*</sup>For more info, [right-click here](https://machinelearningmastery.com/probability-density-estimation/) to open an article by Jason Brownlee and read through "Summarize Density with a Histogram".
 
 ```python
 # ---- create arbitrary data
