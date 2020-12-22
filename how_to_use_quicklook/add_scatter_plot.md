@@ -115,7 +115,7 @@ label_for_legend = 'Orange Squares',
 layer_order = 2)
 
 # ---- add legend
-quicklook.add_reference_legend(chart_skeleton,
+quicklook.add_legend(chart_skeleton,
 legend_location = 'best', frame_around_legend=True);
 
 # ---- save plot
