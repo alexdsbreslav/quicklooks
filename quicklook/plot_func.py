@@ -159,6 +159,11 @@ def add_bar_plot(chart_skeleton, x_labels, y, y_error,
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
+
+    if type(x_labels) in [str, int, float, bool]:
+        raise TypeError('x is not properly defined. x should be a 1 dimensional array of values.')
+    if type(y) in [str, int, float, bool]:
+        raise TypeError('y is not properly defined. y should be a 1 dimensional array of values.')
     if type(y_error) in [str, int, float, bool]:
         raise TypeError('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
                         'If you need y_error on your line plot, ensure that it is a 1 dimensional array of values.')
@@ -179,9 +184,9 @@ def add_bar_plot(chart_skeleton, x_labels, y, y_error,
     if np.shape(x_labels) != np.shape(y):
         raise ValueError('x and y are not the same shape. x has {} values and y has {} values'.format(np.shape(x_labels)[0], np.shape(y)[0]))
 
-    chart_skeleton['ax'].set_xlim(-0.5,len(x_labels)-0.5);
-    chart_skeleton['ax'].set_xticklabels(['']+x_labels);
-    label_to_x = dict(zip(x_labels, chart_skeleton['ax'].get_xticks()[1:-1]))
+    plt.xlim(-0.5,len(x_labels)-0.5);
+    plt.xticks(ticks=range(len(x_labels)), labels=x_labels);
+    label_to_x = dict(zip(x_labels, chart_skeleton['ax'].get_xticks()))
 
     # ---- adjust for number of xlabels
     width = 0.8 if len(x_labels) <= 2 else 0.8-(len(x_labels)*0.01)
@@ -251,6 +256,11 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
+    # ---- check data types
+    if type(x) in [str, int, float, bool]:
+        raise TypeError('x is not properly defined. x should be a 1 dimensional array of values.')
+    if type(y) in [str, int, float, bool]:
+        raise TypeError('y is not properly defined. y should be a 1 dimensional array of values.')
     if type(y_error) in [str, int, float, bool]:
         raise TypeError('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
                         'If you need y_error on your line plot, ensure that it is a 1 dimensional array of values.')
@@ -340,6 +350,11 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
+    # ---- check data types
+    if type(x) in [str, int, float, bool]:
+        raise TypeError('x is not properly defined. x should be a 1 dimensional array of values.')
+    if type(y) in [str, int, float, bool]:
+        raise TypeError('y is not properly defined. y should be a 1 dimensional array of values.')
     if type(x_error) in [str, float, int, bool]:
         raise TypeError('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
                         'If you need y_error on your line plot, ensure that it is a 1 dimensional array of values.')
@@ -437,6 +452,9 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
+    # ---- check data types
+    if type(data) in [str, int, float, bool]:
+        raise TypeError('x is not properly defined. x should be a 1 dimensional array of values.')
     # ---- check data shape and turn into series
     if np.shape(np.shape(data))[0] != 1:
         raise TypeError('data is not properly defined.; it is a {} x {} array. data must be 1-dimensional array.'.format(np.shape(data)[0], np.shape(data)[1]))
