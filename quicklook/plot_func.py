@@ -240,10 +240,10 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
-    if type(x_error) in [str, float, bool]:
+    if type(x_error) in [str, float, int, bool]:
         raise Exception('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
                         'If you need y_error on your line plot, ensure that it is a 1 dimensional array of values.')
-    if type(y_error) in [str, float, bool]:
+    if type(y_error) in [str, float, int, bool]:
         raise Exception('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
                         'If you need y_error on your line plot, ensure that it is a 1 dimensional array of values.')
 
@@ -277,7 +277,7 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
 
     # Just y error, plot error bars
     elif x_error is None and y_error is not None:
-        chart_skeleton['ax'].errorbar(x,y,yerr=x_error,linestyle='',
+        chart_skeleton['ax'].errorbar(x,y,yerr=y_error,linestyle='',
         ecolor=edge, elinewidth=2, capsize=2, zorder=layer_order)
 
     # ---- plot points
@@ -292,7 +292,7 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
             mfc = fill,
             mew = 2,
             label = label_for_legend,
-            alpha = opacity if x_error is None and y_error is None else 1,
+            alpha = opacity,
             zorder = layer_order);
 
     return
@@ -501,13 +501,14 @@ def add_reference_line(chart_skeleton, line_type, location, linewidth, linestyle
             zorder = layer_order);
     return
 
-def add_reference_text(chart_skeleton, text, text_color, text_location_on_x_axis,
+def add_text(chart_skeleton, text, color_name, 
+             text_location_on_x_axis,
              text_location_on_y_axis, horizontal_align, vertical_align,
              box_around_text, layer_order):
     """
-    quicklook.add_reference_text(chart_skeleton,
+    quicklook.add_text(chart_skeleton,
     text = '',
-    text_color = 'default',
+    color_name = 'default', #['default','gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
     text_location_on_x_axis = ,
     text_location_on_y_axis = ,
     horizontal_align = 'center',
@@ -517,7 +518,7 @@ def add_reference_text(chart_skeleton, text, text_color, text_location_on_x_axis
 
     Options
     -------
-    text_color:         Defaults to same color as text in the plot.
+    color_name:         Defaults to same color as text in the plot.
                         You can swap out 'default' with another color.
                         ['gray', 'red', 'pink', 'grape', 'violet',
                          'indigo', 'blue', 'cyan', 'teal', 'green',
@@ -532,10 +533,10 @@ def add_reference_text(chart_skeleton, text, text_color, text_location_on_x_axis
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
 
-    if text_color == 'default':
-        text_color = chart_skeleton['color_library']['text']
+    if color_name == 'default':
+        color_name = chart_skeleton['color_library']['text']
     else:
-        text_color, _, _ = define_colors(chart_skeleton, color_name, color_brightness)
+        color_name, _, _ = define_colors(chart_skeleton, color_name, 'dark')
         del _
 
     if box_around_text:
@@ -546,7 +547,7 @@ def add_reference_text(chart_skeleton, text, text_color, text_location_on_x_axis
                 horizontalalignment=horizontal_align,
                 verticalalignment=vertical_align,
                 size = chart_skeleton['fonts']['size'][1],
-                color = text_color,
+                color = color_name,
                 bbox = dict(facecolor = chart_skeleton['color_library']['background'],
                 edgecolor = chart_skeleton['color_library']['text'],
                 boxstyle = 'round, pad = 0.5',
@@ -561,15 +562,15 @@ def add_reference_text(chart_skeleton, text, text_color, text_location_on_x_axis
                 horizontalalignment = horizontal_align,
                 verticalalignment = vertical_align,
                 size = chart_skeleton['fonts']['size'][1],
-                color = text_color,
+                color = color_name,
                 zorder = layer_order);
 
     return
 
 
-def add_reference_legend(chart_skeleton, legend_location, frame_around_legend):
+def add_legend(chart_skeleton, legend_location, frame_around_legend):
     """
-    quicklook.add_reference_legend(chart_skeleton,
+    quicklook.add_legend(chart_skeleton,
     legend_location = 'best', frame_around_legend=False);
 
         Options
