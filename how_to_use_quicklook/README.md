@@ -21,7 +21,7 @@ A **chart skeleton** is the background, title, axes, and axis labels. It is a sk
 Click on the links below to go to directions for that plot:
 - [Add a line plot to your chart](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_line_to_chart.md)
 - [Add a scatter plot to your chart](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_scatter_to_chart.md)
-- Add a histogram to your chart
+- Add a distribution plot to your chart
 - Add a bar plot to your chart
 
 ### Step 3: Add a legend, text, and/or reference lines to provide context for your visualization.
