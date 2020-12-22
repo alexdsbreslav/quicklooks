@@ -137,7 +137,7 @@ label_for_legend = 'Purple Group',
 layer_order = 1)
 
 # ---- add legend
-quicklook.add_reference_legend(chart_skeleton,
+quicklook.add_legend(chart_skeleton,
 legend_location = 'best', frame_around_legend=False);
 
 # ---- save plot
