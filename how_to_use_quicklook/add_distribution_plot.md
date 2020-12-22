@@ -74,6 +74,12 @@ At this point, we want to update all of our settings to create a neat, shareable
 
 ### Step 2: Clean up your distribution plot
 ```python
+import pandas as pd
+import numpy as np
+import os
+import quicklook
+```
+```python
 # ---- create arbitrary data
 rng = np.random.RandomState(1)
 variable1 = rng.normal(5, 10, size=100)
@@ -114,6 +120,21 @@ Let's compare the distribution of `variable1` to another variable. To accurately
 
 <sup>*</sup>For more info, [right-click here](https://machinelearningmastery.com/probability-density-estimation/) to open an article by Jason Brownlee and read through "Summarize Density with a Histogram".
 
+1. Make sure that quicklook is imported into your notebook.
+2. Get your data! Here, I'll create some arbitrary data.
+3. Create your chart skeleton. 
+   - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
+4. Add multiple distributions using `quicklook.add_distribution_plot` and adjust the style options.
+5. Add a legend.
+   - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_legend.md) for more details on adding a legend to your chart
+6. Save the chart to your computer.
+    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/save_chart_to_your_computer.md) for more details on how to save your chart to your computer.
+```python
+import pandas as pd
+import numpy as np
+import os
+import quicklook
+```
 ```python
 # ---- create arbitrary data
 rng = np.random.RandomState(1)
