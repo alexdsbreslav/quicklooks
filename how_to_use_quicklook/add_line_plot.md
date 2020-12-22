@@ -1,4 +1,4 @@
-## Add a line plot to your chart skeleton
+# Add a line plot to your chart skeleton
 To add a line to your chart, we will use the function:
 ```python
 quicklook.add_line_plot
