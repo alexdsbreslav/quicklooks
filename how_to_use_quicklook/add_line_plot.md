@@ -56,7 +56,7 @@ layer_order = 1)
 2. Get your data! Here, I'll create some arbitrary data.
 3. Create your chart skeleton. 
    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
-4. Add multiple lines using `quicklook.add_line_to_chart` and adjust the style options.
+4. Add multiple lines using `quicklook.add_line_plot` and adjust the style options.
 5. Add a legend.
    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_legend.md) for more details on adding a legend to your chart
 6. Save the chart to your computer.
