@@ -112,14 +112,6 @@ layer_order = 1)
 Notice that the distribution looks slightly different than above. This is because we changed the `bin_interval` from 4 to 5 (because I thought intervals of 5 was more intuitive). 
 
 ## Complete Example
-Let's compare the distribution of `variable1` to another variable. To accurately compare variables, I **strongly recommend**:
-- Using the same `distribution_min_max` for both variables
-- Using the same `bin_interval` for both variables
-- Setting `plot_as_density == True` (density refers to a probability density<sup>*</sup>)
-- Setting `opacity = 0.5` so you can see overlapping parts
-
-<sup>*</sup>For more info, [right-click here](https://machinelearningmastery.com/probability-density-estimation/) to open an article by Jason Brownlee and read through "Summarize Density with a Histogram".
-
 1. Make sure that quicklook is imported into your notebook.
 2. Get your data! Here, I'll create some arbitrary data.
 3. Create your chart skeleton. 
@@ -129,6 +121,14 @@ Let's compare the distribution of `variable1` to another variable. To accurately
    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_legend.md) for more details on adding a legend to your chart
 6. Save the chart to your computer.
     - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/save_chart_to_your_computer.md) for more details on how to save your chart to your computer.
+    
+To accurately compare multiple distributions, I **strongly recommend**:
+- Using the same `distribution_min_max` for both variables
+- Using the same `bin_interval` for both variables
+- Setting `plot_as_density == True` (density refers to a probability density<sup>*</sup>)
+- Setting `opacity = 0.5` so you can see overlapping parts
+
+<sup>*</sup>For more info, [right-click here](https://machinelearningmastery.com/probability-density-estimation/) to open an article by Jason Brownlee and read through "Summarize Density with a Histogram".
 ```python
 import pandas as pd
 import numpy as np
