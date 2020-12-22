@@ -161,7 +161,7 @@ legend_location = 'best', frame_around_legend=False);
 
 # ---- save plot
 quicklook.save_chart_to_computer(chart_name = 'compare',
-                     path_to_folder_to_save_chart_in = fp.join(fp.abspath('images'), 'plots', 'histogram'),
+                     path_to_folder_to_save_chart_in = os.path.join(os.path.abspath('images'), 'plots'),
                      print_confirmation=True);
 ```
 ![complete_example](https://github.com/alexdsbreslav/quicklook/blob/master/images/plots/histogram/compare.png)
