@@ -1,4 +1,4 @@
-# Add a legend to your chart
+# Add a legend to your chart skeleton
 To add a legend to your chart, we will use the function:
 ```python
 quicklook.add_legend
