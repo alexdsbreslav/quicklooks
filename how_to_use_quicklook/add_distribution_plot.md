@@ -7,7 +7,8 @@ quicklook.add_distribution_plot
 **Always copy and paste!** quicklook is designed as a copy-and-paste package. You should always copy the default code into your notebook from the documentation.
 For tips on how to easily copy-and-paste quicklook code into your notebook, [click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md). 
 
-## Basic Example (Step 1: Quickly create a distribution plot using `override_chart_skeleton`)
+## Basic Example
+### Step 1: Quickly create a distribution plot using `override_chart_skeleton`
 The `override_chart_skeleton` option will help you understand the shape and limits of your data. This is a great first step the first time you look at the distribution of a variable.
 
 1. Make sure that quicklook is imported into your notebook.
@@ -71,7 +72,7 @@ Your add_distribution_plot settings are automatically being set as:
 ```
 At this point, we want to update all of our settings to create a neat, shareable, distribution plot. We'll set `override_chart_skeleton = False` and update all six settings listed above.
 
-## Basic Example (Step 2: Clean up your distribution plot)
+### Step 2: Clean up your distribution plot
 ```python
 # ---- create arbitrary data
 rng = np.random.RandomState(1)
