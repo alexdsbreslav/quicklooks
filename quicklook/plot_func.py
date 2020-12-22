@@ -127,11 +127,11 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Plot Line
-def add_plot_line(chart_skeleton, x, y, y_error, linewidth,
-                      linestyle, color_name, color_brightness, marker_shape,
-                      opacity, label_for_legend, layer_order):
+def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
+              linestyle, color_name, color_brightness, marker_shape,
+              opacity, label_for_legend, layer_order):
     """
-    quicklook.add_plot_line(chart_skeleton,
+    quicklook.add_line_plot(chart_skeleton,
     x = ,
     y = ,
     y_error = None, #If no values, None
@@ -210,11 +210,11 @@ def add_plot_line(chart_skeleton, x, y, y_error, linewidth,
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Plot scatter
-def add_plot_scatter(chart_skeleton, x, y, x_error, y_error,
-                     color_name, color_brightness, marker_shape,
-                     opacity, label_for_legend, layer_order):
+def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
+                 color_name, color_brightness, marker_shape,
+                 opacity, label_for_legend, layer_order):
     """
-    quicklook.add_plot_scatter(chart_skeleton,
+    quicklook.add_scatter_plot(chart_skeleton,
     x = ,
     y = ,
     x_error = None, #If no values, None
@@ -299,19 +299,18 @@ def add_plot_scatter(chart_skeleton, x, y, x_error, y_error,
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Plot distribution
-def add_plot_distribution(chart_skeleton, data, auto_fit_to_data,
-                          distribution_min, distribution_max, bin_interval,
-                          plot_dist_as_pdf,
-                          color_name, color_brightness, opacity,
-                          label_for_legend, layer_order):
+def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
+                      distribution_min_max, bin_interval,
+                      plot_as_pdf,
+                      color_name, color_brightness, opacity,
+                      label_for_legend, layer_order):
     """
-    quicklook.add_plot_distribution(chart_skeleton,
+    quicklook.add_distribution_plot(chart_skeleton,
     data = ,
-    auto_fit_to_data = True,
-    distribution_min = None,
-    distribution_max = None,
+    override_chart_skeleton = True,
+    distribution_min_max = (None,None),
     bin_interval = None,
-    plot_dist_as_pdf = False,
+    plot_as_pdf = False,
     color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
     color_brightness = 'default', #['default', 'light', 'dark']
     opacity = 1,
@@ -336,12 +335,14 @@ def add_plot_distribution(chart_skeleton, data, auto_fit_to_data,
 
 
     # ---- auto set bins to integers between min and max
-    if auto_fit_to_data:
-        print('autofit_to_data is on:\nyour chart_skeleton settings are being ignored (x_min_max, y_min_max, xtick_interval, ytick_interval)\n'
-        'your plot_distribution settings are being ignored (distribution_min, distribution_max, bin_interval)\n\n'
-        'autofit_to_data helps you understand the shape and limits of your data.\n'
-        'Once you know the shape and limits of your data, we highly recommend turning off autofit_to_data.\n'
-        'When autofit_to_data is off, you must set the x_min_max, y_min_max, and bins manually.\n')
+    if override_chart_skeleton:
+        print('override_chart_skeleton is on:\nyour chart_skeleton settings are being ignored (x_min_max, y_min_max, xtick_interval, ytick_interval).\n'
+        'Your add_distribution_plot settings are also being ignored (distribution_min_max, bin_interval).\n\n'
+        'override_chart_skeleton helps you understand the shape and limits of your data.\n'
+        'Once you know the shape and limits of your data, we highly recommend turning off override_chart_skeleton.\n'
+        'When override_chart_skeleton is off:\n'
+        '- You must set x_min_max, y_min_max, xtick_interval, ytick_interval on your build_chart_skeleton function\n'
+        '- You must set distribution_min_max, bin_interval on your add_distribution_plot function')
         # ---- get the data range
         data_range = np.max(data) - np.min(data)
 
@@ -384,7 +385,7 @@ def add_plot_distribution(chart_skeleton, data, auto_fit_to_data,
 
         # ---- set ylim to 0 and max in bin
         binned_data = pd.cut(data, bins=bins).value_counts()
-        if plot_dist_as_pdf:
+        if plot_as_pdf:
             plt.ylim(0, binned_data.max()/(binned_data.sum()*interval));
         else:
             plt.ylim(0, np.ceil(binned_data.max()));
@@ -402,9 +403,9 @@ def add_plot_distribution(chart_skeleton, data, auto_fit_to_data,
         # ---- set the yticks to a max of 10 ticks
         chart_skeleton['ax'].yaxis.set_major_locator(plt.MaxNLocator(5))
 
-    # ---- set bins manually if autofit is not on
+    # ---- set bins manually if override_chart_skeleton is not on
     else:
-        bins = np.arange(distribution_min, distribution_max+bin_interval, bin_interval)
+        bins = np.arange(distribution_min_max[0], distribution_min_max[1]+bin_interval, bin_interval)
 
     # ---- check for too many ticks
     if chart_skeleton['ax'].get_xticks().shape[0] > 20:
@@ -417,7 +418,7 @@ def add_plot_distribution(chart_skeleton, data, auto_fit_to_data,
 
     # ---- plot distribution
     chart_skeleton['ax'].hist(data, bins=bins, alpha=opacity,
-                              rwidth=0.85, color=fill, density=plot_dist_as_pdf,
+                              rwidth=0.85, color=fill, density=plot_as_pdf,
                               edgecolor=edge, linewidth=3, label=label_for_legend);
     return
 
