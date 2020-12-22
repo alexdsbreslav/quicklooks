@@ -12,7 +12,7 @@ For tips on how to easily copy-and-paste quicklook code into your notebook, [cli
 2. Get your data! Here, I'll create some arbitrary data and save it as `x_values` and `y_values`.
 3. Create your chart skeleton. 
     - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
-4. Add your line using `quicklook.add_line_to_chart`
+4. Add your line using `quicklook.add_line_plot`
 
 ```python
 import pandas as pd
