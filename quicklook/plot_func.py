@@ -404,7 +404,7 @@ def add_plot_distribution(chart_skeleton, data, auto_fit_to_data,
 
     # ---- set bins manually if autofit is not on
     else:
-        bins = np.arange(distribution_min, distribution_max, bin_interval)
+        bins = np.arange(distribution_min, distribution_max+bin_interval, bin_interval)
 
     # ---- check for too many ticks
     if chart_skeleton['ax'].get_xticks().shape[0] > 20:
@@ -416,7 +416,9 @@ def add_plot_distribution(chart_skeleton, data, auto_fit_to_data,
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
 
     # ---- plot distribution
-    chart_skeleton['ax'].hist(data, bins=bins, alpha=opacity, rwidth=0.85, color=fill, density=plot_dist_as_pdf);
+    chart_skeleton['ax'].hist(data, bins=bins, alpha=opacity,
+                              rwidth=0.85, color=fill, density=plot_dist_as_pdf,
+                              edgecolor=edge, linewidth=3, label=label_for_legend);
     return
 
 
