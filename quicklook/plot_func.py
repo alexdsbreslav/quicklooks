@@ -138,7 +138,7 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
     color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
     color_brightness = 'default', #['default', 'light', 'dark']
     linewidth = 7,
-    linestyle = ':', #['-', '--', ':', '-.']
+    linestyle = '-', #['-', '--', ':', '-.']
     marker_shape = '.', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
     opacity = 1,
     label_for_legend = '',
@@ -169,8 +169,8 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
     if y_error is not None:
         fill = chart_skeleton['ax'].fill_between(
                               x,
-                              y_mean - y_error,
-                              y_mean + y_error,
+                              y - y_error,
+                              y + y_error,
                               color = fill,
                               label = None,
                               alpha = 0.2,
@@ -178,13 +178,15 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
     # ---- plot mean line
     mean = chart_skeleton['ax'].plot(
                 x,
-                y_mean,
+                y,
                 linewidth = linewidth,
                 linestyle = linestyle,
                 color = line,
                 marker = marker_shape,
                 markersize = markersize,
-                alpha = opacity if y_error is None else 1,
+                markeredgecolor = edge,
+                markeredgewidth = 2,
+                alpha = opacity,
                 label = label_for_legend,
                 zorder = layer_order);
 
@@ -192,14 +194,14 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
     if y_error is not None:
         ub = chart_skeleton['ax'].plot(
                     x,
-                    y_mean + y_error,
+                    y + y_error,
                     linewidth = 0.5,
                     color = edge,
                     label = None,
                     zorder = layer_order);
         lb = chart_skeleton['ax'].plot(
                     x,
-                    y_mean - y_error,
+                    y - y_error,
                     linewidth = 0.5,
                     color = edge,
                     label = None,
@@ -301,7 +303,7 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
 # Plot distribution
 def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
                       distribution_min_max, bin_interval,
-                      plot_as_pdf,
+                      plot_as_density,
                       color_name, color_brightness, opacity,
                       label_for_legend, layer_order):
     """
@@ -310,7 +312,7 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
     override_chart_skeleton = True,
     distribution_min_max = (None,None),
     bin_interval = None,
-    plot_as_pdf = False,
+    plot_as_density = False,
     color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
     color_brightness = 'default', #['default', 'light', 'dark']
     opacity = 1,
@@ -336,13 +338,9 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
 
     # ---- auto set bins to integers between min and max
     if override_chart_skeleton:
-        print('override_chart_skeleton is on:\nyour chart_skeleton settings are being ignored (x_min_max, y_min_max, xtick_interval, ytick_interval).\n'
-        'Your add_distribution_plot settings are also being ignored (distribution_min_max, bin_interval).\n\n'
-        'override_chart_skeleton helps you understand the shape and limits of your data.\n'
-        'Once you know the shape and limits of your data, we highly recommend turning off override_chart_skeleton.\n'
-        'When override_chart_skeleton is off:\n'
-        '- You must set x_min_max, y_min_max, xtick_interval, ytick_interval on your build_chart_skeleton function\n'
-        '- You must set distribution_min_max, bin_interval on your add_distribution_plot function')
+        print('override_chart_skeleton is on.\n'
+        'Look at the automatic settings we''ve generated and update your code above with appropriate settings.\n'
+        'We highly recommend turning override_chart_skeleton off after updating your code.\n')
         # ---- get the data range
         data_range = np.max(data) - np.min(data)
 
@@ -352,15 +350,11 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
 
             # ---- set xlim to data min and max
             plt.xlim(np.floor(np.min(data)), np.ceil(np.max(data)));
-            print('x_min_max = {}'.format(chart_skeleton['ax'].get_xlim()))
-
             interval = 1
             bins = np.arange(np.floor(np.min(data)), np.ceil(np.max(data))+1, interval)
             while np.shape(bins)[0] >= 15:
                 interval += 1
                 bins = np.arange(np.floor(np.min(data)), np.ceil(np.max(data))+1, interval)
-
-            print('bin interval = {}'.format(interval))
         # ---- if the range is small, work it up until it has >= 10 bins
         else:
             i = 0
@@ -380,16 +374,13 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
             # ---- set xlim to data min and max
             plt.xlim(np.floor(np.min(data) * 10**decimals[i]) / 10**decimals[i],
                              (np.ceil(np.max(data) * 10**decimals[i]) / 10**decimals[i])+interval);
-            print('x_min_max = {}'.format(chart_skeleton['ax'].get_xlim()))
-            print('bin interval = {}'.format(interval))
 
         # ---- set ylim to 0 and max in bin
         binned_data = pd.cut(data, bins=bins).value_counts()
-        if plot_as_pdf:
+        if plot_as_density:
             plt.ylim(0, binned_data.max()/(binned_data.sum()*interval));
         else:
             plt.ylim(0, np.ceil(binned_data.max()));
-        print('y_min_max = {}'.format(chart_skeleton['ax'].get_ylim()))
 
         # ---- set the xticks to be on the bin edges
         xticks = bins
@@ -418,8 +409,22 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
 
     # ---- plot distribution
     chart_skeleton['ax'].hist(data, bins=bins, alpha=opacity,
-                              rwidth=0.85, color=fill, density=plot_as_pdf,
+                              rwidth=0.85, color=fill, density=plot_as_density,
                               edgecolor=edge, linewidth=3, label=label_for_legend);
+    if override_chart_skeleton:
+        print('Your build_chart_skeleton settings are automatically being set as:\n'
+              '- x_min_max = {}\n'
+              '- y_min_max = {} \n'
+              '- xtick_interval = {}\n'
+              '- ytick_interval = {}\n\n'
+              'Your add_distribution_plot settings are automatically being set as:\n'
+              '- distribution_min_max = {}\n'
+              '- bin_interval = {} \n'.format(chart_skeleton['ax'].get_xlim(),
+                                              chart_skeleton['ax'].get_ylim(),
+                                              chart_skeleton['ax'].get_xticks()[1]-chart_skeleton['ax'].get_xticks()[0],
+                                              chart_skeleton['ax'].get_yticks()[1],
+                                              chart_skeleton['ax'].get_xlim(),
+                                              interval))
     return
 
 
