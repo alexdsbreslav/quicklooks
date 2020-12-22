@@ -24,7 +24,7 @@ Click on the links below to go to directions for that plot:
 - [Add a distribution plot to your chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_distribution_plot.md)
 - Add a bar plot to your chart
 
-### Step 3: Add a legend, text, and/or reference lines to provide context for your visualization.
+### Step 3: Add references that provide important information about your visualization like a legend, text, and/or reference lines.
 Click on the links below to go to directions for that feature:
 - [Add a legend to your chart](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_legend.md)
 - Add text to your chart
