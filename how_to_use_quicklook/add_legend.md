@@ -1,4 +1,4 @@
-## Add a legend to your chart
+# Add a legend to your chart skeleton
 To add a legend to your chart, we will use the function:
 ```python
 quicklook.add_legend
@@ -16,9 +16,9 @@ The add_legend function looks for plots that you've added to your chart skeleton
 
 ## Example:
 1. Make sure that quicklook is imported into your notebook.
-2. Plot and label your data.
-3. Create your chart skeleton. [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
-4. Add your line using `quicklook.add_line_to_chart`
+2. Create your chart skeleton. [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
+3. Plot and label your data.
+4. Add the legend using `quicklook.add_legend`
 
 ```python
 import pandas as pd
