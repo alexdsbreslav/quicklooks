@@ -178,7 +178,7 @@ label_for_legend = 'Orange Variable',
 layer_order = 2)
 
 # ---- add legend
-quicklook.add_reference_legend(chart_skeleton,
+quicklook.add_egend(chart_skeleton,
 legend_location = 'best', frame_around_legend=False);
 
 # ---- save plot
