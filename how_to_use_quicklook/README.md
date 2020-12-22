@@ -22,13 +22,13 @@ Click on the links below to go to directions for that plot:
 - [Add a line plot to your chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_line_plot.md)
 - [Add a scatter plot to your chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_scatter_plot.md)
 - [Add a distribution plot to your chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_distribution_plot.md)
-- Add a bar plot to your chart skeleton
+- [Add a bar plot to your chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_bar_plot.md)
 
 ### Step 3: Add a legend, text, and/or reference lines that provide important information about your visualization.
 Click on the links below to go to directions for that feature:
 - [Add a legend to your chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_legend.md)
-- Add text to your chart skeleton
-- Add a reference line to your chart skeleton
+- [Add text to your chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_text.md)
+- [Add a reference line to your chart skeleton](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_reference_line.md)
 
 ### Optional: Save chart to your computer.
 Most of the time, my charts live within my Jupyter Notebooks. Sometimes you may want to save your chart to your computer so that you put them in slides or share them with colleagues. [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/save_chart_to_your_computer.md) for directions to save your chart to your computer.
