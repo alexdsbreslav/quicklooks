@@ -55,6 +55,11 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
                         'For example, if y_min = 1, y_max = 3, and ytick_interval = 0.5 your y-axis'
                         'would have 1, 1.5, 2, 2.5, and 3 marked on it.')
 
+    if (x_min_max[1]-x_min_max[0])/xtick_interval > 50:
+        raise RuntimeError('quicklook is trying to plot too many xticks; increase the x_tick_interval')
+    if (y_min_max[1]-y_min_max[0])/ytick_interval > 50:
+        raise RuntimeError('quicklook is trying to plot too many yticks; increase the y_tick_interval')
+
     # ---- define plot style based on style and size choice
     figsize, label_pad, title_pad, linewidth, \
     tick_pad, tick_length, color_library, \
@@ -126,6 +131,94 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Plot Bar
+def add_bar_plot(chart_skeleton, x_labels, y, y_error,
+                 bars_at_each_xlabel, bar_index, color_name,
+                 color_brightness,opacity, label_for_legend, layer_order):
+    """
+    quicklook.add_bar_plot(chart_skeleton,
+    x_labels = ,
+    y = ,
+    y_error = None, #If no values, None
+    bars_at_each_xlabel = 1,
+    bar_index = 0,
+    color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
+    color_brightness = 'default', #['default', 'light', 'dark']
+    opacity = 1,
+    label_for_legend = '',
+    layer_order = 1)
+
+    Options
+    -------
+    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
+                         'indigo', 'blue', 'cyan', 'teal', 'green',
+                         'lime', 'yellow', 'orange']
+                        Run quicklook.show_color_library(chart_skeleton)
+    color_brightness:   ['light', 'default', 'dark']
+    """
+    if not chart_skeleton['ax']:
+        raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
+                        'Run quicklook.build_chart_skeleton to build a chart skeleton.')
+    if type(y_error) in [str, int, float, bool]:
+        raise TypeError('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
+                        'If you need y_error on your line plot, ensure that it is a 1 dimensional array of values.')
+    if type(bar_index) is not int:
+        raise TypeError('bar_index is not properly defined. It must be an integer between 0 and bars_at_each_xlabel')
+
+    if type(bars_at_each_xlabel) is not int or bars_at_each_xlabel < 1:
+        raise TypeError('bars_at_each_xlabel is not properly defined. It must be an integer >= 1')
+
+    if bar_index >= bars_at_each_xlabel:
+        raise IndexError('bar_index is not properly defined. It must be an integer between 0 and bars_at_each_xlabel-1')
+
+    # ---- check data shapes
+    if np.shape(np.shape(x_labels))[0] != 1:
+        raise ValueError('x is not properly defined.; it is a {} x {} array. x must be 1-dimensional array.'.format(np.shape(x_labels)[0], np.shape(x_labels)[1]))
+    if np.shape(np.shape(y))[0] != 1:
+        raise ValueError('y is not properly defined.; it is a {} x {} array. y must be 1-dimensional array.'.format(np.shape(y)[0], np.shape(y)[1]))
+    if np.shape(x_labels) != np.shape(y):
+        raise ValueError('x and y are not the same shape. x has {} values and y has {} values'.format(np.shape(x_labels)[0], np.shape(y)[0]))
+
+    chart_skeleton['ax'].set_xlim(-0.5,len(x_labels)-0.5);
+    chart_skeleton['ax'].set_xticklabels(['']+x_labels);
+    label_to_x = dict(zip(x_labels, chart_skeleton['ax'].get_xticks()[1:-1]))
+
+    # ---- adjust for number of xlabels
+    width = 0.8 if len(x_labels) <= 2 else 0.8-(len(x_labels)*0.01)
+    # ---- adjust for number of bars at xlabel
+    width = width/bars_at_each_xlabel
+
+    # --- get offsets based on number of bars at xlabel
+    idx = [i for i in range(bars_at_each_xlabel)]
+    bar_offsets = [(i - np.median(idx))*1.1 for i in idx]
+    offset = bar_offsets[bar_index]*width
+
+    # ---- get x and y locs
+    ylim = chart_skeleton['ax'].get_ylim()
+    x_loc = [label_to_x[i]+offset for i in x_labels]
+    bottom = np.full(len(y), (ylim[1]-ylim[0])*0.0075)
+    height = y-bottom
+    zorder = 1
+
+    line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
+
+    chart_skeleton['ax'].bar(x=x_loc, width=width,
+                             height=height, bottom=bottom,
+                             color=fill,
+                             edgecolor=edge,
+                             linewidth=3,
+                             alpha=opacity,
+                             label=label_for_legend,
+                             zorder=layer_order)
+
+    if y_error is not None:
+        chart_skeleton['ax'].errorbar(x=x_loc, y=y, yerr=y_error,
+                                      linewidth=0, elinewidth=3, color=edge,
+                                      alpha=opacity,zorder=layer_order+0.1);
+    return
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Plot Line
 def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
               linestyle, color_name, color_brightness, marker_shape,
@@ -158,9 +251,16 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
-    if type(y_error) in [str, float, bool]:
-        raise Exception('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
+    if type(y_error) in [str, int, float, bool]:
+        raise TypeError('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
                         'If you need y_error on your line plot, ensure that it is a 1 dimensional array of values.')
+    # ---- check data shapes
+    if np.shape(np.shape(x))[0] != 1:
+        raise ValueError('x is not properly defined.; it is a {} x {} array. x must be 1-dimensional array.'.format(np.shape(x)[0], np.shape(x)[1]))
+    if np.shape(np.shape(y))[0] != 1:
+        raise ValueError('y is not properly defined.; it is a {} x {} array. y must be 1-dimensional array.'.format(np.shape(y)[0], np.shape(y)[1]))
+    if np.shape(x) != np.shape(y):
+        raise ValueError('x and y are not the same shape. x has {} values and y has {} values'.format(np.shape(x)[0], np.shape(y)[0]))
 
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
     markersize = define_markersize(chart_skeleton['size'], marker_shape)
@@ -241,11 +341,18 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
     if type(x_error) in [str, float, int, bool]:
-        raise Exception('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
+        raise TypeError('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
                         'If you need y_error on your line plot, ensure that it is a 1 dimensional array of values.')
     if type(y_error) in [str, float, int, bool]:
-        raise Exception('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
+        raise TypeError('y_error is not properly defined. If you do not need error represented on your line plot, set y_error = None.\n'
                         'If you need y_error on your line plot, ensure that it is a 1 dimensional array of values.')
+    # ---- check data shapes
+    if np.shape(np.shape(x))[0] != 1:
+        raise ValueError('x is not properly defined.; it is a {} x {} array. x must be 1-dimensional array.'.format(np.shape(x)[0], np.shape(x)[1]))
+    if np.shape(np.shape(y))[0] != 1:
+        raise ValueError('y is not properly defined.; it is a {} x {} array. y must be 1-dimensional array.'.format(np.shape(y)[0], np.shape(y)[1]))
+    if np.shape(x) != np.shape(y):
+        raise ValueError('x and y are not the same shape. x has {} values and y has {} values'.format(np.shape(x)[0], np.shape(y)[0]))
 
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
     markersize = define_markersize(chart_skeleton['size'], marker_shape)
@@ -254,7 +361,7 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
     if x_error is not None and y_error is not None:
         shape = [np.shape(i) for i in [x,y,x_error,y_error]]
         if not shape[0] == shape[1] == shape[2] == shape[3]:
-            raise Exception('x, y, x_error, and y_error are not the same length. All four inputs must have the same number of items in them.')
+            raise ValueError('x, y, x_error, and y_error are not the same length. All four inputs must have the same number of items in them.')
 
         if not shape[0]:
             x = [x]
@@ -332,7 +439,7 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
     # ---- check data shape and turn into series
     if np.shape(np.shape(data))[0] != 1:
-        raise Exception('Data must be 1 dimensional')
+        raise TypeError('data is not properly defined.; it is a {} x {} array. data must be 1-dimensional array.'.format(np.shape(data)[0], np.shape(data)[1]))
     data = pd.Series(data)
 
 
@@ -400,9 +507,9 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
 
     # ---- check for too many ticks
     if chart_skeleton['ax'].get_xticks().shape[0] > 20:
-        raise Exception('quicklook is trying to plot too many xticks; increase the x_tick_interval')
+        raise RuntimeError('quicklook is trying to plot too many xticks; increase the x_tick_interval')
     if chart_skeleton['ax'].get_yticks().shape[0] > 20:
-        raise Exception('quicklook is trying to plot too many yticks; increase the y_tick_interval')
+        raise RuntimeError('quicklook is trying to plot too many yticks; increase the y_tick_interval')
 
     # ---- get colors
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
@@ -439,7 +546,7 @@ def add_reference_line(chart_skeleton, line_type, location, linewidth, linestyle
     """
     quicklook.add_reference_line(chart_skeleton,
     line_type = , #['horizontal','vertical','diagonal_up','diagonal_down']
-    location = ,
+    location = , #If diagonal_up or diagonal_down, None
     color_name = 'gray', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
     color_brightness = 'dark', #['default', 'light', 'dark']
     linewidth = 3,
