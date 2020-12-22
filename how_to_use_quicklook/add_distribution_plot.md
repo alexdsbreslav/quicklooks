@@ -69,9 +69,14 @@ Your add_distribution_plot settings are automatically being set as:
 - distribution_min_max = (-19.0, 27.0)
 - bin_interval = 4
 ```
-At this point, we want to update all of our settings to create a neat, shareable, distribution plot:
+At this point, we want to update all of our settings to create a neat, shareable, distribution plot. We'll set `override_chart_skeleton = False` and update all six settings listed above.
+
 ## Basic Example (Step 2: Clean up your distribution plot)
 ```python
+# ---- create arbitrary data
+rng = np.random.RandomState(1)
+variable1 = rng.normal(5, 10, size=100)
+
 # ---- create chart skeleton
 chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
 title = 'Plotting a Variable\'s Distribution',
@@ -85,7 +90,7 @@ vertical_gridlines_on = False);
 # ---- add distribution plot for blue variable
 quicklook.add_distribution_plot(chart_skeleton,
 data = variable1,
-autofit = False,
+override_chart_skeleton = False,
 distribution_min_max = (-30,30),
 bin_interval = 5,
 plot_as_pdf = False,
