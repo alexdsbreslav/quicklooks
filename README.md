@@ -21,7 +21,9 @@ In quicklook, I do my best to keep the language, examples, and documentation acc
 [Check out my python_for_uxr tutorial](https://github.com/alexdsbreslav/python_for_uxr)! This tutorial is designed specifically for researchers interested in learning how to code.
 
 ## To get started...
-I would not recommend downloading quicklook just yet. I'll update this page when it is in good shape to share with others!
+1. Open Jupyter Lab
+2. Open a terminal
+3. Type `pip install git+git://github.com/alexdsbreslav/quicklook.git`
 
 ## Acknowledgments
 quicklook is built using [Matplotlib](https://matplotlib.org/), [NumPy](https://numpy.org/), [Open Color](https://yeun.github.io/open-color/), and [seaborn](https://seaborn.pydata.org/).
