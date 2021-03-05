@@ -201,7 +201,7 @@ def add_bar_plot(chart_skeleton, x_labels, y, y_error,
     # ---- get x and y locs
     ylim = chart_skeleton['ax'].get_ylim()
     x_loc = [label_to_x[i]+offset for i in x_labels]
-    bottom = np.full(len(y), (ylim[1]-ylim[0])*0.0075)
+    bottom = bottom = np.where(y>=0, (ylim[1]-ylim[0])*0.0075, (ylim[0]-ylim[1])*0.0075)
     height = y-bottom
     zorder = 1
 
