@@ -535,7 +535,8 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
     # ---- plot distribution
     chart_skeleton['ax'].hist(data, bins=bins, alpha=opacity,
                               rwidth=0.85, color=fill, density=plot_as_density,
-                              edgecolor=edge, linewidth=3, label=label_for_legend);
+                              edgecolor=edge, linewidth=3, label=label_for_legend,
+                              joinstyle='round');
     if override_chart_skeleton:
         print('Your build_chart_skeleton settings are automatically being set as:\n'
               '- x_min_max = {}\n'
