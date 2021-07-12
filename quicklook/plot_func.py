@@ -781,7 +781,6 @@ def show_color_library(chart_skeleton):
 def save_chart_to_computer(chart_skeleton,
                         chart_name,
                         path_to_folder_to_save_chart_in,
-                        print_or_slide,
                         print_confirmation=True):
     """
     quicklook.save_chart_to_computer(chart_skeleton,
