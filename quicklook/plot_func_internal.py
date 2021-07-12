@@ -33,28 +33,35 @@ def find_text_width(text):
 
 
 # ---- define the fonts
-def define_plot_style(size, ylabel):
+def define_plot_style(size, ylabel, font_file):
     """
     Only used internally
     """
     # ---- define fonts
-    fontsize = {'small': (24,18), 'default': (26,20)}
+    fontsize = {'print': (12,10,9), 'half_slide': (26,20,18), 'full_slide': (30,24,22)}
     font_folder = os.path.dirname(os.path.abspath(__file__))
-    title_path = os.path.join(font_folder, 'fonts', 'SourceSansPro-Black.ttf')
-    text_path = os.path.join(font_folder, 'fonts', 'SourceSansPro-Regular.ttf')
+    if font_file == 'default':
+        title_path = os.path.join(font_folder, 'fonts', 'SourceSansPro-Black.ttf')
+        text_path = os.path.join(font_folder, 'fonts', 'SourceSansPro-Regular.ttf')
+    else:
+        title_path = os.path.join(font_folder, 'fonts', font_file)
+        text_path = os.path.join(font_folder, 'fonts', font_file)
 
     fonts = {'title':font_manager.FontProperties(fname=title_path, size = fontsize[size][0]),
              'label':font_manager.FontProperties(fname=text_path, size = fontsize[size][1]),
              'size':fontsize[size]}
 
     # ---- create style settings for plot padding and ticks
-    figsize = {'small':(9,6), 'default':(12,8)}[size]
-    label_pad = {'small': (25, 3*find_text_width(ylabel)[1] + 50),
-                 'default': (35,3*find_text_width(ylabel)[1] + 70)}[size]
-    title_pad = {'small': 25, 'default': 35}[size]
-    linewidth = {'small': 1.5, 'default': 2}[size]
-    tick_pad = {'small': (2.5, 10), 'default': (5, 15)}[size]
-    tick_length = {'small': 5, 'default': 10}[size]
+    figsize = {'print': (6,4),
+               'half_slide':(13,8.6666667),
+               'full_slide': (23,15)}[size]
+    label_pad = {'print': (5, 3*find_text_width(ylabel)[1] + 30),
+                 'half_slide': (35,3*find_text_width(ylabel)[1] + 70),
+                 'full_slide': (45,3*find_text_width(ylabel)[1] + 90)}[size]
+    title_pad = {'print': 15, 'half_slide': 35, 'full_slide': 45}[size]
+    linewidth = {'print': 1, 'half_slide': 2, 'full_slide': 3}[size]
+    tick_pad = {'print': (3, 3), 'half_slide': (5, 15), 'full_slide': (7.5, 20)}[size]
+    tick_length = {'print': 2.5, 'half_slide': 10, 'full_slide': 12.5}[size]
 
     # ---- define the color library
     # ---- based on Open Color https://yeun.github.io/open-color/
@@ -104,9 +111,11 @@ def define_colors(chart_skeleton, color_name, color_brightness):
 
 # ---- define the marker size based on the plot size
 def define_markersize(size, marker_shape):
-    markersize = {'small':8, 'default':10}[size]
+    markersize = {'print':6, 'half_slide':10, 'full_slide':12}[size]
     if marker_shape not in ['', False, 'none', 'None', None, 'na', 'NA', 'n/a']:
         markersize = markersize
+        markeredgewidth = {'print':0.75, 'half_slide':2, 'full_slide':3}[size]
     else:
         markersize = 0
-    return markersize
+        markeredgewidth = 0
+    return markersize, markeredgewidth
