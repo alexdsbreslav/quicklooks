@@ -77,10 +77,10 @@ vertical_gridlines_on = True);
 ```
 ![gridlines](https://github.com/alexdsbreslav/quicklook/blob/master/images/build_chart_skeleton/gridlines.png)
 
-## Optional: Change the size - `'default'` or `'small'`.
-If you prefer, you can change the size to small.
+## Optional: Change the size - `'full_slide'`, `'half_slide'`, or `'print'`.
+If you prefer, you can change the size to `'full_slide'` (takes up the entire slide in a deck) or `'print'`. Print will appear very small inside JupyterLab, but will be the ideal size to save to your computer and place in a Word or Google document.
 ```python
-chart_skeleton = quicklook.build_chart_skeleton(size = 'small',
+chart_skeleton = quicklook.build_chart_skeleton(size = 'print',
 title = 'Chart Skeleton Example',
 xlabel = 'X-Axis Label',
 ylabel = 'Y-Axis\nLabel',
