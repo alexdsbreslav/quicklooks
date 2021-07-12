@@ -8,9 +8,10 @@ import pandas as pd
 
 def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
                          y_min_max, xtick_interval, ytick_interval,
-                         horizontal_gridlines_on, vertical_gridlines_on):
+                         horizontal_gridlines_on, vertical_gridlines_on,
+                         font_file='default'):
 
-    """chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
+    """chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
     title = '',
     xlabel = '',
     ylabel = '',
@@ -21,15 +22,15 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
 
     Options
     -------
-    size:                       ['default', 'small']
+    size:                       ['print', 'half_slide', 'full_slide']
     title, xlabel, ylabel       Add text to describe your plot. Leave as '' to leave out labels.
     horizontal_gridlines_on:    [True, False]
     vertical_gridlines_on:      [True, False]
     """
 
     # ---- raise exceptions if things are not properly defined
-    if size not in ['small', 'default']:
-        raise Exception('Size not properly defind: size must be set to default or small.')
+    if size not in ['print', 'half_slide', 'full_slide']:
+        raise Exception('Size not properly defind: size must be set to print, half_slide, or full_slide.')
 
     if vertical_gridlines_on not in [True, False]:
         raise Exception('Vertical gridlines is not properly defined: '
@@ -63,7 +64,7 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
     # ---- define plot style based on style and size choice
     figsize, label_pad, title_pad, linewidth, \
     tick_pad, tick_length, color_library, \
-    fonts = define_plot_style(size, ylabel)
+    fonts = define_plot_style(size, ylabel, font_file=font_file)
 
     # ---- create the plot
     fig, ax = plt.subplots(nrows=1, figsize = figsize)
@@ -78,20 +79,34 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
     ax.patch.set_width(1.28)
     ax.set_facecolor(color_library['background'])
 
+    # ---- add grid lines if necessary
+    if horizontal_gridlines_on == True:
+        ax.yaxis.grid(which='major', linestyle=':',
+        linewidth = linewidth, color = '0.8', zorder=0.25)
+
+    if vertical_gridlines_on == True:
+        ax.xaxis.grid(which='major', linestyle=':',
+        linewidth = linewidth, color = '0.8', zorder=0.25)
+
     # ---- style the axis lines
     for spine in ['top', 'right']:
         ax.spines[spine].set_visible(False)
     for spine in ['bottom', 'left']:
         ax.spines[spine].set_linewidth(linewidth)
         ax.spines[spine].set_color(color_library['text'])
-        ax.spines[spine].set_zorder(0)
+        ax.spines[spine].set_zorder(1)
 
     # ---- style the axis ticks
-    ax.tick_params('x', colors=color_library['text'], labelsize=fonts['size'][1],
+    ax.tick_params('x', colors=color_library['text'],
                    width = linewidth, pad = tick_pad[0], length = tick_length)
 
-    ax.tick_params('y', colors=color_library['text'], labelsize=fonts['size'][1],
+    ax.tick_params('y', colors=color_library['text'],
                    width = linewidth, pad = tick_pad[1], length = tick_length)
+
+    for tick in ax.get_xticklabels():
+        tick.set_font_properties(fonts['label'])
+    for tick in ax.get_yticklabels():
+        tick.set_font_properties(fonts['label'])
 
     # ---- set the axis limits and number of ticks
     ax.set_ylim(y_min_max)
@@ -111,16 +126,6 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
     ax.set_xlabel(xlabel, color = color_library['labels'],
                   labelpad = label_pad[0], fontproperties = fonts['label'])
 
-    # ---- add grid lines if necessary
-    if horizontal_gridlines_on == True:
-        ax.yaxis.grid(which='major', linestyle='-',
-        linewidth = '0.3', color = '0.5')
-
-    if vertical_gridlines_on == True:
-        ax.xaxis.grid(which='major', linestyle='-',
-        linewidth = '0.3', color = '0.5')
-
-    ax.set_axisbelow(True)
     plt.tight_layout()
     chart_skeleton = {'fig': fig, 'ax': ax, 'color_library': color_library,
                       'size': size, 'fonts': fonts, 'x_min_max': x_min_max,
@@ -201,7 +206,7 @@ def add_bar_plot(chart_skeleton, x_labels, y, y_error,
     # ---- get x and y locs
     ylim = chart_skeleton['ax'].get_ylim()
     x_loc = [label_to_x[i]+offset for i in x_labels]
-    bottom = bottom = np.where(y>=0, (ylim[1]-ylim[0])*0.0075, (ylim[0]-ylim[1])*0.0075)
+    bottom = np.full(len(y), (ylim[1]-ylim[0])*0.0075)
     height = y-bottom
     zorder = 1
 
@@ -273,7 +278,7 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
         raise ValueError('x and y are not the same shape. x has {} values and y has {} values'.format(np.shape(x)[0], np.shape(y)[0]))
 
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
-    markersize = define_markersize(chart_skeleton['size'], marker_shape)
+    markersize, markeredgewidth = define_markersize(chart_skeleton['size'], marker_shape)
 
     # ---- plot y error as fill between
     if y_error is not None:
@@ -295,9 +300,10 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
                 marker = marker_shape,
                 markersize = markersize,
                 markeredgecolor = edge,
-                markeredgewidth = 2,
+                markeredgewidth = markeredgewidth,
                 alpha = opacity,
                 label = label_for_legend,
+                solid_capstyle='round',
                 zorder = layer_order);
 
     # ---- outline fill between
@@ -370,7 +376,7 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
         raise ValueError('x and y are not the same shape. x has {} values and y has {} values'.format(np.shape(x)[0], np.shape(y)[0]))
 
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
-    markersize = define_markersize(chart_skeleton['size'], marker_shape)
+    markersize, markeredgewidth = define_markersize(chart_skeleton['size'], marker_shape)
 
     # ---- If X and Y Error, plot clouds
     if x_error is not None and y_error is not None:
@@ -395,12 +401,12 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
     # Just x error, plot error bars
     elif x_error is not None and y_error is None:
         chart_skeleton['ax'].errorbar(x,y,xerr=x_error,linestyle='',
-        ecolor=edge, elinewidth=2, capsize=2, capthick=2, zorder=layer_order)
+        ecolor=edge, elinewidth=markeredgewidth, capsize=2, capthick=2, zorder=layer_order)
 
     # Just y error, plot error bars
     elif x_error is None and y_error is not None:
         chart_skeleton['ax'].errorbar(x,y,yerr=y_error,linestyle='',
-        ecolor=edge, elinewidth=2, capsize=2, zorder=layer_order)
+        ecolor=edge, elinewidth=markeredgewidth, capsize=2, zorder=layer_order)
 
     # ---- plot points
     chart_skeleton['ax'].plot(
@@ -412,7 +418,7 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
             markersize = markersize,
             mec = edge,
             mfc = fill,
-            mew = 2,
+            mew = markeredgewidth,
             label = label_for_legend,
             alpha = opacity,
             zorder = layer_order);
@@ -535,8 +541,7 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
     # ---- plot distribution
     chart_skeleton['ax'].hist(data, bins=bins, alpha=opacity,
                               rwidth=0.85, color=fill, density=plot_as_density,
-                              edgecolor=edge, linewidth=3, label=label_for_legend,
-                              joinstyle='round');
+                              edgecolor=edge, linewidth=3, label=label_for_legend);
     if override_chart_skeleton:
         print('Your build_chart_skeleton settings are automatically being set as:\n'
               '- x_min_max = {}\n'
@@ -594,7 +599,7 @@ def add_reference_line(chart_skeleton, line_type, location, linewidth, linestyle
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
 
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
-    markersize = define_markersize(chart_skeleton['size'], marker_shape)
+    markersize, markeredgewidth = define_markersize(chart_skeleton['size'], marker_shape)
 
     if line_type == 'horizontal':
         x = np.linspace(chart_skeleton['x_min_max'][0],chart_skeleton['x_min_max'][1],10)
@@ -621,7 +626,7 @@ def add_reference_line(chart_skeleton, line_type, location, linewidth, linestyle
             markersize = markersize,
             mec = edge,
             mfc = fill,
-            mew = 2,
+            mew = markeredgewidth,
             alpha = opacity,
             label = label_for_legend,
             zorder = layer_order);
@@ -630,7 +635,7 @@ def add_reference_line(chart_skeleton, line_type, location, linewidth, linestyle
 def add_text(chart_skeleton, text, color_name,
              text_location_on_x_axis,
              text_location_on_y_axis, horizontal_align, vertical_align,
-             box_around_text, layer_order):
+             box_around_text, layer_order, font_size='default'):
     """
     quicklook.add_text(chart_skeleton,
     text = '',
@@ -665,14 +670,18 @@ def add_text(chart_skeleton, text, color_name,
         color_name, _, _ = define_colors(chart_skeleton, color_name, 'dark')
         del _
 
+    if font_size == 'default':
+        font_size = chart_skeleton['fonts']['size'][1]
+
     if box_around_text:
         text = chart_skeleton['ax'].text(
                 text_location_on_x_axis,
                 text_location_on_y_axis,
                 text,
+                fontproperties=chart_skeleton['fonts']['label'],
                 horizontalalignment=horizontal_align,
                 verticalalignment=vertical_align,
-                size = chart_skeleton['fonts']['size'][1],
+                size = font_size,
                 color = color_name,
                 bbox = dict(facecolor = chart_skeleton['color_library']['background'],
                 edgecolor = chart_skeleton['color_library']['text'],
@@ -685,6 +694,7 @@ def add_text(chart_skeleton, text, color_name,
                 text_location_on_x_axis,
                 text_location_on_y_axis,
                 text,
+                fontproperties=chart_skeleton['fonts']['label'],
                 horizontalalignment = horizontal_align,
                 verticalalignment = vertical_align,
                 size = chart_skeleton['fonts']['size'][1],
@@ -712,11 +722,14 @@ def add_legend(chart_skeleton, legend_location, frame_around_legend):
 
     legend = chart_skeleton['ax'].legend(
                         loc = legend_location,
-                        prop = chart_skeleton['fonts']['label'],
+                        prop = chart_skeleton['fonts']['legend'],
                         frameon = frame_around_legend,
                         fancybox = True,
                         facecolor = chart_skeleton['color_library']['background'],
                         framealpha = 1);
+
+    _, markeredgewidth = define_markersize(chart_skeleton['size'], 'o')
+    legend.get_frame().set_linewidth(markeredgewidth)
 
     for text in legend.get_texts():
         text.set_color(chart_skeleton['color_library']['text'])
@@ -765,14 +778,19 @@ def show_color_library(chart_skeleton):
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # save chart
-def save_chart_to_computer(chart_name, path_to_folder_to_save_chart_in, print_confirmation=True):
+def save_chart_to_computer(chart_name,
+                           path_to_folder_to_save_chart_in,
+                           print_or_slide,
+                           print_confirmation=True):
     """
     quicklook.save_chart_to_computer(chart_name = '',
+                         print_or_slide = 'slide',
                          path_to_folder_to_save_chart_in = '',
                          print_confirmation=True)
     """
 
-    plt.savefig(os.path.join(path_to_folder_to_save_chart_in, chart_name+'.png'), format='png', dpi=300);
+    dpi = {'print': 300, 'slide': 72}
+    plt.savefig(os.path.join(path_to_folder_to_save_chart_in, chart_name+'.png'), format='png', dpi=dpi[print_or_slide]);
     if print_confirmation:
         print('{} saved in the folder: {}'.format(chart_name, path_to_folder_to_save_chart_in));
     return()
