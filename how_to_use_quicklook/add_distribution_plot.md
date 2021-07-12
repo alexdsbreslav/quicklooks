@@ -5,7 +5,7 @@ quicklook.add_distribution_plot
 ```
 
 **Always copy and paste!** quicklook is designed as a copy-and-paste package. You should always copy the default code into your notebook from the documentation.
-For tips on how to easily copy-and-paste quicklook code into your notebook, [click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md). 
+For tips on how to easily copy-and-paste quicklook code into your notebook, [click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md).
 
 ## Basic Example
 ### Step 1: Quickly create a distribution plot using `override_chart_skeleton`
@@ -13,7 +13,7 @@ The `override_chart_skeleton` option will help you understand the shape and limi
 
 1. Make sure that quicklook is imported into your notebook.
 2. Get your data! Here, I'll create some arbitrary data and save it as `variable1`.
-3. Create your chart skeleton. 
+3. Create your chart skeleton.
     - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
     - When you're using `override_chart_skeleton`, you can ignore the `x_min_max`, `y_min_max`, `xtick_interval`, and `ytick_interval`. We'll come back and fix those later.
 4. Plot the distribution of your variable using `quicklook.add_distribution_plot` and `override_chart_skeleton = True`
@@ -30,7 +30,7 @@ rng = np.random.RandomState(1)
 variable1 = rng.normal(5, 10, size=100)
 
 # ---- create chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
+chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
 title = '',
 xlabel = '',
 ylabel = '',
@@ -62,7 +62,7 @@ We highly recommend turning override_chart_skeleton off after updating your code
 
 Your build_chart_skeleton settings are automatically being set as:
 - x_min_max = (-19.0, 27.0)
-- y_min_max = (0.0, 19.0) 
+- y_min_max = (0.0, 19.0)
 - xtick_interval = 8.0
 - ytick_interval = 4.0
 
@@ -85,7 +85,7 @@ rng = np.random.RandomState(1)
 variable1 = rng.normal(5, 10, size=100)
 
 # ---- create chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
+chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
 title = 'Plotting a Variable\'s Distribution',
 xlabel = 'Value',
 ylabel = 'Count',
@@ -109,19 +109,19 @@ layer_order = 1)
 ```
 ![basic_example](https://github.com/alexdsbreslav/quicklook/blob/master/images/plots/histogram/simple.png)
 
-Notice that the distribution looks slightly different than above. This is because we changed the `bin_interval` from 4 to 5 (because I thought intervals of 5 was more intuitive). 
+Notice that the distribution looks slightly different than above. This is because we changed the `bin_interval` from 4 to 5 (because I thought intervals of 5 was more intuitive).
 
 ## Complete Example
 1. Make sure that quicklook is imported into your notebook.
 2. Get your data! Here, I'll create some arbitrary data.
-3. Create your chart skeleton. 
+3. Create your chart skeleton.
    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
 4. Add multiple distributions using `quicklook.add_distribution_plot` and adjust the style options.
 5. Add a legend.
    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_legend.md) for more details on adding a legend to your chart
 6. Save the chart to your computer.
     - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/save_chart_to_your_computer.md) for more details on how to save your chart to your computer.
-    
+
 To accurately compare multiple distributions, I **strongly recommend**:
 - Using the same `distribution_min_max` for both variables
 - Using the same `bin_interval` for both variables
@@ -142,7 +142,7 @@ variable1 = rng.normal(5, 10, size=100)
 variable2 = abs(rng.normal(25, 15, size=1000))
 
 # ---- create chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
+chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
 title = 'Compare Variables\' Distributions',
 xlabel = 'Value',
 ylabel = 'Density',

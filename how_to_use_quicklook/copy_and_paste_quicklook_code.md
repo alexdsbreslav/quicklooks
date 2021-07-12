@@ -23,7 +23,7 @@ quicklook.build_chart_skeleton
 
 - **Step 5:** Fill in any blanks and adjust default settings in the code as needed. Hold `shift` and hit `enter` to execute the code cell and show your new chart! Notice in the code below that I changed the title, xlabel, ylabel, x_min_max, x_tick_interval, horizontal_gridlines_on, and vertical_gridlines_on from the defaults in the Docstring.
 ```python
-chart_skeleton = quicklook.build_chart_skeleton(style = 'default', size = 'default',
+chart_skeleton = quicklook.build_chart_skeleton(style = 'default', size = 'half_slide',
 title = 'Title',
 xlabel = 'X-Axis Label',
 ylabel = 'Y-Axis\nLabel',

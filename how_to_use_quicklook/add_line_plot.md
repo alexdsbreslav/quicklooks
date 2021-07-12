@@ -5,12 +5,12 @@ quicklook.add_line_plot
 ```
 
 **Always copy and paste!** quicklook is designed as a copy-and-paste package. You should always copy the default code into your notebook from the documentation.
-For tips on how to easily copy-and-paste quicklook code into your notebook, [click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md). 
+For tips on how to easily copy-and-paste quicklook code into your notebook, [click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md).
 
 ## Basic Example:
 1. Make sure that quicklook is imported into your notebook.
 2. Get your data! Here, I'll create some arbitrary data and save it as `x_values` and `y_values`.
-3. Create your chart skeleton. 
+3. Create your chart skeleton.
     - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
 4. Add your line using `quicklook.add_line_plot`
 
@@ -26,7 +26,7 @@ x_values = np.linspace(-1,1,20)
 y_values = [1/(1+np.exp(-5*i)) for i in x_values]
 
 # ---- create the chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
+chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
 title = 'Making a Line Plot',
 xlabel = 'X Values',
 ylabel = 'Y\nValues',
@@ -54,7 +54,7 @@ layer_order = 1)
 ## Complete Example:
 1. Make sure that quicklook is imported into your notebook.
 2. Get your data! Here, I'll create some arbitrary data.
-3. Create your chart skeleton. 
+3. Create your chart skeleton.
    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
 4. Add multiple lines using `quicklook.add_line_plot` and adjust the style options.
 5. Add a legend.
@@ -80,7 +80,7 @@ purple_group_y_values = pd.DataFrame([[0.75/(1+np.exp(-5*i)) for i in x_values]+
                                             columns = x_values).T
 
 # ---- create the chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
+chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
 title = 'Making a Line Plot',
 xlabel = 'X Values',
 ylabel = 'Y\nValues',
@@ -141,7 +141,7 @@ quicklook.add_legend(chart_skeleton,
 legend_location = 'best', frame_around_legend=False);
 
 # ---- save plot
-quicklook.save_chart_to_computer(chart_name = 'complete_example', 
+quicklook.save_chart_to_computer(chart_name = 'complete_example',
                                  path_to_folder_to_save_chart_in = os.path.join(os.path.abspath('images'), 'plots', 'line'),
                                  print_confirmation=False);
 ```

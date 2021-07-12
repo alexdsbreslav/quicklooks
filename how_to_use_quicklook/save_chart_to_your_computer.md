@@ -5,12 +5,13 @@ quicklook.save_chart
 ```
 
 **Always copy and paste!** quicklook is designed as a copy-and-paste package. You should always copy the default code into your notebook from the documentation.
-For tips on how to easily copy-and-paste quicklook code into your notebook, [click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md). 
+For tips on how to easily copy-and-paste quicklook code into your notebook, [click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md).
 
-To save your chart to your computer, you'll need to do two things:
+To save your chart to your computer, you'll need to do four things:
 1. Add the `chart_name` (e.g. `example_chart_name`)
 2. Add the `path_to_folder_to_save_chart_in`. This is a filepath that dicates which folder on your computer the file save your chart in(e.g. `/Users/alex/Documents`).
-3. Set `print_confirmation` to True or False. If True, your code will print where exactly the image file was saved. (e.g. `example_chart_name was save in the folder: /Users/alex/Documents`. I would recommend setting this to True.
+3. Set `print_or_slide` equal to `'print'` or `'slide'`; this will dictate the resolution of the saved figure. For example, if you want to save your figure to place in a word document, you'd set the size of your plot (in your chart_skeleton) to `'print'` and this settting to `'print'`. Your figure will save as a small, high resolution, png file.
+4. Set `print_confirmation` to True or False. If True, your code will print where exactly the image file was saved. (e.g. `example_chart_name was save in the folder: /Users/alex/Documents`. I would recommend setting this to True.
 
 I strongly recommend writing `path_to_folder_to_save_chart_in` as a relative filepath using the package `os`. [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/creating_relative_filepaths.md) for a brief introduction to relative filepaths.
 
@@ -28,7 +29,7 @@ x_values = np.linspace(0,10,20)
 blue_y_values = [i**2+rng.randint(-10,10) for i in x_values]
 
 # ---- create the chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
+chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
 title = 'Example Title',
 xlabel = 'X Values',
 ylabel = 'Y\nValues',
@@ -50,7 +51,8 @@ layer_order = 2)
 
 # ---- save plot
 current_directory = os.path.abspath('')
-quicklook.save_chart(chart_name = 'example_chart_name', 
+quicklook.save_chart(chart_name = 'example_chart_name',
+                     print_or_slide = 'slide',
                      path_to_folder_to_save_chart_in = os.path.join(current_directory, 'charts'),
                      print_confirmation=True);
 ```

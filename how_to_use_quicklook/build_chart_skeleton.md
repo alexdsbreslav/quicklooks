@@ -18,7 +18,7 @@ import quicklook
 ## Step 1: Copy-and-paste the default code from the Docstring.
 Always copy the default code into your notebook first. For tips on how to easily copy-and-paste quicklook code into your notebook, [click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md). Notice that our plot doesn't have a title or labels on the x-axis or y-axis. This is because the `title`, `xlabel`, and `ylabel` options are all set to `= ''`.
 ```python
-chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
+chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
 title = '',
 xlabel = '',
 ylabel = '',
@@ -33,7 +33,7 @@ vertical_gridlines_on = False);
 ## Step 2: Add a title, x-axis label, and y-axis label.
 Simply add text in between the quotation marks! Notice the `\n` in the ylabel. This is how you indicate a line break.
 ```python
-chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
+chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
 title = 'Chart Skeleton Example',
 xlabel = 'X-Axis Label',
 ylabel = 'Y-Axis\nLabel',
@@ -47,12 +47,12 @@ vertical_gridlines_on = False);
 ## Step 3: Change the X and Y Axis.
 There are two settings you can change on each axis:
 1. The range of values that your axes cover.
-  - `x_min_max` and `y_min_max` indicate the minimum and maximum values on your axes. `x_min_max` and `y_min_max` need to be formatted as a tuple where the first number is the min and the second number is the max `(min number on axis, max number on axis)`. 
+  - `x_min_max` and `y_min_max` indicate the minimum and maximum values on your axes. `x_min_max` and `y_min_max` need to be formatted as a tuple where the first number is the min and the second number is the max `(min number on axis, max number on axis)`.
 2. How often there are tick marks on your axis.
   - `xtick_interval` and `ytick_interval` indicate the increment that you want to mark off on axis. For example, if `x_min_max = (1,3)` and `xtick_interval = 0.5` your x-axis would have 1, 1.5, 2, 2.5, and 3 marked on it.
 
 ```python
-chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
+chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
 title = 'Chart Skeleton Example',
 xlabel = 'X-Axis Label',
 ylabel = 'Y-Axis\nLabel',
@@ -66,7 +66,7 @@ vertical_gridlines_on = False);
 ## Optional: Add gridlines.
 Gridlines are light grey lines that extend across your plot. These can be turned on and off using the `horizontal_gridlines_on` and the `vertical_gridlines_on` arguments. If these are set to `True`, the gridlines will be shown; if these are set to `False`, the gridlines will not be shown.
 ```python
-chart_skeleton = quicklook.build_chart_skeleton(size = 'default',
+chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
 title = 'Chart Skeleton Example',
 xlabel = 'X-Axis Label',
 ylabel = 'Y-Axis\nLabel',
