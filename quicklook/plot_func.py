@@ -778,19 +778,20 @@ def show_color_library(chart_skeleton):
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # save chart
-def save_chart_to_computer(chart_name,
-                           path_to_folder_to_save_chart_in,
-                           print_or_slide,
-                           print_confirmation=True):
+def save_chart_to_computer(chart_skeleton,
+                        chart_name,
+                        path_to_folder_to_save_chart_in,
+                        print_or_slide,
+                        print_confirmation=True):
     """
-    quicklook.save_chart_to_computer(chart_name = '',
-                         print_or_slide = 'slide',
+    quicklook.save_chart_to_computer(chart_skeleton,
+                         chart_name = '',
                          path_to_folder_to_save_chart_in = '',
                          print_confirmation=True)
     """
 
-    dpi = {'print': 300, 'slide': 72}
-    plt.savefig(os.path.join(path_to_folder_to_save_chart_in, chart_name+'.png'), format='png', dpi=dpi[print_or_slide]);
+    dpi = {'print': 300, 'full_slide': 72, 'half_slide': 72}
+    plt.savefig(os.path.join(path_to_folder_to_save_chart_in, chart_name+'.png'), format='png', dpi=dpi[chart_skeleton['size']]);
     if print_confirmation:
         print('{} saved in the folder: {}'.format(chart_name, path_to_folder_to_save_chart_in));
     return()
