@@ -49,6 +49,7 @@ def define_plot_style(size, ylabel, font_file):
 
     fonts = {'title':font_manager.FontProperties(fname=title_path, size = fontsize[size][0]),
              'label':font_manager.FontProperties(fname=text_path, size = fontsize[size][1]),
+             'legend':font_manager.FontProperties(fname=text_path, size = fontsize[size][2]),
              'size':fontsize[size]}
 
     # ---- create style settings for plot padding and ticks
