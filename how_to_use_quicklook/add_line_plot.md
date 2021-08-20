@@ -90,7 +90,6 @@ horizontal_gridlines_on = False,
 vertical_gridlines_on = False);
 
 # ---- add thin dark gray dotted line without markers
-# ---- don't add label so it doesn't show up in legend
 quicklook.add_line_plot(chart_skeleton,
 x = x_values,
 y = y_values,
