@@ -41,8 +41,8 @@ def define_plot_style(size, ylabel, font_file):
     fontsize = {'print': (12,10,9), 'half_slide': (26,20,18), 'full_slide': (30,24,22)}
     font_folder = os.path.dirname(os.path.abspath(__file__))
     if font_file == 'default':
-        title_path = os.path.join(font_folder, 'fonts', 'SourceSansPro-Black.ttf')
-        text_path = os.path.join(font_folder, 'fonts', 'SourceSansPro-Regular.ttf')
+        title_path = os.path.join(font_folder, 'fonts', 'WorkSans-SemiBold.ttf')
+        text_path = os.path.join(font_folder, 'fonts', 'WorkSans-Regular.ttf')
     else:
         title_path = os.path.join(font_folder, 'fonts', font_file)
         text_path = os.path.join(font_folder, 'fonts', font_file)

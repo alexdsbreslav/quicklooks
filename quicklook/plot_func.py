@@ -79,14 +79,17 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
     ax.patch.set_width(1.28)
     ax.set_facecolor(color_library['background'])
 
+    # ---- set facecolor of fig (around ax face)
+    fig.set_facecolor(color_library['background'])
+
     # ---- add grid lines if necessary
     if horizontal_gridlines_on == True:
         ax.yaxis.grid(which='major', linestyle=':',
-        linewidth = linewidth, color = '0.8', zorder=0.25)
+        linewidth = linewidth, color = '0.8', zorder=1)
 
     if vertical_gridlines_on == True:
         ax.xaxis.grid(which='major', linestyle=':',
-        linewidth = linewidth, color = '0.8', zorder=0.25)
+        linewidth = linewidth, color = '0.8', zorder=1)
 
     # ---- style the axis lines
     for spine in ['top', 'right']:
@@ -94,7 +97,7 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
     for spine in ['bottom', 'left']:
         ax.spines[spine].set_linewidth(linewidth)
         ax.spines[spine].set_color(color_library['text'])
-        ax.spines[spine].set_zorder(1)
+        ax.spines[spine].set_zorder(2)
 
     # ---- style the axis ticks
     ax.tick_params('x', colors=color_library['text'],
@@ -206,7 +209,7 @@ def add_bar_plot(chart_skeleton, x_labels, y, y_error,
     # ---- get x and y locs
     ylim = chart_skeleton['ax'].get_ylim()
     x_loc = [label_to_x[i]+offset for i in x_labels]
-    bottom = np.full(len(y), (ylim[1]-ylim[0])*0.0075)
+    bottom = np.array([(i/abs(i)) * ((ylim[1]-ylim[0])*0.001) for i in y])
     height = y-bottom
     zorder = 1
 
@@ -217,14 +220,16 @@ def add_bar_plot(chart_skeleton, x_labels, y, y_error,
                              color=fill,
                              edgecolor=edge,
                              linewidth=3,
+                             joinstyle='round',
                              alpha=opacity,
                              label=label_for_legend,
-                             zorder=layer_order)
+                             zorder = layer_order + 2)
 
     if y_error is not None:
         chart_skeleton['ax'].errorbar(x=x_loc, y=y, yerr=y_error,
                                       linewidth=0, elinewidth=3, color=edge,
-                                      alpha=opacity,zorder=layer_order+0.1);
+                                      alpha=opacity,zorder = layer_order + 2+0.1,
+                                      solid_capstyle='round');
     return
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -289,7 +294,7 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
                               color = fill,
                               label = None,
                               alpha = 0.2,
-                              zorder = layer_order);
+                              zorder = layer_order + 2);
     # ---- plot mean line
     mean = chart_skeleton['ax'].plot(
                 x,
@@ -304,7 +309,7 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
                 alpha = opacity,
                 label = label_for_legend,
                 solid_capstyle='round',
-                zorder = layer_order);
+                zorder = layer_order + 2);
 
     # ---- outline fill between
     if y_error is not None:
@@ -314,14 +319,14 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
                     linewidth = 0.5,
                     color = edge,
                     label = None,
-                    zorder = layer_order);
+                    zorder = layer_order + 2);
         lb = chart_skeleton['ax'].plot(
                     x,
                     y - y_error,
                     linewidth = 0.5,
                     color = edge,
                     label = None,
-                    zorder = layer_order);
+                    zorder = layer_order + 2);
         return
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -395,18 +400,18 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
 
         for pt in range(len(coord)):
             err_fill = chart_skeleton['ax'].add_patch(patch.Ellipse((coord[pt][0],coord[pt][1]), err[pt][0] * 2, err[pt][1] * 2,
-                                                    facecolor = fill, alpha = .8, zorder = layer_order))
+                                                    facecolor = fill, alpha = .8, zorder = layer_order + 2))
             err_outline = chart_skeleton['ax'].add_patch(patch.Ellipse((coord[pt][0],coord[pt][1]), err[pt][0] * 2, err[pt][1] * 2,
-                                                    facecolor = 'none', edgecolor = edge, alpha = 0.3, linewidth = 2, zorder = layer_order))
+                                                    facecolor = 'none', edgecolor = edge, alpha = 0.3, linewidth = 2, zorder = layer_order + 2))
     # Just x error, plot error bars
     elif x_error is not None and y_error is None:
         chart_skeleton['ax'].errorbar(x,y,xerr=x_error,linestyle='',
-        ecolor=edge, elinewidth=markeredgewidth, capsize=2, capthick=2, zorder=layer_order)
+        ecolor=edge, elinewidth=markeredgewidth, capsize=2, capthick=2, zorder = layer_order + 2)
 
     # Just y error, plot error bars
     elif x_error is None and y_error is not None:
         chart_skeleton['ax'].errorbar(x,y,yerr=y_error,linestyle='',
-        ecolor=edge, elinewidth=markeredgewidth, capsize=2, zorder=layer_order)
+        ecolor=edge, elinewidth=markeredgewidth, capsize=2, zorder = layer_order + 2)
 
     # ---- plot points
     chart_skeleton['ax'].plot(
@@ -421,7 +426,7 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
             mew = markeredgewidth,
             label = label_for_legend,
             alpha = opacity,
-            zorder = layer_order);
+            zorder = layer_order + 2);
 
     return
 
@@ -541,7 +546,8 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
     # ---- plot distribution
     chart_skeleton['ax'].hist(data, bins=bins, alpha=opacity,
                               rwidth=0.85, color=fill, density=plot_as_density,
-                              edgecolor=edge, linewidth=3, label=label_for_legend);
+                              edgecolor=edge, linewidth=0, label=label_for_legend,
+                              zorder = 3, joinstyle='round');
     if override_chart_skeleton:
         print('Your build_chart_skeleton settings are automatically being set as:\n'
               '- x_min_max = {}\n'
@@ -629,7 +635,7 @@ def add_reference_line(chart_skeleton, line_type, location, linewidth, linestyle
             mew = markeredgewidth,
             alpha = opacity,
             label = label_for_legend,
-            zorder = layer_order);
+            zorder = layer_order + 2);
     return
 
 def add_text(chart_skeleton, text, color_name,
@@ -688,7 +694,7 @@ def add_text(chart_skeleton, text, color_name,
                 boxstyle = 'round, pad = 0.5',
                 alpha = 1,
                 linewidth = 0.5,
-                zorder = layer_order));
+                zorder = layer_order + 2));
     else:
         text = chart_skeleton['ax'].text(
                 text_location_on_x_axis,
@@ -699,7 +705,7 @@ def add_text(chart_skeleton, text, color_name,
                 verticalalignment = vertical_align,
                 size = chart_skeleton['fonts']['size'][1],
                 color = color_name,
-                zorder = layer_order);
+                zorder = layer_order + 2);
 
     return
 
