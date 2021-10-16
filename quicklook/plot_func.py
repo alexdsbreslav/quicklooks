@@ -458,7 +458,7 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
                       color_name, color_brightness, opacity,
                       label_for_legend, layer_order):
     """
-    quicklook.add_distribution_plot(chart_skeleton,
+    dist = quicklook.add_distribution_plot(chart_skeleton,
     data = ,
     override_chart_skeleton = True,
     distribution_min_max = (None,None),
