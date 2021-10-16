@@ -144,7 +144,7 @@ def add_bar_plot(chart_skeleton, x_labels, y, y_error,
                  bars_at_each_xlabel, bar_index, color_name,
                  color_brightness,opacity, label_for_legend, layer_order):
     """
-    quicklook.add_bar_plot(chart_skeleton,
+    bar = quicklook.add_bar_plot(chart_skeleton,
     x_labels = ,
     y = ,
     y_error = None, #If no values, None
@@ -192,7 +192,8 @@ def add_bar_plot(chart_skeleton, x_labels, y, y_error,
     if np.shape(x_labels) != np.shape(y):
         raise ValueError('x and y are not the same shape. x has {} values and y has {} values'.format(np.shape(x_labels)[0], np.shape(y)[0]))
 
-    plt.xlim(-0.5,len(x_labels)-0.5);
+    xlim = (-0.5,len(x_labels)-0.5)
+    plt.xlim(xlim[0], xlim[1]);
     plt.xticks(ticks=range(len(x_labels)), labels=x_labels);
     label_to_x = dict(zip(x_labels, chart_skeleton['ax'].get_xticks()))
 
@@ -215,7 +216,7 @@ def add_bar_plot(chart_skeleton, x_labels, y, y_error,
 
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
 
-    chart_skeleton['ax'].bar(x=x_loc, width=width,
+    bar = chart_skeleton['ax'].bar(x=x_loc, width=width,
                              height=height, bottom=bottom,
                              color=fill,
                              edgecolor=edge,
@@ -226,11 +227,14 @@ def add_bar_plot(chart_skeleton, x_labels, y, y_error,
                              zorder = layer_order + 2)
 
     if y_error is not None:
-        chart_skeleton['ax'].errorbar(x=x_loc, y=y, yerr=y_error,
+        error = chart_skeleton['ax'].errorbar(x=x_loc, y=y, yerr=y_error,
                                       linewidth=0, elinewidth=3, color=edge,
                                       alpha=opacity,zorder = layer_order + 2+0.1,
                                       solid_capstyle='round');
-    return
+    else:
+        error = None
+        
+    return {'bar': bar, 'error': error, 'xlim': xlim, 'zorder': layer_order + 2}
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -239,7 +243,7 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
               linestyle, color_name, color_brightness, marker_shape,
               opacity, label_for_legend, layer_order):
     """
-    quicklook.add_line_plot(chart_skeleton,
+    line = quicklook.add_line_plot(chart_skeleton,
     x = ,
     y = ,
     y_error = None, #If no values, None
@@ -295,6 +299,9 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
                               label = None,
                               alpha = 0.2,
                               zorder = layer_order + 2);
+        
+    else:
+        fill = None
     # ---- plot mean line
     mean = chart_skeleton['ax'].plot(
                 x,
@@ -327,7 +334,11 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
                     color = edge,
                     label = None,
                     zorder = layer_order + 2);
-        return
+    else:
+        ub = None
+        lb = None
+        
+    return {'line': mean, 'y_err_fill': fill, 'y_err_ub': ub, 'y_err_lb': lb}
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -337,7 +348,7 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
                  color_name, color_brightness, marker_shape,
                  opacity, label_for_legend, layer_order):
     """
-    quicklook.add_scatter_plot(chart_skeleton,
+    scatter = quicklook.add_scatter_plot(chart_skeleton,
     x = ,
     y = ,
     x_error = None, #If no values, None
@@ -397,24 +408,31 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
 
         coord = tuple(zip(x,y))
         err = tuple(zip(x_error,y_error))
-
+        
+        error = {'fill': [], 'outline': []}
         for pt in range(len(coord)):
             err_fill = chart_skeleton['ax'].add_patch(patch.Ellipse((coord[pt][0],coord[pt][1]), err[pt][0] * 2, err[pt][1] * 2,
                                                     facecolor = fill, alpha = .8, zorder = layer_order + 2))
             err_outline = chart_skeleton['ax'].add_patch(patch.Ellipse((coord[pt][0],coord[pt][1]), err[pt][0] * 2, err[pt][1] * 2,
                                                     facecolor = 'none', edgecolor = edge, alpha = 0.3, linewidth = 2, zorder = layer_order + 2))
+            # ---- collect artists to output
+            error['fill'].append(err_fill)
+            error['outline'].append(err_outline)
+            
     # Just x error, plot error bars
     elif x_error is not None and y_error is None:
-        chart_skeleton['ax'].errorbar(x,y,xerr=x_error,linestyle='',
+        error = chart_skeleton['ax'].errorbar(x,y,xerr=x_error,linestyle='',
         ecolor=edge, elinewidth=markeredgewidth, capsize=2, capthick=2, zorder = layer_order + 2)
 
     # Just y error, plot error bars
     elif x_error is None and y_error is not None:
-        chart_skeleton['ax'].errorbar(x,y,yerr=y_error,linestyle='',
+        error = chart_skeleton['ax'].errorbar(x,y,yerr=y_error,linestyle='',
         ecolor=edge, elinewidth=markeredgewidth, capsize=2, zorder = layer_order + 2)
+    else:
+        error = None
 
     # ---- plot points
-    chart_skeleton['ax'].plot(
+    scatter = chart_skeleton['ax'].plot(
             x,
             y,
             linewidth = 0,
@@ -428,7 +446,7 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
             alpha = opacity,
             zorder = layer_order + 2);
 
-    return
+    return {'scatter': scatter, 'error': error}
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -544,7 +562,7 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
 
     # ---- plot distribution
-    chart_skeleton['ax'].hist(data, bins=bins, alpha=opacity,
+    dist = chart_skeleton['ax'].hist(data, bins=bins, alpha=opacity,
                               rwidth=0.85, color=fill, density=plot_as_density,
                               edgecolor=edge, linewidth=0, label=label_for_legend,
                               zorder = 3, joinstyle='round');
@@ -562,7 +580,7 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
                                               chart_skeleton['ax'].get_yticks()[1],
                                               chart_skeleton['ax'].get_xlim(),
                                               interval))
-    return
+    return {'distribution': dist}
 
 
 
@@ -574,7 +592,7 @@ def add_reference_line(chart_skeleton, line_type, location, linewidth, linestyle
                                 color_name, color_brightness, marker_shape,
                                 opacity, label_for_legend, layer_order):
     """
-    quicklook.add_reference_line(chart_skeleton,
+    ref_line = quicklook.add_reference_line(chart_skeleton,
     line_type = , #['horizontal','vertical','diagonal_up','diagonal_down']
     location = , #If diagonal_up or diagonal_down, None
     color_name = 'gray', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
@@ -636,14 +654,14 @@ def add_reference_line(chart_skeleton, line_type, location, linewidth, linestyle
             alpha = opacity,
             label = label_for_legend,
             zorder = layer_order + 2);
-    return
+    return {'ref_line': line}
 
 def add_text(chart_skeleton, text, color_name,
              text_location_on_x_axis,
              text_location_on_y_axis, horizontal_align, vertical_align,
              box_around_text, layer_order, font_size='default'):
     """
-    quicklook.add_text(chart_skeleton,
+    text = quicklook.add_text(chart_skeleton,
     text = '',
     color_name = 'default', #['default','gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
     text_location_on_x_axis = ,
@@ -707,12 +725,12 @@ def add_text(chart_skeleton, text, color_name,
                 color = color_name,
                 zorder = layer_order + 2);
 
-    return
+    return {'text': text}
 
 
 def add_legend(chart_skeleton, legend_location, frame_around_legend):
     """
-    quicklook.add_legend(chart_skeleton,
+    legend = quicklook.add_legend(chart_skeleton,
     legend_location = 'best', frame_around_legend=False);
 
         Options
@@ -739,7 +757,8 @@ def add_legend(chart_skeleton, legend_location, frame_around_legend):
 
     for text in legend.get_texts():
         text.set_color(chart_skeleton['color_library']['text'])
-    return
+    
+    return {'legend': legend}
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
