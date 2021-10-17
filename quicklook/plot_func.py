@@ -4,6 +4,7 @@ import matplotlib.patches as patch
 from .plot_func_internal import *
 import os
 import pandas as pd
+import seaborn as sns
 
 
 def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
@@ -150,19 +151,11 @@ def add_bar_plot(chart_skeleton, x_labels, y, y_error,
     y_error = None, #If no values, None
     bars_at_each_xlabel = 1,
     bar_index = 0,
-    color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-    color_brightness = 'default', #['default', 'light', 'dark']
+    color_name = 'blue', 
+    color_brightness = 'default',
     opacity = 1,
     label_for_legend = '',
     layer_order = 1)
-
-    Options
-    -------
-    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
-                         'indigo', 'blue', 'cyan', 'teal', 'green',
-                         'lime', 'yellow', 'orange']
-                        Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark']
     """
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
@@ -247,24 +240,14 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
     x = ,
     y = ,
     y_error = None, #If no values, None
-    color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-    color_brightness = 'default', #['default', 'light', 'dark']
+    color_name = 'blue', 
+    color_brightness = 'default',
     linewidth = 7,
     linestyle = '-', #['-', '--', ':', '-.']
     marker_shape = '.', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
     opacity = 1,
     label_for_legend = '',
     layer_order = 1)
-
-    Options
-    -------
-    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
-                         'indigo', 'blue', 'cyan', 'teal', 'green',
-                         'lime', 'yellow', 'orange']
-                        Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark']
-    marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
-    linestyle:          ['-', '--', ':', '-.']
     """
 
     if not chart_skeleton['ax']:
@@ -353,21 +336,12 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
     y = ,
     x_error = None, #If no values, None
     y_error = None, #If no values, None
-    color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-    color_brightness = 'default', #['default', 'light', 'dark']
-    marker_shape = 'o', #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+    color_name = 'blue', 
+    color_brightness = 'default',
+    marker_shape = 'o', #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x', '']
     opacity = 1,
     label_for_legend = '',
     layer_order = 1)
-
-    Options
-    -------
-    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
-                         'indigo', 'blue', 'cyan', 'teal', 'green',
-                         'lime', 'yellow', 'orange']
-                        Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark']
-    marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
     """
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
@@ -454,7 +428,7 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
 # Plot distribution
 def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
                       distribution_min_max, bin_interval,
-                      plot_as_density,
+                      dist_type,
                       color_name, color_brightness, opacity,
                       label_for_legend, layer_order):
     """
@@ -462,22 +436,15 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
     data = ,
     override_chart_skeleton = True,
     distribution_min_max = (None,None),
-    bin_interval = None,
-    plot_as_density = False,
-    color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-    color_brightness = 'default', #['default', 'light', 'dark']
+    bin_interval = None, #If dist_type is smooth_density, None
+    dist_type = 'binned_counts', #['binned_counts', 'binned_density', 'smooth_density']
+    color_name = 'blue',
+    color_brightness = 'default',
     opacity = 1,
     label_for_legend = '',
     layer_order = 1)
-
-    Options
-    -------
-    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
-                         'indigo', 'blue', 'cyan', 'teal', 'green',
-                         'lime', 'yellow', 'orange']
-                        Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark']
     """
+    
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
@@ -531,10 +498,12 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
 
         # ---- set ylim to 0 and max in bin
         binned_data = pd.cut(data, bins=bins).value_counts()
-        if plot_as_density:
+        if dist_type in ['binned_density', 'smooth_density']:
             plt.ylim(0, binned_data.max()/(binned_data.sum()*interval));
-        else:
+        elif dist_type == 'binned_counts':
             plt.ylim(0, np.ceil(binned_data.max()));
+        else:
+            raise KeyError('dist_type is not properly defined; it must be binned_counts, binned_density, or smooth_density')
 
         # ---- set the xticks to be on the bin edges
         xticks = bins
@@ -549,7 +518,7 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
         chart_skeleton['ax'].yaxis.set_major_locator(plt.MaxNLocator(5))
 
     # ---- set bins manually if override_chart_skeleton is not on
-    else:
+    elif dist_type in ['binned_density', 'binned_counts']:
         bins = np.arange(distribution_min_max[0], distribution_min_max[1]+bin_interval, bin_interval)
 
     # ---- check for too many ticks
@@ -561,11 +530,18 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
     # ---- get colors
     line, fill, edge = define_colors(chart_skeleton, color_name, color_brightness)
 
-    # ---- plot distribution
-    dist = chart_skeleton['ax'].hist(data, bins=bins, alpha=opacity,
-                              rwidth=0.85, color=fill, density=plot_as_density,
-                              edgecolor=edge, linewidth=0, label=label_for_legend,
-                              zorder = 3, joinstyle='round');
+    if dist_type == 'smooth_density':
+        dist = sns.kdeplot(data, fill=True, linewidth=0, color=fill,
+                           clip= chart_skeleton['ax'].get_xlim() if override_chart_skeleton else distribution_min_max,
+                           alpha=opacity, ax=chart_skeleton['ax'],
+                           zorder=3, label=label_for_legend);
+        
+    else:
+        # ---- plot distribution
+        dist = chart_skeleton['ax'].hist(data, bins=bins, alpha=opacity,
+                                  rwidth=0.85, color=fill, density= dist_type == 'binned_density',
+                                  linewidth=0, label=label_for_legend,
+                                  zorder = 3, joinstyle='round');
     if override_chart_skeleton:
         print('Your build_chart_skeleton settings are automatically being set as:\n'
               '- x_min_max = {}\n'
@@ -595,28 +571,14 @@ def add_reference_line(chart_skeleton, line_type, location, linewidth, linestyle
     ref_line = quicklook.add_reference_line(chart_skeleton,
     line_type = , #['horizontal','vertical','diagonal_up','diagonal_down']
     location = , #If diagonal_up or diagonal_down, None
-    color_name = 'gray', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-    color_brightness = 'dark', #['default', 'light', 'dark']
+    color_name = 'gray', 
+    color_brightness = 'dark',
     linewidth = 3,
     linestyle = ':', #['-', '--', ':', '-.']
     marker_shape = 'None', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
     opacity = 1,
     label_for_legend = '',
     layer_order = 1)
-
-
-    Options
-    -------
-    line_type:          ['horizontal', 'vertical', 'diagonal_up', 'diagonal_down']
-    location:           If type is horizontal, x = location; If type is vertical, y = location.
-                        If type is diagonal_up or diagonal_down, location is not used.
-    color_name:         ['gray', 'red', 'pink', 'grape', 'violet',
-                         'indigo', 'blue', 'cyan', 'teal', 'green',
-                         'lime', 'yellow', 'orange']
-                        Run quicklook.show_color_library(chart_skeleton)
-    color_brightness:   ['light', 'default', 'dark']
-    marker_shape:       ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x'] or ''
-    linestyle:          ['-', '--', ':', '-.']
     """
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
@@ -673,12 +635,6 @@ def add_text(chart_skeleton, text, color_name,
 
     Options
     -------
-    color_name:         Defaults to same color as text in the plot.
-                        You can swap out 'default' with another color.
-                        ['gray', 'red', 'pink', 'grape', 'violet',
-                         'indigo', 'blue', 'cyan', 'teal', 'green',
-                         'lime', 'yellow', 'orange']
-                        Run quicklook.show_color_library(chart_skeleton)
     horizontal_align:   ['center', 'left', 'right']
     vertical_align:     ['center', 'top', 'bottom']
     frame_around_text:  [True, False]
@@ -733,12 +689,12 @@ def add_legend(chart_skeleton, legend_location, frame_around_legend):
     legend = quicklook.add_legend(chart_skeleton,
     legend_location = 'best', frame_around_legend=False);
 
-        Options
-        -------
-        legend_location:      ['best', 'upper right', 'upper left', 'lower left',
-                               'lower right', 'right', 'center left', 'center right',
-                               'lower center', 'upper center', 'center']
-        frame_around_legend:  [True, False]
+    Options
+    -------
+    legend_location:      ['best', 'upper right', 'upper left', 'lower left',
+                           'lower right', 'right', 'center left', 'center right',
+                           'lower center', 'upper center', 'center']
+    frame_around_legend:  [True, False]
     """
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
