@@ -71,17 +71,17 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
     fig, ax = plt.subplots(nrows=1, figsize = figsize)
 
     # ---- add the title
-    ax.set_title(title, color = color_library['text'],
+    ax.set_title(title, color = color_library['properties']['text'],
                  pad = title_pad, fontproperties = fonts['title'])
 
     # ---- create a patch to set the background color of the plot
     ax.patch.set_xy((-0.16, -0.14))
     ax.patch.set_height(1.2)
     ax.patch.set_width(1.28)
-    ax.set_facecolor(color_library['background'])
+    ax.set_facecolor(color_library['properties']['background'])
 
     # ---- set facecolor of fig (around ax face)
-    fig.set_facecolor(color_library['background'])
+    fig.set_facecolor(color_library['properties']['background'])
 
     # ---- add grid lines if necessary
     if horizontal_gridlines_on == True:
@@ -97,14 +97,14 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
         ax.spines[spine].set_visible(False)
     for spine in ['bottom', 'left']:
         ax.spines[spine].set_linewidth(linewidth)
-        ax.spines[spine].set_color(color_library['text'])
+        ax.spines[spine].set_color(color_library['properties']['text'])
         ax.spines[spine].set_zorder(2)
 
     # ---- style the axis ticks
-    ax.tick_params('x', colors=color_library['text'],
+    ax.tick_params('x', colors=color_library['properties']['text'],
                    width = linewidth, pad = tick_pad[0], length = tick_length)
 
-    ax.tick_params('y', colors=color_library['text'], 
+    ax.tick_params('y', colors=color_library['properties']['text'], 
                    width = linewidth, pad = tick_pad[1], length = tick_length)
 
     for tick in ax.get_xticklabels():
@@ -121,13 +121,13 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
     ax.xaxis.set_major_locator(plt.MultipleLocator(xtick_interval))
 
     # ---- label the y axis
-    ax.set_ylabel(ylabel, color=color_library['text'],
+    ax.set_ylabel(ylabel, color=color_library['properties']['text'],
                   rotation = 0, labelpad = label_pad[1],
                   horizontalalignment = 'center',
                   linespacing = 1.6, fontproperties = fonts['label'])
 
     # ---- label the x axis
-    ax.set_xlabel(xlabel, color = color_library['text'],
+    ax.set_xlabel(xlabel, color = color_library['properties']['text'],
                   labelpad = label_pad[0], fontproperties = fonts['label'])
 
     plt.tight_layout()
@@ -231,9 +231,9 @@ add_bar_plot.__doc__ = \
     opacity = 1,
     label_for_legend = '',
     layer_order = 1)
-    """.format(color_library['colors']['text'], 
+    """.format(color_library['properties']['default_color'], 
                list(color_library['colors'].keys()),
-               list(chart_skeleton['color_library']['properties']['brightness'].keys()))
+               list(color_library['properties']['brightness'].keys()))
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -331,9 +331,9 @@ add_line_plot.__doc__ = \
     opacity = 1,
     label_for_legend = '',
     layer_order = 1)
-    """.format(color_library['colors']['text'], 
+    """.format(color_library['properties']['default_color'], 
                list(color_library['colors'].keys()),
-               list(chart_skeleton['color_library']['properties']['brightness'].keys()))
+               list(color_library['properties']['brightness'].keys()))
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -436,9 +436,9 @@ add_scatter_plot.__doc__ = \
     opacity = 1,
     label_for_legend = '',
     layer_order = 1)
-    """.format(color_library['colors']['text'], 
+    """.format(color_library['properties']['default_color'], 
                list(color_library['colors'].keys()),
-               list(chart_skeleton['color_library']['properties']['brightness'].keys()))
+               list(color_library['properties']['brightness'].keys()))
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -577,9 +577,9 @@ add_distribution_plot.__doc__ = \
     opacity = 1,
     label_for_legend = '',
     layer_order = 1)
-    """.format(color_library['colors']['text'], 
+    """.format(color_library['properties']['default_color'], 
                list(color_library['colors'].keys()),
-               list(chart_skeleton['color_library']['properties']['brightness'].keys()))
+               list(color_library['properties']['brightness'].keys()))
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -641,9 +641,9 @@ add_reference_line.__doc__ = \
     opacity = 1,
     label_for_legend = '',
     layer_order = 1)
-    """.format(color_library['colors']['text'], 
+    """.format('text', 
                list(color_library['colors'].keys()),
-               list(chart_skeleton['color_library']['properties']['brightness'].keys()))
+               list(color_library['properties']['brightness'].keys()))
 
 
 def add_text(chart_skeleton, text, color_name,
@@ -706,7 +706,7 @@ add_text.__doc__ = \
     horizontal_align:   ['center', 'left', 'right']
     vertical_align:     ['center', 'top', 'bottom']
     frame_around_text:  [True, False]
-    """.format(color_library['colors']['text'], 
+    """.format('text', 
                list(color_library['colors'].keys()))
 
 
@@ -760,7 +760,7 @@ def show_color_library(chart_skeleton):
     ax.get_xaxis().set_visible(False)
     ax.get_yaxis().set_visible(False)
 
-    ax.set_facecolor(chart_skeleton['color_library']['properties']'background'])
+    ax.set_facecolor(chart_skeleton['color_library']['properties']['background'])
     fig.set_facecolor(chart_skeleton['color_library']['properties']['background'])
 
     ax.tick_params(axis='both', which='both', bottom=False, top=False, labelbottom=False)

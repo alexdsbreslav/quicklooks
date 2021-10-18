@@ -23,22 +23,22 @@ color_library = {'properties':{'name': 'default',
 def define_colors(chart_skeleton, color_name, color_brightness):
     
     # ---- check to make sure that the colors were entered properly
-    if color_name not in list(chart_skeleton['color_library'].keys())[4:]:
+    if color_name not in list(color_library['colors'].keys()):
         raise KeyError('Color entered is not in the color library. Enter one of the follow colors:\n''{}'\
-                        .format([i for i in list(chart_skeleton['color_library'].keys())[4:]]))
+                        .format(list(color_library['colors'].keys())))
 
     # ---- make sure brightness was entered correctly
-    if color_brightness not in list(chart_skeleton['color_library']['brightness']):
-        raise KeyError('Color brightness is not properly defined. color_brightness must be in {}'.format(list(chart_skeleton['color_library']['brightness'])))
+    if color_brightness not in list(color_library['properties']['brightness']):
+        raise KeyError('Color brightness is not properly defined. color_brightness must be in {}'.format(list(color_library['properties']['brightness'])))
         
     # ---- if color is text, there is no variation
-    if chart_skeleton['color_library'][color_name] == 'text':
-        line = chart_skeleton['color_library'][color_name]
+    if color_name == 'text':
+        line = color_library['properties']['text']
         fill = line
-        edge = chart_skeleton['color_library'][color_name]
+        edge = line
     else:
-        line = chart_skeleton['color_library'][color_name][chart_skeleton['color_library']['brightness'][color_brightness][0]]
+        line = color_library['colors'][color_name][color_library['properties']['brightness'][color_brightness][0]]
         fill = line
-        edge = chart_skeleton['color_library'][color_name][chart_skeleton['color_library']['brightness'][color_brightness][2]]
+        edge = color_library['colors'][color_name][color_library['properties']['brightness'][color_brightness][2]]
     
     return line, fill, edge
