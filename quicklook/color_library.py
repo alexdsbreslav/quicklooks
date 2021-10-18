@@ -22,21 +22,22 @@ color_library = {'properties':{'name': 'default',
 # ---- define the colors based on the style
 def define_colors(chart_skeleton, color_name, color_brightness):
     
-    # ---- check to make sure that the colors were entered properly
-    if color_name not in list(color_library['colors'].keys()):
-        raise KeyError('Color entered is not in the color library. Enter one of the follow colors:\n''{}'\
-                        .format(list(color_library['colors'].keys())))
-
-    # ---- make sure brightness was entered correctly
-    if color_brightness not in list(color_library['properties']['brightness']):
-        raise KeyError('Color brightness is not properly defined. color_brightness must be in {}'.format(list(color_library['properties']['brightness'])))
-        
     # ---- if color is text, there is no variation
     if color_name == 'text':
         line = color_library['properties']['text']
         fill = line
         edge = line
     else:
+        # ---- check to make sure that the colors were entered properly
+        if color_name not in list(color_library['colors'].keys()):
+            raise KeyError('Color entered is not in the color library. Enter one of the follow colors:\n''{}'\
+                            .format(list(color_library['colors'].keys())))
+
+        # ---- make sure brightness was entered correctly
+        if color_brightness not in list(color_library['properties']['brightness']):
+            raise KeyError('Color brightness is not properly defined. color_brightness must be in {}'.format(list(color_library['properties']['brightness'])))
+
+
         line = color_library['colors'][color_name][color_library['properties']['brightness'][color_brightness][0]]
         fill = line
         edge = color_library['colors'][color_name][color_library['properties']['brightness'][color_brightness][2]]
