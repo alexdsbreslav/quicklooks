@@ -71,7 +71,7 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
     fig, ax = plt.subplots(nrows=1, figsize = figsize)
 
     # ---- add the title
-    ax.set_title(title, color = color_library['labels'],
+    ax.set_title(title, color = color_library['text'],
                  pad = title_pad, fontproperties = fonts['title'])
 
     # ---- create a patch to set the background color of the plot
@@ -104,7 +104,7 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
     ax.tick_params('x', colors=color_library['text'],
                    width = linewidth, pad = tick_pad[0], length = tick_length)
 
-    ax.tick_params('y', colors=color_library['text'],
+    ax.tick_params('y', colors=color_library['text'], 
                    width = linewidth, pad = tick_pad[1], length = tick_length)
 
     for tick in ax.get_xticklabels():
@@ -121,13 +121,13 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
     ax.xaxis.set_major_locator(plt.MultipleLocator(xtick_interval))
 
     # ---- label the y axis
-    ax.set_ylabel(ylabel, color=color_library['labels'],
+    ax.set_ylabel(ylabel, color=color_library['text'],
                   rotation = 0, labelpad = label_pad[1],
                   horizontalalignment = 'center',
                   linespacing = 1.6, fontproperties = fonts['label'])
 
     # ---- label the x axis
-    ax.set_xlabel(xlabel, color = color_library['labels'],
+    ax.set_xlabel(xlabel, color = color_library['text'],
                   labelpad = label_pad[0], fontproperties = fonts['label'])
 
     plt.tight_layout()
@@ -144,19 +144,7 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
 def add_bar_plot(chart_skeleton, x_labels, y, y_error,
                  bars_at_each_xlabel, bar_index, color_name,
                  color_brightness,opacity, label_for_legend, layer_order):
-    """
-    bar = quicklook.add_bar_plot(chart_skeleton,
-    x_labels = ,
-    y = ,
-    y_error = None, #If no values, None
-    bars_at_each_xlabel = 1,
-    bar_index = 0,
-    color_name = 'blue', 
-    color_brightness = 'default',
-    opacity = 1,
-    label_for_legend = '',
-    layer_order = 1)
-    """
+    
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
@@ -228,6 +216,25 @@ def add_bar_plot(chart_skeleton, x_labels, y, y_error,
         error = None
         
     return {'bar': bar, 'error': error, 'xlim': xlim, 'zorder': layer_order + 2}
+
+# ---- set doc string
+add_bar_plot.__doc__ = \
+    """
+    bar = quicklook.add_bar_plot(chart_skeleton,
+    x_labels = ,
+    y = ,
+    y_error = None, #If no values, None
+    bars_at_each_xlabel = 1,
+    bar_index = 0,
+    color_name = '{}', #{}
+    color_brightness = 'default', #{}
+    opacity = 1,
+    label_for_legend = '',
+    layer_order = 1)
+    """.format(color_library['colors']['text'], 
+               list(color_library['colors'].keys()),
+               list(chart_skeleton['color_library']['properties']['brightness'].keys()))
+
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -235,20 +242,6 @@ def add_bar_plot(chart_skeleton, x_labels, y, y_error,
 def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
               linestyle, color_name, color_brightness, marker_shape,
               opacity, label_for_legend, layer_order):
-    """
-    line = quicklook.add_line_plot(chart_skeleton,
-    x = ,
-    y = ,
-    y_error = None, #If no values, None
-    color_name = 'blue', 
-    color_brightness = 'default',
-    linewidth = 7,
-    linestyle = '-', #['-', '--', ':', '-.']
-    marker_shape = '.', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
-    opacity = 1,
-    label_for_legend = '',
-    layer_order = 1)
-    """
 
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
@@ -323,6 +316,25 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
         
     return {'line': mean, 'y_err_fill': fill, 'y_err_ub': ub, 'y_err_lb': lb}
 
+# ---- set doc string
+add_line_plot.__doc__ = \
+    """
+    line = quicklook.add_line_plot(chart_skeleton,
+    x = ,
+    y = ,
+    y_error = None, #If no values, None
+    color_name = '{}', #{} 
+    color_brightness = 'default', #{}
+    linewidth = 7,
+    linestyle = '-', #['-', '--', ':', '-.']
+    marker_shape = '.', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+    opacity = 1,
+    label_for_legend = '',
+    layer_order = 1)
+    """.format(color_library['colors']['text'], 
+               list(color_library['colors'].keys()),
+               list(chart_skeleton['color_library']['properties']['brightness'].keys()))
+
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -330,19 +342,7 @@ def add_line_plot(chart_skeleton, x, y, y_error, linewidth,
 def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
                  color_name, color_brightness, marker_shape,
                  opacity, label_for_legend, layer_order):
-    """
-    scatter = quicklook.add_scatter_plot(chart_skeleton,
-    x = ,
-    y = ,
-    x_error = None, #If no values, None
-    y_error = None, #If no values, None
-    color_name = 'blue', 
-    color_brightness = 'default',
-    marker_shape = 'o', #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x', '']
-    opacity = 1,
-    label_for_legend = '',
-    layer_order = 1)
-    """
+    
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
@@ -422,6 +422,24 @@ def add_scatter_plot(chart_skeleton, x, y, x_error, y_error,
 
     return {'scatter': scatter, 'error': error}
 
+# ---- set doc string
+add_scatter_plot.__doc__ = \
+    """
+    scatter = quicklook.add_scatter_plot(chart_skeleton,
+    x = ,
+    y = ,
+    x_error = None, #If no values, None
+    y_error = None, #If no values, None
+    color_name = '{}', #{} 
+    color_brightness = 'default', #{}
+    marker_shape = 'o', #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x', '']
+    opacity = 1,
+    label_for_legend = '',
+    layer_order = 1)
+    """.format(color_library['colors']['text'], 
+               list(color_library['colors'].keys()),
+               list(chart_skeleton['color_library']['properties']['brightness'].keys()))
+
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -431,19 +449,6 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
                       dist_type,
                       color_name, color_brightness, opacity,
                       label_for_legend, layer_order):
-    """
-    dist = quicklook.add_distribution_plot(chart_skeleton,
-    data = ,
-    override_chart_skeleton = True,
-    distribution_min_max = (None,None),
-    bin_interval = None, #If dist_type is smooth_density, None
-    dist_type = 'binned_counts', #['binned_counts', 'binned_density', 'smooth_density']
-    color_name = 'blue',
-    color_brightness = 'default',
-    opacity = 1,
-    label_for_legend = '',
-    layer_order = 1)
-    """
     
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
@@ -558,7 +563,23 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
                                               interval))
     return {'distribution': dist}
 
-
+# ---- set doc string
+add_distribution_plot.__doc__ = \
+    """
+    dist = quicklook.add_distribution_plot(chart_skeleton,
+    data = ,
+    override_chart_skeleton = True,
+    distribution_min_max = (None,None),
+    bin_interval = None, #If dist_type is smooth_density, None
+    dist_type = 'binned_counts', #['binned_counts', 'binned_density', 'smooth_density']
+    color_name = '{}', #{}
+    color_brightness = 'default', #{}
+    opacity = 1,
+    label_for_legend = '',
+    layer_order = 1)
+    """.format(color_library['colors']['text'], 
+               list(color_library['colors'].keys()),
+               list(chart_skeleton['color_library']['properties']['brightness'].keys()))
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -567,19 +588,7 @@ def add_distribution_plot(chart_skeleton, data, override_chart_skeleton,
 def add_reference_line(chart_skeleton, line_type, location, linewidth, linestyle,
                                 color_name, color_brightness, marker_shape,
                                 opacity, label_for_legend, layer_order):
-    """
-    ref_line = quicklook.add_reference_line(chart_skeleton,
-    line_type = , #['horizontal','vertical','diagonal_up','diagonal_down']
-    location = , #If diagonal_up or diagonal_down, None
-    color_name = 'gray', 
-    color_brightness = 'dark',
-    linewidth = 3,
-    linestyle = ':', #['-', '--', ':', '-.']
-    marker_shape = 'None', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
-    opacity = 1,
-    label_for_legend = '',
-    layer_order = 1)
-    """
+    
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
@@ -618,37 +627,33 @@ def add_reference_line(chart_skeleton, line_type, location, linewidth, linestyle
             zorder = layer_order + 2);
     return {'ref_line': line}
 
+# ---- set doc string
+add_reference_line.__doc__ = \
+    """
+    ref_line = quicklook.add_reference_line(chart_skeleton,
+    line_type = , #['horizontal','vertical','diagonal_up','diagonal_down']
+    location = , #If diagonal_up or diagonal_down, None
+    color_name = '{}', #{}
+    color_brightness = 'default', #{}
+    linewidth = 3,
+    linestyle = ':', #['-', '--', ':', '-.']
+    marker_shape = 'None', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+    opacity = 1,
+    label_for_legend = '',
+    layer_order = 1)
+    """.format(color_library['colors']['text'], 
+               list(color_library['colors'].keys()),
+               list(chart_skeleton['color_library']['properties']['brightness'].keys()))
+
+
 def add_text(chart_skeleton, text, color_name,
              text_location_on_x_axis,
              text_location_on_y_axis, horizontal_align, vertical_align,
              box_around_text, layer_order, font_size='default'):
-    """
-    text = quicklook.add_text(chart_skeleton,
-    text = '',
-    color_name = 'default', #['default','gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-    text_location_on_x_axis = ,
-    text_location_on_y_axis = ,
-    horizontal_align = 'center',
-    vertical_align = 'center',
-    box_around_text = True,
-    layer_order = 1)
-
-    Options
-    -------
-    horizontal_align:   ['center', 'left', 'right']
-    vertical_align:     ['center', 'top', 'bottom']
-    frame_around_text:  [True, False]
-    """
 
     if not chart_skeleton['ax']:
         raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                         'Run quicklook.build_chart_skeleton to build a chart skeleton.')
-
-    if color_name == 'default':
-        color_name = chart_skeleton['color_library']['text']
-    else:
-        color_name, _, _ = define_colors(chart_skeleton, color_name, 'dark')
-        del _
 
     if font_size == 'default':
         font_size = chart_skeleton['fonts']['size'][1]
@@ -663,8 +668,8 @@ def add_text(chart_skeleton, text, color_name,
                 verticalalignment=vertical_align,
                 size = font_size,
                 color = color_name,
-                bbox = dict(facecolor = chart_skeleton['color_library']['background'],
-                edgecolor = chart_skeleton['color_library']['text'],
+                bbox = dict(facecolor = chart_skeleton['color_library']['properties']['background'],
+                edgecolor = chart_skeleton['color_library']['properties']['text'],
                 boxstyle = 'round, pad = 0.5',
                 alpha = 1,
                 linewidth = 0.5,
@@ -682,6 +687,27 @@ def add_text(chart_skeleton, text, color_name,
                 zorder = layer_order + 2);
 
     return {'text': text}
+
+# ---- set doc string
+add_text.__doc__ = \
+    """
+    text = quicklook.add_text(chart_skeleton,
+    text = '',
+    color_name = '{}', #{}
+    text_location_on_x_axis = ,
+    text_location_on_y_axis = ,
+    horizontal_align = 'center',
+    vertical_align = 'center',
+    box_around_text = True,
+    layer_order = 1)
+
+    Options
+    -------
+    horizontal_align:   ['center', 'left', 'right']
+    vertical_align:     ['center', 'top', 'bottom']
+    frame_around_text:  [True, False]
+    """.format(color_library['colors']['text'], 
+               list(color_library['colors'].keys()))
 
 
 def add_legend(chart_skeleton, legend_location, frame_around_legend):
@@ -705,14 +731,14 @@ def add_legend(chart_skeleton, legend_location, frame_around_legend):
                         prop = chart_skeleton['fonts']['legend'],
                         frameon = frame_around_legend,
                         fancybox = True,
-                        facecolor = chart_skeleton['color_library']['background'],
+                        facecolor = chart_skeleton['color_library']['properties']['background'],
                         framealpha = 1);
 
     _, markeredgewidth = define_markersize(chart_skeleton['size'], 'o')
     legend.get_frame().set_linewidth(markeredgewidth)
 
     for text in legend.get_texts():
-        text.set_color(chart_skeleton['color_library']['text'])
+        text.set_color(chart_skeleton['color_library']['properties']['text'])
     
     return {'legend': legend}
 
@@ -734,8 +760,8 @@ def show_color_library(chart_skeleton):
     ax.get_xaxis().set_visible(False)
     ax.get_yaxis().set_visible(False)
 
-    ax.set_facecolor(chart_skeleton['color_library']['background'])
-    fig.set_facecolor(chart_skeleton['color_library']['background'])
+    ax.set_facecolor(chart_skeleton['color_library']['properties']'background'])
+    fig.set_facecolor(chart_skeleton['color_library']['properties']['background'])
 
     ax.tick_params(axis='both', which='both', bottom=False, top=False, labelbottom=False)
     color_strs = list(chart_skeleton['color_library'].keys())[4:]
@@ -746,12 +772,12 @@ def show_color_library(chart_skeleton):
     for row in range(nrows):
         ax.text(0.85, y_loc[row], color_strs[row],
                     horizontalalignment='left', verticalalignment='center',
-                    size = chart_skeleton['fonts']['size'][1], color=chart_skeleton['color_library']['text'],
-                    bbox = dict(facecolor = chart_skeleton['color_library']['background'], edgecolor = 'none',
+                    size = chart_skeleton['fonts']['size'][1], color=chart_skeleton['color_library']['properties']['text'],
+                    bbox = dict(facecolor = chart_skeleton['color_library']['properties']['background'], edgecolor = 'none',
                     boxstyle = 'round, pad = 0.5', alpha = 1, linewidth = 0.5, zorder = 1));
 
         for col in range(ncols):
-            ax.add_patch(patch.Ellipse((x_loc[col],y_loc[row]), 0.075, 0.1, color=chart_skeleton['color_library'][color_strs[row]][col]));
+            ax.add_patch(patch.Ellipse((x_loc[col],y_loc[row]), 0.075, 0.1, color=chart_skeleton['color_library']['colors'][color_strs[row]][col]));
 
     return
 
