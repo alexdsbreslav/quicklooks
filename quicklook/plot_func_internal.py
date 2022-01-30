@@ -45,18 +45,18 @@ def define_plot_style(size, ylabel, font_file):
     # ---- check for title file
     if font_file == 'default':
         font_dir = os.listdir(font_folder)
-        
+
         if not [i for i in os.listdir(font_folder) if 'title' in i]:
             raise FileNotFoundError('Make sure that the fonts folder contains a title.ttf or title.otf file')
         else:
             title_path = os.path.join(font_folder, font_dir[font_dir.index([i for i in font_dir if 'title' in i][0])])
-        
+
         # ---- check for text file
         if not [i for i in os.listdir(font_folder) if 'text' in i]:
             raise FileNotFoundError('Make sure that the fonts folder contains a text.ttf or text.otf file')
         else:
             text_path = os.path.join(font_folder, font_dir[font_dir.index([i for i in font_dir if 'text' in i][0])])
-            
+
     # ---- if we add and define a different tmp font
     else:
         title_path = os.path.join(font_folder, 'fonts', font_file)
@@ -78,7 +78,7 @@ def define_plot_style(size, ylabel, font_file):
     linewidth = {'print': 1, 'half_slide': 2, 'full_slide': 3}[size]
     tick_pad = {'print': (3, 3), 'half_slide': (5, 15), 'full_slide': (7.5, 20)}[size]
     tick_length = {'print': 2.5, 'half_slide': 10, 'full_slide': 12.5}[size]
-    
+
     return figsize, label_pad, title_pad, linewidth, tick_pad, tick_length, color_library, fonts
 
 

@@ -5,34 +5,45 @@ from .plot_func_internal import *
 import os
 import pandas as pd
 import seaborn as sns
+import warnings
+import matplotlib.ticker as ticker
 
 
 def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
                          y_min_max, xtick_interval, ytick_interval,
+                         xtick_labels, ytick_labels,
                          horizontal_gridlines_on, vertical_gridlines_on,
                          font_file='default'):
 
-    """chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
+    """chart_skeleton = quicklook.build_chart_skeleton(
+    size = 'half_slide', #['print', 'half_slide', 'full_slide']
     title = '',
     xlabel = '',
     ylabel = '',
     x_min_max = (0,1), y_min_max = (0,1),
     xtick_interval = 0.25, ytick_interval = 0.25,
+    xtick_labels = 'default', #['default', 'percents', list]
+    ytick_labels = 'default', #['default', 'percents', list]
     horizontal_gridlines_on = False,
     vertical_gridlines_on = False);
-
-    Options
-    -------
-    size:                       ['print', 'half_slide', 'full_slide']
-    title, xlabel, ylabel       Add text to describe your plot. Leave as '' to leave out labels.
-    horizontal_gridlines_on:    [True, False]
-    vertical_gridlines_on:      [True, False]
     """
 
-    # ---- raise exceptions if things are not properly defined
+    # ---- check size
     if size not in ['print', 'half_slide', 'full_slide']:
-        raise Exception('Size not properly defind: size must be set to print, half_slide, or full_slide.')
+        raise Exception('Size not properly add_reference_lined: size must be set to print, half_slide, or full_slide.')
+    # ---- check x and y tick labels
+    if type(xtick_labels) not in [str, list]:
+        raise Exception('xtick_labels not properly defined: xtick_labels must be set to default, percents, or defined as a list of strings.')
 
+    if type(xtick_labels) is str and xtick_labels not in ['default', 'percents']:
+        raise Exception('xtick_labels not properly defined: xtick_labels must be set to default, percents, or defined as a list of strings.')
+
+    if type(ytick_labels) not in [str, list]:
+        raise Exception('ytick_labels not properly defined: ytick_labels must be set to default, percents, or defined as a list of strings.')
+
+    if type(ytick_labels) is str and ytick_labels not in ['default', 'percents']:
+        raise Exception('ytick_labels not properly defined: ytick_labels must be set to default, percents, or defined as a list of strings.')
+    # ---- check gridlines
     if vertical_gridlines_on not in [True, False]:
         raise Exception('Vertical gridlines is not properly defined: '
                         'vertical_gridlines_on must be set to True or False.')
@@ -41,6 +52,7 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
         raise Exception('Horizontal gridlines is not properly defined: '
                         'horizontal_gridlines_on must be set to True or False.')
 
+    # ---- check xtick and ytick intervals
     if xtick_interval > x_min_max[1] - x_min_max[0]:
         raise Exception('xtick_interval is not properly defined: ' \
                         'xtick_interval should be greater than x_max minus x_min. \n'
@@ -129,6 +141,48 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
     # ---- label the x axis
     ax.set_xlabel(xlabel, color = color_library['properties']['text'],
                   labelpad = label_pad[0], fontproperties = fonts['label'])
+
+    # ---- set the x tick labels
+    if xtick_labels == 'default':
+        pass
+    elif xtick_labels == 'percents':
+        ax.xaxis.set_major_formatter(ticker.PercentFormatter(xmax=x_min_max[1]))
+    elif type(xtick_labels) is list:
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+
+            # ---- get label positions and determine which are displayed
+            label_position = [i.get_position()[0] for i in ax.get_xticklabels()]
+            displayed_labels = label_position[1:-1]
+
+            # ---- check length of list of xtick_labels
+            if len(xtick_labels) != len(displayed_labels):
+                raise Exception('Expected {} new labels; only {} are defined.'.format(len(displayed_labels), len(xtick_labels)))
+            # ---- create a new list of labels
+            new_labels = [None] + [i for i in xtick_labels] + [None]
+            # ---- update with new labels
+            ax.set_xticklabels(new_labels)
+
+    # ---- set the y tick labels
+    if ytick_labels == 'default':
+        pass
+    elif ytick_labels == 'percents':
+        ax.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=y_min_max[1]))
+    elif type(ytick_labels) is list:
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+
+            # ---- get label positions and determine which are displayed
+            label_position = [i.get_position()[1] for i in ax.get_yticklabels()]
+            displayed_labels = label_position[1:-1]
+
+            # ---- check length of list of xtick_labels
+            if len(ytick_labels) != len(displayed_labels):
+                raise Exception('Expected {} new labels; only {} are defined.'.format(len(displayed_labels), len(xtick_labels)))
+            # ---- create a new list of labels
+            new_labels = [None] + [i for i in xtick_labels] + [None]
+            # ---- update with new labels
+            ax.set_yticklabels(new_labels)
 
     plt.tight_layout()
     chart_skeleton = {'fig': fig, 'ax': ax, 'color_library': color_library,
