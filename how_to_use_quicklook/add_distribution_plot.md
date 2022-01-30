@@ -199,3 +199,5 @@ quicklook.save_chart_to_computer(chart_skeleton,
 
 # Note
 I did not show an example with `dist_type = 'smooth_density'`. This setting turns your distribution in a [kernal density estimate](https://seaborn.pydata.org/generated/seaborn.kdeplot.html). Kernel density estimates look nice, but they obscure important information about your distribution like the true shape, minimum, and maximum. I only recommend using `dist_type = 'smooth_density'` if you need to compare multiple overlapping distributions and all that you care about is the rough shape.
+
+If you set `dist_type = 'smooth_density'`, `bin_interval` is ignored. The distrbution is clipped/cropped using `distribution_min_max`.
