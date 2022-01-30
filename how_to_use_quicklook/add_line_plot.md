@@ -26,17 +26,20 @@ x_values = np.linspace(-1,1,20)
 y_values = [1/(1+np.exp(-5*i)) for i in x_values]
 
 # ---- create the chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
+chart_skeleton = quicklook.build_chart_skeleton(
+size = 'half_slide',
 title = 'Making a Line Plot',
 xlabel = 'X Values',
 ylabel = 'Y\nValues',
 x_min_max = (-1,1), y_min_max = (0,1),
 xtick_interval = 0.25, ytick_interval = 0.25,
+xtick_labels = 'default',
+ytick_labels = 'default',
 horizontal_gridlines_on = False,
 vertical_gridlines_on = False);
 
 # ---- add line
-quicklook.add_line_plot(chart_skeleton,
+line = quicklook.add_line_plot(chart_skeleton,
 x = x_values,
 y = y_values,
 y_error = None, #If no values, None
@@ -44,7 +47,7 @@ color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue
 color_brightness = 'default', #['default', 'light', 'dark']
 linewidth = 7,
 linestyle = '-', #['-', '--', ':', '-.']
-marker_shape = '.', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+marker_shape = '', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
 opacity = 1,
 label_for_legend = '',
 layer_order = 1)
@@ -80,17 +83,20 @@ purple_group_y_values = pd.DataFrame([[0.75/(1+np.exp(-5*i)) for i in x_values]+
                                             columns = x_values).T
 
 # ---- create the chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
+chart_skeleton = quicklook.build_chart_skeleton(
+size = 'half_slide',
 title = 'Making a Line Plot',
 xlabel = 'X Values',
 ylabel = 'Y\nValues',
 x_min_max = (-1,1), y_min_max = (0,1),
 xtick_interval = 0.25, ytick_interval = 0.25,
+xtick_labels = 'default',
+ytick_labels = 'default',
 horizontal_gridlines_on = False,
 vertical_gridlines_on = False);
 
 # ---- add thin dark gray dotted line without markers
-quicklook.add_line_plot(chart_skeleton,
+dot_line = quicklook.add_line_plot(chart_skeleton,
 x = x_values,
 y = y_values,
 y_error = None, #If no values, None
@@ -101,12 +107,12 @@ linestyle = ':', #['-', '--', ':', '-.']
 marker_shape = 'None', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
 opacity = 1,
 label_for_legend = 'Gray Reference Line',
-layer_order = 1)
+layer_order = 3)
 
 # ---- add thick blue line with dot markers
 # ---- make slightly transparent so grey line shows through
 # ---- these values do not have any error
-quicklook.add_line_plot(chart_skeleton,
+thick_blue = quicklook.add_line_plot(chart_skeleton,
 x = x_values,
 y = blue_y_values,
 y_error = None, #If no values, None
@@ -117,12 +123,12 @@ linestyle = '-', #['-', '--', ':', '-.']
 marker_shape = '.', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
 opacity = 0.5,
 label_for_legend = 'Blue Line',
-layer_order = 2)
+layer_order = 1)
 
 # ---- add medium grape line with diamond markers
 # ---- make slightly transparent so gray line shows through
 # ---- this line is the mean of a group, so we'll also show the standard error
-quicklook.add_line_plot(chart_skeleton,
+medium_grape = quicklook.add_line_plot(chart_skeleton,
 x = x_values,
 y = purple_group_y_values.mean(1),
 y_error = purple_group_y_values.sem(1), #If no values, None
@@ -133,26 +139,16 @@ linestyle = '-', #['-', '--', ':', '-.']
 marker_shape = 'd', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
 opacity = 0.5,
 label_for_legend = 'Purple Group',
-layer_order = 1)
+layer_order = 3)
 
 # ---- add legend
 quicklook.add_legend(chart_skeleton,
 legend_location = 'best', frame_around_legend=False);
 
 # ---- save plot
-quicklook.save_chart_to_computer(chart_name = 'complete_example',
-                                 path_to_folder_to_save_chart_in = os.path.join(os.path.abspath('images'), 'plots', 'line'),
-                                 print_confirmation=False);
+quicklook.save_chart_to_computer(chart_skeleton,
+                     chart_name = 'complete_example',
+                     path_to_folder_to_save_chart_in = os.path.join(img_output, 'plots', 'line'),
+                     print_confirmation=False)
 ```
 ![complete_example](https://github.com/alexdsbreslav/quicklook/blob/master/images/plots/line/complete_example.png)
-
-## Style options
-- `color_name` can be 'gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange'
-- `color_brightness` can be 'default', 'light', or 'dark'
-- `linewidth` can be any number
-- `linestyle` can be '-', '--', ':', '-.' ([click here](https://matplotlib.org/gallery/lines_bars_and_markers/line_styles_reference.html) to see an example of each line style)
-- `marker_shape` can be 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x' ([click here](https://matplotlib.org/api/markers_api.html) to see an example of each marker shape)
-  - If you set marker_shape to '', there will not be any markers, just the line.
-- `opacity` can be any number between 0 and 1
-- `label_for_legend` is the name of the line; this will show up in the legend when you add one.
-- `layer_order` can be any number. Layers are drawn from low to high numbers; this means that a line with `layer_order = 2` will be drawn on top of `layer_order = 1`. If you leave `layer_order = 1` for all lines, the lines will be drawn in the order that they show up in your code.
