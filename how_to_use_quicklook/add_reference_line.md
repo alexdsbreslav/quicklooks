@@ -20,22 +20,31 @@ import os
 import quicklook
 ```
 ```python
+# ---- create arbtrary data
+rng = np.random.RandomState(1)
+x_values = np.linspace(0,10,20)
+blue_y_values = [i**2+rng.randint(-10,10) for i in x_values]
+line_y_values = [i**2 for i in x_values]
+
 # ---- create the chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
-title = 'Add a Legend to My Chart',
-xlabel = 'X Values',
-ylabel = 'Y\nValues',
+chart_skeleton = quicklook.build_chart_skeleton(
+size = 'half_slide', #['print', 'half_slide', 'full_slide']
+title = '',
+xlabel = '',
+ylabel = '',
 x_min_max = (0,10), y_min_max = (-15,100),
 xtick_interval = 1, ytick_interval = 10,
+xtick_labels = 'default', #['default', 'percents', list]
+ytick_labels = 'default', #['default', 'percents', list]
 horizontal_gridlines_on = False,
 vertical_gridlines_on = False);
 
-# ---- add a horizontal reference line
-quicklook.add_reference_line(chart_skeleton,
+# --- add horizontal reference line
+ref_line = quicklook.add_reference_line(chart_skeleton,
 line_type = 'horizontal', #['horizontal','vertical','diagonal_up','diagonal_down']
-location = 0,
-color_name = 'gray', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-color_brightness = 'dark', #['default', 'light', 'dark']
+location = 0, #If diagonal_up or diagonal_down, None
+color_name = 'text', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
+color_brightness = 'default', #['light', 'default', 'dark']
 linewidth = 3,
 linestyle = ':', #['-', '--', ':', '-.']
 marker_shape = 'None', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
@@ -43,12 +52,12 @@ opacity = 1,
 label_for_legend = '',
 layer_order = 1)
 
-# ---- add a diagonal reference line
-quicklook.add_reference_line(chart_skeleton,
+# --- add diagonal reference line
+ref_line = quicklook.add_reference_line(chart_skeleton,
 line_type = 'diagonal_up', #['horizontal','vertical','diagonal_up','diagonal_down']
-location = None,
-color_name = 'gray', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-color_brightness = 'dark', #['default', 'light', 'dark']
+location = None, #If diagonal_up or diagonal_down, None
+color_name = 'text', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
+color_brightness = 'default', #['light', 'default', 'dark']
 linewidth = 3,
 linestyle = ':', #['-', '--', ':', '-.']
 marker_shape = 'None', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
@@ -64,18 +73,7 @@ layer_order = 1)
 ```
 ![example](https://github.com/alexdsbreslav/quicklook/blob/master/images/plots/legend/ref_line.png)
 
-Notice that reference lines:
+## Note
 - Extend across the entire plot automatically
 - If `line_type` is 'diagonal_up' or 'diagonal_down', `location` is ignored
 - If `line_type` is 'horizontal' or 'vertical', `location` is where the line is located on the appropriate axis
-
-## Style options
-- `color_name` can be 'gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange'
-- `color_brightness` can be 'default', 'light', or 'dark'
-- `linewidth` can be any number
-- `linestyle` can be '-', '--', ':', '-.' ([click here](https://matplotlib.org/gallery/lines_bars_and_markers/line_styles_reference.html) to see an example of each line style)
-- `marker_shape` can be 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x' ([click here](https://matplotlib.org/api/markers_api.html) to see an example of each marker shape)
-  - If you set marker_shape to '', there will not be any markers, just the line.
-- `opacity` can be any number between 0 and 1
-- `label_for_legend` is the name of the line; this will show up in the legend when you add one.
-- `layer_order` can be any number. Layers are drawn from low to high numbers; this means that a line with `layer_order = 2` will be drawn on top of `layer_order = 1`. If you leave `layer_order = 1` for all lines, the lines will be drawn in the order that they show up in your code.
