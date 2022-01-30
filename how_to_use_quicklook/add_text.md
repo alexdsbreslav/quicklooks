@@ -20,27 +20,37 @@ import os
 import quicklook
 ```
 ```python
+# ---- create arbtrary data
+rng = np.random.RandomState(1)
+x_values = np.linspace(0,10,20)
+blue_y_values = [i**2+rng.randint(-10,10) for i in x_values]
+line_y_values = [i**2 for i in x_values]
+
 # ---- create the chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
-title = 'Add a Legend to My Chart',
-xlabel = 'X Values',
-ylabel = 'Y\nValues',
+chart_skeleton = quicklook.build_chart_skeleton(
+size = 'half_slide', #['print', 'half_slide', 'full_slide']
+title = '',
+xlabel = '',
+ylabel = '',
 x_min_max = (0,10), y_min_max = (-15,100),
 xtick_interval = 1, ytick_interval = 10,
+xtick_labels = 'default', #['default', 'percents', list]
+ytick_labels = 'default', #['default', 'percents', list]
 horizontal_gridlines_on = False,
 vertical_gridlines_on = False);
 
 # ---- plot some data...
 # ---- this code has been removed for simplicity ----
 
-# ---- add text
-quicklook.add_text(chart_skeleton,
+# --- add text
+text = quicklook.add_text(chart_skeleton,
 text = '$\leftarrow$ This point is\n     important',
-color_name = 'blue', #['default','gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
+color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
+color_brightness = 'dark', #['light', 'default', 'dark']
 text_location_on_x_axis = 5.5,
 text_location_on_y_axis = 15.5,
-horizontal_align = 'left',
-vertical_align = 'center',
+horizontal_align = 'left', #['left', 'right', 'center']
+vertical_align = 'center', #['bottom', 'top', 'center']
 box_around_text = False,
 layer_order = 1)
 
@@ -49,13 +59,7 @@ layer_order = 1)
 ```
 ![example](https://github.com/alexdsbreslav/quicklook/blob/master/images/plots/legend/text.png)
 
-Notice that you can use:
+## Note
 - Plain text, where "\n" represents a line break (e.g. "This point is\n important")
 - LaTEX (e.g. $\leftarrow$)
 - or a combination!
-
-## Style options
-- `color_name` can be 'gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange'
-- `horizontal_align` can be 'left', 'right', or 'center'
-- `vertical_align` can be 'top', 'bottom', or 'center'
-- `box_around_text` can be True or False
