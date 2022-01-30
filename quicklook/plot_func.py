@@ -750,21 +750,16 @@ add_text.__doc__ = \
     text = quicklook.add_text(chart_skeleton,
     text = '',
     color_name = '{}', #{}
-    color_brightness = 'default'
+    color_brightness = 'default' #{}
     text_location_on_x_axis = ,
     text_location_on_y_axis = ,
-    horizontal_align = 'center',
-    vertical_align = 'center',
-    box_around_text = True,
+    horizontal_align = 'center', #['center', 'left', 'right']
+    vertical_align = 'center', #['center', 'top', 'bottom']
+    box_around_text = False,
     layer_order = 1)
-
-    Options
-    -------
-    horizontal_align:   ['center', 'left', 'right']
-    vertical_align:     ['center', 'top', 'bottom']
-    frame_around_text:  [True, False]
     """.format('text',
-               list(color_library['colors'].keys()))
+               list(color_library['colors'].keys()),
+               list(color_library['properties']['brightness'].keys()))
 
 
 def add_legend(chart_skeleton, legend_location, frame_around_legend):
