@@ -157,7 +157,7 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
 
             # ---- check length of list of xtick_labels
             if len(xtick_labels) != len(displayed_labels):
-                raise Exception('Expected {} new labels; only {} are defined.'.format(len(displayed_labels), len(xtick_labels)))
+                raise Exception('Expected {} new labels; {} are defined.'.format(len(displayed_labels), len(xtick_labels)))
             # ---- create a new list of labels
             new_labels = [None] + [i for i in xtick_labels] + [None]
             # ---- update with new labels
@@ -178,7 +178,7 @@ def build_chart_skeleton(size, title, ylabel, xlabel, x_min_max,
 
             # ---- check length of list of xtick_labels
             if len(ytick_labels) != len(displayed_labels):
-                raise Exception('Expected {} new labels; only {} are defined.'.format(len(displayed_labels), len(xtick_labels)))
+                raise Exception('Expected {} new labels; {} are defined.'.format(len(displayed_labels), len(xtick_labels)))
             # ---- create a new list of labels
             new_labels = [None] + [i for i in xtick_labels] + [None]
             # ---- update with new labels
