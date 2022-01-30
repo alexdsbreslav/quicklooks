@@ -34,42 +34,48 @@ blue_y_values = [i**2+rng.randint(-10,10) for i in x_values]
 line_y_values = [i**2 for i in x_values]
 
 # ---- create the chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
-title = 'Add a Legend to My Chart',
-xlabel = 'X Values',
-ylabel = 'Y\nValues',
+chart_skeleton = quicklook.build_chart_skeleton(
+size = 'half_slide', #['print', 'half_slide', 'full_slide']
+title = '',
+xlabel = '',
+ylabel = '',
 x_min_max = (0,10), y_min_max = (-15,100),
 xtick_interval = 1, ytick_interval = 10,
+xtick_labels = 'default', #['default', 'percents', list]
+ytick_labels = 'default', #['default', 'percents', list]
 horizontal_gridlines_on = False,
 vertical_gridlines_on = False);
 
-# ---- add blue circles
-quicklook.add_scatter_to_chart(chart_skeleton,
+# --- add blue circles
+scatter = quicklook.add_scatter_plot(chart_skeleton,
 x = x_values,
 y = blue_y_values,
-color_name = 'blue',
-color_brightness = 'default',
-marker_shape = 'o',
+x_error = None, #If no values, None
+y_error = None, #If no values, None
+color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
+color_brightness = 'default', #['light', 'default', 'dark']
+marker_shape = 'o', #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x', '']
 opacity = 1,
 label_for_legend = 'Blue Circles',
 layer_order = 2)
 
-# ---- add orange line
-quicklook.add_line_to_chart(chart_skeleton,
+# --- add orange line
+line = quicklook.add_line_plot(chart_skeleton,
 x = x_values,
 y = line_y_values,
-color_name = 'orange',
-color_brightness = 'default',
+y_error = None, #If no values, None
+color_name = 'orange', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
+color_brightness = 'default', #['light', 'default', 'dark']
 linewidth = 7,
-linestyle = '-',
-marker_shape = '',
+linestyle = '-', #['-', '--', ':', '-.']
+marker_shape = '', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
 opacity = 0.5,
 label_for_legend = 'Orange Line',
 layer_order = 1)
 
-# ---- add legend
-quicklook.add_legend(chart_skeleton,
-legend_location = 'best', frame_around_legend=True);
+# --- add legend
+legend = quicklook.add_legend(chart_skeleton,
+legend_location = 'best', frame_around_legend=False);
 ```
 ![example](https://github.com/alexdsbreslav/quicklook/blob/master/images/plots/legend/example.png)
 ## Style options
