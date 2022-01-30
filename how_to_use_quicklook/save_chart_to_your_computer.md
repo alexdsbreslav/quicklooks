@@ -10,8 +10,7 @@ For tips on how to easily copy-and-paste quicklook code into your notebook, [cli
 To save your chart to your computer, you'll need to do four things:
 1. Add the `chart_name` (e.g. `example_chart_name`)
 2. Add the `path_to_folder_to_save_chart_in`. This is a filepath that dicates which folder on your computer the file save your chart in(e.g. `/Users/alex/Documents`).
-3. Set `print_or_slide` equal to `'print'` or `'slide'`; this will dictate the resolution of the saved figure. For example, if you want to save your figure to place in a word document, you'd set the size of your plot (in your chart_skeleton) to `'print'` and this settting to `'print'`. Your figure will save as a small, high resolution, png file.
-4. Set `print_confirmation` to True or False. If True, your code will print where exactly the image file was saved. (e.g. `example_chart_name was save in the folder: /Users/alex/Documents`. I would recommend setting this to True.
+3. Set `print_confirmation` to True or False. If True, your code will print where exactly the image file was saved. (e.g. `example_chart_name was save in the folder: /Users/alex/Documents`. I would recommend setting this to True.
 
 I strongly recommend writing `path_to_folder_to_save_chart_in` as a relative filepath using the package `os`. [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/creating_relative_filepaths.md) for a brief introduction to relative filepaths.
 
@@ -29,30 +28,35 @@ x_values = np.linspace(0,10,20)
 blue_y_values = [i**2+rng.randint(-10,10) for i in x_values]
 
 # ---- create the chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
-title = 'Example Title',
-xlabel = 'X Values',
-ylabel = 'Y\nValues',
+chart_skeleton = quicklook.build_chart_skeleton(
+size = 'half_slide', #['print', 'half_slide', 'full_slide']
+title = '',
+xlabel = '',
+ylabel = '',
 x_min_max = (0,10), y_min_max = (-15,100),
 xtick_interval = 1, ytick_interval = 10,
+xtick_labels = 'default', #['default', 'percents', list]
+ytick_labels = 'default', #['default', 'percents', list]
 horizontal_gridlines_on = False,
 vertical_gridlines_on = False);
 
-# ---- add blue circles
-quicklook.add_scatter_to_chart(chart_skeleton,
+# --- add blue circles
+scatter = quicklook.add_scatter_plot(chart_skeleton,
 x = x_values,
 y = blue_y_values,
-color_name = 'blue',
-color_brightness = 'default',
-marker_shape = 'o',
+x_error = None, #If no values, None
+y_error = None, #If no values, None
+color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
+color_brightness = 'default', #['light', 'default', 'dark']
+marker_shape = 'o', #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x', '']
 opacity = 1,
 label_for_legend = 'Blue Circles',
-layer_order = 2)
+layer_order = 1)
 
 # ---- save plot
 current_directory = os.path.abspath('')
-quicklook.save_chart(chart_name = 'example_chart_name',
-                     print_or_slide = 'slide',
+quicklook.save_chart_to_computer(chart_skeleton,
+                     chart_name = 'example',
                      path_to_folder_to_save_chart_in = os.path.join(current_directory, 'charts'),
-                     print_confirmation=True);
+                     print_confirmation=False);
 ```
