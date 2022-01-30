@@ -30,24 +30,27 @@ rng = np.random.RandomState(1)
 variable1 = rng.normal(5, 10, size=100)
 
 # ---- create chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
-title = '',
-xlabel = '',
-ylabel = '',
+chart_skeleton = quicklook.build_chart_skeleton(
+size = 'half_slide', #['print', 'half_slide', 'full_slide']
+title = 'Making a Distribution Plot',
+xlabel = 'Values',
+ylabel = 'Counts',
 x_min_max = (0,1), y_min_max = (0,1),
 xtick_interval = 0.25, ytick_interval = 0.25,
+xtick_labels = 'default', #['default', 'percents', list]
+ytick_labels = 'default', #['default', 'percents', list]
 horizontal_gridlines_on = False,
 vertical_gridlines_on = False);
 
 # ---- add distribution plot for blue variable using override_chart_skeleton
-quicklook.add_distribution_plot(chart_skeleton,
+dist = quicklook.add_distribution_plot(chart_skeleton,
 data = variable1,
 override_chart_skeleton = True,
 distribution_min_max = (None,None),
-bin_interval = None,
-plot_as_pdf = False,
+bin_interval = None, #If dist_type is smooth_density, None
+dist_type = 'binned_counts', #['binned_counts', 'binned_density', 'smooth_density']
 color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-color_brightness = 'default', #['default', 'light', 'dark']
+color_brightness = 'default', #['light', 'default', 'dark']
 opacity = 1,
 label_for_legend = '',
 layer_order = 1)
@@ -85,24 +88,27 @@ rng = np.random.RandomState(1)
 variable1 = rng.normal(5, 10, size=100)
 
 # ---- create chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
-title = 'Plotting a Variable\'s Distribution',
-xlabel = 'Value',
-ylabel = 'Count',
+chart_skeleton = quicklook.build_chart_skeleton(
+size = 'half_slide', #['print', 'half_slide', 'full_slide']
+title = 'Making a Distribution Plot',
+xlabel = 'Values',
+ylabel = 'Counts',
 x_min_max = (-30,30), y_min_max = (0,25),
 xtick_interval = 5, ytick_interval = 5,
+xtick_labels = 'default', #['default', 'percents', list]
+ytick_labels = 'default', #['default', 'percents', list]
 horizontal_gridlines_on = False,
 vertical_gridlines_on = False);
 
-# ---- add distribution plot for blue variable
-quicklook.add_distribution_plot(chart_skeleton,
+# ---- add distribution plot for blue variable using override_chart_skeleton
+dist = quicklook.add_distribution_plot(chart_skeleton,
 data = variable1,
 override_chart_skeleton = False,
 distribution_min_max = (-30,30),
-bin_interval = 5,
-plot_as_density = False,
+bin_interval = 5, #If dist_type is smooth_density, None
+dist_type = 'binned_counts', #['binned_counts', 'binned_density', 'smooth_density']
 color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-color_brightness = 'default', #['default', 'light', 'dark']
+color_brightness = 'default', #['light', 'default', 'dark']
 opacity = 1,
 label_for_legend = '',
 layer_order = 1)
@@ -125,7 +131,7 @@ Notice that the distribution looks slightly different than above. This is becaus
 To accurately compare multiple distributions, I **strongly recommend**:
 - Using the same `distribution_min_max` for both variables
 - Using the same `bin_interval` for both variables
-- Setting `plot_as_density == True` (density refers to a probability density<sup>*</sup>)
+- Setting `dist_type = 'binned_density'` (density refers to a probability density<sup>*</sup>)
 - Setting `opacity = 0.5` so you can see overlapping parts
 
 <sup>*</sup>For more info, [right-click here](https://machinelearningmastery.com/probability-density-estimation/) to open an article by Jason Brownlee and read through "Summarize Density with a Histogram".
@@ -142,55 +148,54 @@ variable1 = rng.normal(5, 10, size=100)
 variable2 = abs(rng.normal(25, 15, size=1000))
 
 # ---- create chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(size = 'half_slide',
-title = 'Compare Variables\' Distributions',
-xlabel = 'Value',
+chart_skeleton = quicklook.build_chart_skeleton(
+size = 'half_slide', #['print', 'half_slide', 'full_slide']
+title = 'Making a Distribution Plot',
+xlabel = 'Values',
 ylabel = 'Density',
 x_min_max = (-30,30), y_min_max = (0,0.05),
 xtick_interval = 5, ytick_interval = 0.01,
+xtick_labels = 'default', #['default', 'percents', list]
+ytick_labels = 'default', #['default', 'percents', list]
 horizontal_gridlines_on = False,
 vertical_gridlines_on = False);
 
 # ---- add distribution plot for blue variable
-quicklook.add_distribution_plot(chart_skeleton,
+dist = quicklook.add_distribution_plot(chart_skeleton,
 data = variable1,
 override_chart_skeleton = False,
 distribution_min_max = (-30,30),
-bin_interval = 5,
-plot_as_density = True,
+bin_interval = 5, #If dist_type is smooth_density, None
+dist_type = 'binned_density', #['binned_counts', 'binned_density', 'smooth_density']
 color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-color_brightness = 'default', #['default', 'light', 'dark']
+color_brightness = 'default', #['light', 'default', 'dark']
 opacity = 0.5,
-label_for_legend = 'Blue Variable',
+label_for_legend = 'Blue variable',
 layer_order = 1)
 
 # ---- add distribution plot for orange variable
-quicklook.add_distribution_plot(chart_skeleton,
+dist = quicklook.add_distribution_plot(chart_skeleton,
 data = variable2,
 override_chart_skeleton = False,
 distribution_min_max = (-30,30),
-bin_interval = 5,
-plot_as_density = True,
+bin_interval = 5, #If dist_type is smooth_density, None
+dist_type = 'binned_density', #['binned_counts', 'binned_density', 'smooth_density']
 color_name = 'orange', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-color_brightness = 'default', #['default', 'light', 'dark']
+color_brightness = 'default', #['light', 'default', 'dark']
 opacity = 0.5,
-label_for_legend = 'Orange Variable',
-layer_order = 2)
+label_for_legend = 'Orange variable',
+layer_order = 1)
 
 # ---- add legend
-quicklook.add_egend(chart_skeleton,
+legend = quicklook.add_legend(chart_skeleton,
 legend_location = 'best', frame_around_legend=False);
-
 # ---- save plot
-quicklook.save_chart_to_computer(chart_name = 'compare',
-                     path_to_folder_to_save_chart_in = os.path.join(os.path.abspath('images'), 'plots'),
-                     print_confirmation=True);
+quicklook.save_chart_to_computer(chart_skeleton,
+                     chart_name = 'compare',
+                     path_to_folder_to_save_chart_in = os.path.join(img_output, 'plots', 'histogram'),
+                     print_confirmation=False)
 ```
 ![complete_example](https://github.com/alexdsbreslav/quicklook/blob/master/images/plots/histogram/compare.png)
 
-## Style options
-- `color_name` can be 'gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange'
-- `color_brightness` can be 'default', 'light', or 'dark'
-- `opacity` can be any number between 0 and 1
-- `label_for_legend` is the name of the line; this will show up in the legend when you add one.
-- `layer_order` can be any number. Layers are drawn from low to high numbers; this means that a line with `layer_order = 2` will be drawn on top of `layer_order = 1`. If you leave `layer_order = 1` for all lines, the lines will be drawn in the order that they show up in your code.
+# Note
+I did not show an example with `dist_type = 'smooth_density'`. This setting turns your distribution in a [kernal density estimate](https://seaborn.pydata.org/generated/seaborn.kdeplot.html). Kernel density estimates look nice, but they obscure important information about your distribution like the true shape, minimum, and maximum. I only recommend using `dist_type = 'smooth_density'` if you need to compare multiple overlapping distributions and all that you care about is the rough shape.
