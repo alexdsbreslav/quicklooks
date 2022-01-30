@@ -78,6 +78,6 @@ legend = quicklook.add_legend(chart_skeleton,
 legend_location = 'best', frame_around_legend=False);
 ```
 ![example](https://github.com/alexdsbreslav/quicklook/blob/master/images/plots/legend/example.png)
-## Style options
+## Note
 - `legend_location` can be 'best', 'upper right', 'upper left', 'lower left', 'lower right', 'right', 'center left', 'center right', 'lower center', 'upper center', 'center'
 - `frame_around_legend` can be True or False
