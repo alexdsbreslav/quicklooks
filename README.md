@@ -2,7 +2,7 @@
 
 # quicklook
 quicklook is a Python package for visualizing data quickly.  
-Check out the documentation by clicking [here](https://github.com/alexdsbreslav/quicklook/tree/master/how_to_use_quicklook) or by navigating the folder `how_to_use_quicklook`.
+Check out the documentation by clicking [here](https://github.com/alexdsbreslav/quicklook/tree/master/how_to_use_quicklook) or by navigating to the folder `how_to_use_quicklook`.
 
 ## Why quicklook?
 My name is Alex. I am a cognitive scientist and quantitative user researcher; you can check out my [LinkedIn here](https://www.linkedin.com/in/alexanderbreslav/). I taught myself how to code during my PhD. As I was learning, data visualization posed a big problem. I constantly needed to visualize data, but creating visualizations that were attractive, easy-to-read, and shareable took forever. 
