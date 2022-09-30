@@ -1,7 +1,8 @@
 ![example_image](https://github.com/alexdsbreslav/quicklook/blob/master/images/quicklook_example.png)
 
 # quicklook
-quicklook is a Python package for visualizing data quickly.
+quicklook is a Python package for visualizing data quickly.  
+Check out the documentation by clicking [here](https://github.com/alexdsbreslav/quicklook/tree/master/how_to_use_quicklook) or by navigating the folder `how_to_use_quicklook`.
 
 ## Why quicklook?
 My name is Alex. I am a cognitive scientist and quantitative user researcher; you can check out my [LinkedIn here](https://www.linkedin.com/in/alexanderbreslav/). I taught myself how to code during my PhD. As I was learning, data visualization posed a big problem. I constantly needed to visualize data, but creating visualizations that were attractive, easy-to-read, and shareable took forever. 
@@ -24,6 +25,9 @@ In quicklook, I do my best to keep the language, examples, and documentation acc
 1. Open Jupyter Lab
 2. Open a terminal
 3. Type `pip install git+git://github.com/alexdsbreslav/quicklook.git` and hit enter!
+
+## Documentation
+The [documentation is here](https://github.com/alexdsbreslav/quicklook/tree/master/how_to_use_quicklook) and always accessible from the main page in the folder `how_to_use_quicklook`! 
 
 ## Acknowledgments
 quicklook is built using [Matplotlib](https://matplotlib.org/), [NumPy](https://numpy.org/), [Open Color](https://yeun.github.io/open-color/), and [seaborn](https://seaborn.pydata.org/).
