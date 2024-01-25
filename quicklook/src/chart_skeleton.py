@@ -1,53 +1,22 @@
 import matplotlib.pyplot as plt
 from .plot_func_internal import *
+from .cs_attributes import *
 
 class chart_skeleton:
     """
-    chart_skeleton = cs(
-    size = cs.size.half_slide,
-    color_library = cs.color_libraries.mariglow,
+    chart_skeleton = ql.chart_skeleton(
+    size = ql.chart_size.half_slide,
+    color_library = ql.color_libraries.mariglow,
     title = '',
     xlabel = '',
     ylabel = '',
     x_min_max = (0,1), y_min_max = (0,1),
     xtick_interval = 0.25, ytick_interval = 0.25,
-    xtick_labels = cs.xlabel_type.default,
-    ytick_labels = cs.ylabel_type.default,
+    xtick_labels = ql.chart_xlabel.default,
+    ytick_labels = ql.chart_ylabel.default,
     horizontal_gridlines_on = False,
     vertical_gridlines_on = False);
     """
-
-    class ylabel_type:
-        default = 'default'
-        percents = 'percents'
-
-    class xlabel_type:
-        default = 'default'
-        percents = 'percents'
-        # years = 'years'
-        # quarters = 'quarters'
-        # months = 'months'
-        # weeks = 'weeks'
-        # days = 'days'
-
-    class size:
-        half_slide = 'half_slide'
-        full_slide = 'full_slide'
-        print = 'print'
-
-    class color_libraries:
-        class mariglow:
-            default = ['#9AA7FE', '#4B64FE', '#203DFE'] #blue
-            background = '#ffffff'
-            text = '#000000'
-            orange = ['#EF7B57', '#E94819', '#BB3911']
-            peach = ['#FAF3EF', '#ECCFC0', '#DEAB91']
-            navy = ['#2C4177', '#1A2747', '#0B101E']
-            blue = ['#9AA7FE', '#4B64FE', '#203DFE']
-            light_gray = ['#f1f3f5', '#e9ecef', '#dee2e6']
-            gray = ['#ced4da', '#adb5bd', '#868e96']
-            dark_gray = ['#495057', '#343a40', '#212529']
-            black = ['#000000', '#000000', '#000000']
 
     def __init__(self, size, color_library, title, ylabel, xlabel, x_min_max,
                  y_min_max, xtick_interval, ytick_interval, xtick_labels,
@@ -58,34 +27,25 @@ class chart_skeleton:
         # set attributes -------------------------------------------------------
         # ----------------------------------------------------------------------
         # ---- size
-        if size in ['print', 'half_slide', 'full_slide']:
-            self.size = size
-        else:
+        if size not in ['print', 'half_slide', 'full_slide']:
             raise AttributeError('Size not properly defined: must be print, \
                                  half_slide, or full_slide.')
 
         # ---- colors
-        ### NEED A CHECK HERE
         self.color_library = color_library
 
         # ---- title
-        if type(title) is str:
-            self.title = title
-        else:
+        if type(title) is not str:
             raise AttributeError('title not properly define: must be a string \
                                  (e.g., Daily Active Users)')
 
         # ---- ylabel
-        if type(ylabel) is str:
-            self.ylabel = ylabel
-        else:
+        if type(ylabel) is not str:
             raise AttributeError('ylabel not properly define: must be a string \
                                  (e.g., "Daily Active Users")')
 
         # ---- xlabel
-        if type(xlabel) is str:
-            self.xlabel = xlabel
-        else:
+        if type(xlabel) is not str:
             raise AttributeError('xlabel not properly define: must be a string \
                                  (e.g., "Date")')
 
@@ -113,8 +73,6 @@ class chart_skeleton:
             raise Exception('xtick_labels not properly defined: xtick_labels \
                              must be set to default, percents, or defined \
                              as a list of strings.')
-        else:
-            self.xtick_labels = xtick_labels
 
         # ---- ytick_labels
         if type(ytick_labels) not in [str, list]:
@@ -125,8 +83,6 @@ class chart_skeleton:
             raise Exception('ytick_labels not properly defined: ytick_labels \
                              must be set to default, percents, or defined as a \
                              list of strings.')
-        else:
-            self.ytick_labels = ytick_labels
 
         # ---- xtick_interval
         if xtick_interval > x_min_max[1] - x_min_max[0]:
@@ -136,8 +92,6 @@ class chart_skeleton:
         elif (x_min_max[1]-x_min_max[0])/xtick_interval > 50:
             raise RuntimeError('quicklook is trying to plot too many xticks; \
                                 increase the xtick_interval')
-        else:
-            self.xtick_interval = xtick_interval
 
         # ---- ytick_interval
         if ytick_interval > y_min_max[1] - y_min_max[0]:
@@ -147,22 +101,15 @@ class chart_skeleton:
         elif (y_min_max[1]-y_min_max[0])/ytick_interval > 50:
             raise RuntimeError('quicklook is trying to plot too many yticks; \
                                 increase the ytick_interval')
-        else:
-            self.xtick_interval = xtick_interval
-        self.ytick_interval = ytick_interval
 
         # ---- vertical gridlines
-        if vertical_gridlines_on in [True, False]:
-            self.vertical_gridlines_on = vertical_gridlines_on
-        else:
+        if type(vertical_gridlines_on) is not bool:
             raise AttributeError('Vertical gridlines is not properly defined: \
                                   vertical_gridlines_on must be set to \
                                   True or False.')
 
         # ---- horizontal gridlines
-        if horizontal_gridlines_on in [True, False]:
-            self.horizontal_gridlines_on = horizontal_gridlines_on
-        else:
+        if type(horizontal_gridlines_on) is not bool:
             raise AttributeError('Horizontal gridlines is not properly defined: \
                                   horizontal_gridlines_on must be set to \
                                   True or False.')
@@ -179,17 +126,17 @@ class chart_skeleton:
         self.ax = ax
 
         # ---- add the title
-        ax.set_title(title, color = self.color_library.text,
+        ax.set_title(title, color = color_library.text,
                      pad = title_pad, fontproperties = fonts['title'])
 
         # ---- create a patch to set the background color of the plot
         ax.patch.set_xy((-0.16, -0.14))
         ax.patch.set_height(1.2)
         ax.patch.set_width(1.28)
-        ax.set_facecolor(self.color_library.background)
+        ax.set_facecolor(color_library.background)
 
         # ---- set facecolor of fig (around ax face)
-        fig.set_facecolor(self.color_library.background)
+        fig.set_facecolor(color_library.background)
 
         # ---- add grid lines if necessary
         if horizontal_gridlines_on == True:
@@ -205,13 +152,13 @@ class chart_skeleton:
             ax.spines[spine].set_visible(False)
         for spine in ['bottom', 'left']:
             ax.spines[spine].set_linewidth(linewidth)
-            ax.spines[spine].set_color(self.color_library.text)
+            ax.spines[spine].set_color(color_library.text)
             ax.spines[spine].set_zorder(2)
 
         # ---- style the axis ticks
         for i in range(2):
             ax.tick_params(['x','y'][i],
-                           colors=self.color_library.text,
+                           colors=color_library.text,
                            width = linewidth, pad = tick_pad[i],
                            length = tick_length)
 
@@ -229,13 +176,13 @@ class chart_skeleton:
         ax.xaxis.set_major_locator(plt.MultipleLocator(xtick_interval))
 
         # ---- label the y axis
-        ax.set_ylabel(ylabel, color=self.color_library.text,
+        ax.set_ylabel(ylabel, color=color_library.text,
                       rotation = 0, labelpad = label_pad[1],
                       horizontalalignment = 'center',
                       linespacing = 1.6, fontproperties = fonts['label'])
 
         # ---- label the x axis
-        ax.set_xlabel(xlabel, color = self.color_library.text,
+        ax.set_xlabel(xlabel, color = color_library.text,
                       labelpad = label_pad[0], fontproperties = fonts['label'])
 
         # ---- set the x and y tick labels

@@ -41,7 +41,7 @@ def define_plot_style(size, ylabel, font_file):
     """
     # ---- define fonts
     fontsize = {'print': (12,10,9), 'half_slide': (26,20,18), 'full_slide': (40,34,32)}
-    font_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'fonts')
+    font_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'fonts')
     # ---- handles font files regardless of .ttf or .otf
     # ---- check for title file
     if font_file == 'default':
