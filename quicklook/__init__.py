@@ -18,4 +18,5 @@ quicklook.add_legend?                      | add legend to plot
 quicklook.show_c_lib(c_lib, fonts)         | show the colors and color names
 '''
 
-from .plot_func import *
+from .src.chart_skeleton import chart_skeleton
+from .src.add_plots import bar_plot

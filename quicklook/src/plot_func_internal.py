@@ -2,7 +2,8 @@ from pathlib import Path
 import os
 from matplotlib import font_manager
 import numpy as np
-from .color_library import *
+import warnings
+import matplotlib.ticker as ticker
 
 # ---- used to find the text width for the y label
 # ---- this helps set the distance between the edge of the plot
@@ -79,7 +80,7 @@ def define_plot_style(size, ylabel, font_file):
     tick_pad = {'print': (3, 3), 'half_slide': (5, 15), 'full_slide': (7.5, 20)}[size]
     tick_length = {'print': 2.5, 'half_slide': 10, 'full_slide': 12.5}[size]
 
-    return figsize, label_pad, title_pad, linewidth, tick_pad, tick_length, color_library, fonts
+    return figsize, label_pad, title_pad, linewidth, tick_pad, tick_length, fonts
 
 
 # ---- define the marker size based on the plot size
@@ -92,3 +93,33 @@ def define_markersize(size, marker_shape):
         markersize = 0
         markeredgewidth = 0
     return markersize, markeredgewidth
+
+def set_tick_labels(labels, axis, axis_object, min_max):
+    if labels == 'default':
+        pass
+    elif labels == 'percents':
+        if axis == 'x':
+            axis_object.xaxis.set_major_formatter(ticker.PercentFormatter(xmax=min_max[1]))
+        elif axis == 'y':
+            axis_object.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=min_max[1]))
+    elif type(labels) is list:
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+
+            # ---- get label positions and determine which are displayed
+            if axis == 'x':
+                label_position = [i.get_position()[0] for i in axis_object.get_xticklabels()]
+            elif axis == 'y':
+                label_position = [i.get_position()[1] for i in axis_object.get_yticklabels()]
+            displayed_labels = label_position[1:-1]
+
+            # ---- check length of list of xtick_labels
+            if len(labels) != len(displayed_labels):
+                raise Exception('Expected {} new {}_labels; {} are defined.'.format(len(displayed_labels), axis, len(labels)))
+            # ---- create a new list of labels
+            new_labels = [None] + [i for i in labels] + [None]
+            # ---- update with new labels
+            if axis == 'x':
+                axis_object.set_xticklabels(new_labels)
+            elif axis == 'y':
+                axis_object.set_yticklabels(new_labels)
