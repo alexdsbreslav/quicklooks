@@ -22,10 +22,7 @@ class chart_skeleton:
                  y_min_max, xtick_interval, ytick_interval, xtick_labels,
                  ytick_labels, horizontal_gridlines_on, vertical_gridlines_on,
                  font_file='default'):
-
-        # ----------------------------------------------------------------------
-        # set attributes -------------------------------------------------------
-        # ----------------------------------------------------------------------
+                 
         # ---- size
         if size not in ['print', 'half_slide', 'full_slide']:
             raise AttributeError('Size not properly defined: must be print, \
