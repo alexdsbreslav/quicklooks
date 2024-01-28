@@ -12,3 +12,4 @@ from .src.cs_attributes import color_libraries
 # ---- plots
 from .src.bar_plot import bar_plot
 from .src.line_plot import line_plot
+from .src.reference_line import reference_line

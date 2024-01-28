@@ -1,41 +1,41 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from .plot_func_internal import define_markersize
 
 class line_plot:
     """
-    line = quicklook.add_line_plot(chart_skeleton,
+    line = ql.line_plot(chart_skeleton,
     x = ,
     y = ,
     yerror = None, #If no values, None
-    color = chart_skeleton.color_library.default
-    linewidth = 7,
+    color = chart_skeleton.color_library.default,
+    linewidth = 5,
     linestyle = '-', #['-', '--', ':', '-.']
-    marker_shape = '.', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+    marker_shape = None, #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
     opacity = 1,
     label_for_legend = '',
     layer_order = 1)
     """
 
     def __init__(self, chart_skeleton, x, y, yerror, linewidth, linestyle,
-    color, color_brightness, marker_shape, opacity, label_for_legend,
-    layer_order):
+    color, marker_shape, opacity, label_for_legend, layer_order):
 
         if not chart_skeleton.ax:
-            raise Exception('The chart skeleton has not been built. \
+            raise Exception('''The chart skeleton has not been built. \
             You must build a chart skeleton for each new plot that you \
-            want to create.')
+            want to create.''')
         # ---- check data types
         if type(x) in [str, int, float, bool]:
-            raise TypeError('x is not properly defined. x should be a \
-            1 dimensional array of values.')
+            raise TypeError('''x is not properly defined. x should be a \
+            1 dimensional array of values.''')
         if type(y) in [str, int, float, bool]:
-            raise TypeError('y is not properly defined. y should be a \
-            1 dimensional array of values.')
+            raise TypeError('''y is not properly defined. y should be a \
+            1 dimensional array of values.''')
         if type(yerror) in [str, int, float, bool]:
-            raise TypeError('yerror is not properly defined. If you do not need \
+            raise TypeError('''yerror is not properly defined. If you do not need \
             error represented on your line plot, set yerror = None.\n'
             'If you need yerror on your line plot, ensure that it is a \
-            1 dimensional array of values.')
+            1 dimensional array of values.''')
 
         # ---- check data shapes
         if np.shape(np.shape(x))[0] != 1:
@@ -51,12 +51,11 @@ class line_plot:
             and y has {} values'.format(np.shape(x)[0], np.shape(y)[0]))
 
         # ---- define shades of color
-        line = color[0]
-        fill = color[1]
+        line = color[1]
         edge = color[2]
 
         # ---- define markersize
-        markersize, markeredgewidth = define_markersize(chart_skeleton['size'],
+        markersize, markeredgewidth = define_markersize(chart_skeleton.size,
                                                         marker_shape)
 
         # ---- plot y error as fill between
@@ -65,7 +64,7 @@ class line_plot:
                                   x,
                                   y - yerror,
                                   y + yerror,
-                                  color = fill,
+                                  color = line,
                                   label = None,
                                   alpha = 0.2,
                                   zorder = layer_order + 2);
@@ -108,7 +107,7 @@ class line_plot:
             ub = None
             lb = None
 
-        self.line = mean
+        self.line_obj = mean
         self.yerr_fill = fill
         self.yerr_ub = ub
         self.yerr_lb = lb

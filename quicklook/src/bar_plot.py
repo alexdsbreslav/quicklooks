@@ -80,7 +80,7 @@ class bar_plot:
         # ---- get x and y locs
         ylim = chart_skeleton.ax.get_ylim()
         x_loc = [label_to_x[i]+offset for i in xlabels]
-        bottom = np.array([(i/abs(i)) * ((ylim[1]-ylim[0])*0.001) for i in y])
+        bottom = np.array([(i/abs(i)) * ((ylim[1]-ylim[0])*0.002) for i in y])
         height = y-bottom
         zorder = 1
 
@@ -92,7 +92,7 @@ class bar_plot:
                                  height=height, bottom=bottom,
                                  color=fill,
                                  edgecolor=edge,
-                                 linewidth=3,
+                                 linewidth=2,
                                  joinstyle='round',
                                  alpha=opacity,
                                  label=label_for_legend,

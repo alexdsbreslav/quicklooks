@@ -22,11 +22,10 @@ class chart_skeleton:
                  y_min_max, xtick_interval, ytick_interval, xtick_labels,
                  ytick_labels, horizontal_gridlines_on, vertical_gridlines_on,
                  font_file='default'):
-                 
+
         # ---- size
-        if size not in ['print', 'half_slide', 'full_slide']:
-            raise AttributeError('Size not properly defined: must be print, \
-                                 half_slide, or full_slide.')
+        # ---- affects markersize for line and scatter plots
+        self.size = size
 
         # ---- colors
         self.color_library = color_library
@@ -47,6 +46,7 @@ class chart_skeleton:
                                  (e.g., "Date")')
 
         # ---- x_min_max
+        # ---- req for reference_line
         if type(x_min_max) is tuple and x_min_max[1] > x_min_max[0]:
             self.x_min_max = x_min_max
         else:
@@ -55,6 +55,7 @@ class chart_skeleton:
                                   the first')
 
         # ---- y_min_max
+        # ---- req for reference_line
         if type(y_min_max) is tuple and y_min_max[1] > y_min_max[0]:
             self.y_min_max = y_min_max
         else:
