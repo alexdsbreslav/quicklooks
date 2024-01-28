@@ -4,6 +4,7 @@ from .plot_func_internal import define_markersize
 
 class line_plot:
     """
+    # ---- [PLACEHOLDER] describe your line plot -------------------------------
     line = ql.line_plot(chart_skeleton,
     x = ,
     y = ,

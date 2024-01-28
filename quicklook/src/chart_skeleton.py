@@ -20,8 +20,7 @@ class chart_skeleton:
 
     def __init__(self, size, color_library, title, ylabel, xlabel, x_min_max,
                  y_min_max, xtick_interval, ytick_interval, xtick_labels,
-                 ytick_labels, horizontal_gridlines_on, vertical_gridlines_on,
-                 font_file='default'):
+                 ytick_labels, horizontal_gridlines_on, vertical_gridlines_on):
 
         # ---- size
         # ---- affects markersize for line and scatter plots
@@ -116,16 +115,18 @@ class chart_skeleton:
         # style the plot -------------------------------------------------------
         # ----------------------------------------------------------------------
         # ---- define plot style based on style and size choice
-        figsize, label_pad, title_pad, linewidth, tick_pad, tick_length,\
-        fonts = define_plot_style(size, ylabel, font_file=font_file)
+        ps = plot_style(size, ylabel)
+
+        # ---- req for legend and text
+        self.plot_style = ps
 
         # ---- create the plot
-        fig, ax = plt.subplots(nrows=1, figsize = figsize)
+        fig, ax = plt.subplots(nrows=1, figsize = ps.figsize)
         self.ax = ax
 
         # ---- add the title
         ax.set_title(title, color = color_library.text,
-                     pad = title_pad, fontproperties = fonts['title'])
+                     pad = ps.title_pad, fontproperties = ps.fonts.title)
 
         # ---- create a patch to set the background color of the plot
         ax.patch.set_xy((-0.16, -0.14))
@@ -139,17 +140,17 @@ class chart_skeleton:
         # ---- add grid lines if necessary
         if horizontal_gridlines_on == True:
             ax.yaxis.grid(which='major', linestyle=':',
-            linewidth = linewidth, color = '0.8', zorder=1)
+            linewidth = ps.linewidth, color = '0.8', zorder=1)
 
         if vertical_gridlines_on == True:
             ax.xaxis.grid(which='major', linestyle=':',
-            linewidth = linewidth, color = '0.8', zorder=1)
+            linewidth = ps.linewidth, color = '0.8', zorder=1)
 
         # ---- style the axis lines
         for spine in ['top', 'right']:
             ax.spines[spine].set_visible(False)
         for spine in ['bottom', 'left']:
-            ax.spines[spine].set_linewidth(linewidth)
+            ax.spines[spine].set_linewidth(ps.linewidth)
             ax.spines[spine].set_color(color_library.text)
             ax.spines[spine].set_zorder(2)
 
@@ -157,13 +158,13 @@ class chart_skeleton:
         for i in range(2):
             ax.tick_params(['x','y'][i],
                            colors=color_library.text,
-                           width = linewidth, pad = tick_pad[i],
-                           length = tick_length)
+                           width = ps.linewidth, pad = ps.tick_pad[i],
+                           length = ps.tick_length)
 
         for tick in ax.get_xticklabels():
-            tick.set_font_properties(fonts['label'])
+            tick.set_font_properties(ps.fonts.label)
         for tick in ax.get_yticklabels():
-            tick.set_font_properties(fonts['label'])
+            tick.set_font_properties(ps.fonts.label)
 
         # ---- set the axis limits and number of ticks
         ax.set_ylim(y_min_max)
@@ -175,13 +176,13 @@ class chart_skeleton:
 
         # ---- label the y axis
         ax.set_ylabel(ylabel, color=color_library.text,
-                      rotation = 0, labelpad = label_pad[1],
+                      rotation = 0, labelpad = ps.label_pad[1],
                       horizontalalignment = 'center',
-                      linespacing = 1.6, fontproperties = fonts['label'])
+                      linespacing = 1.6, fontproperties = ps.fonts.label)
 
         # ---- label the x axis
         ax.set_xlabel(xlabel, color = color_library.text,
-                      labelpad = label_pad[0], fontproperties = fonts['label'])
+                      labelpad = ps.label_pad[0], fontproperties = ps.fonts.label)
 
         # ---- set the x and y tick labels
         set_tick_labels(xtick_labels, 'x', ax, x_min_max)

@@ -34,61 +34,64 @@ def find_text_width(text):
                      [len(text[idx_list[-1]+2:])]))
 
 
-# ---- define the fonts
-def define_plot_style(size, ylabel, font_file):
-    """
-    Only used internally
-    """
-    # ---- define fonts
-    fontsize = {'print': (12,10,9), 'half_slide': (26,20,18), 'full_slide': (40,34,32)}
-    font_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'fonts')
-    # ---- handles font files regardless of .ttf or .otf
-    # ---- check for title file
-    if font_file == 'default':
-        font_dir = os.listdir(font_folder)
+class plot_style:
+    class fonts:
+        def __init__(self, size):
+            # ---- define fonts
+            fontsize = {'half_slide': (26,20,16), 'full_slide': (40,34,30)}
+            font_folder = os.path.join((os.path.abspath('')), 'quicklook/fonts')
+            # ---- handles font files regardless of .ttf or .otf
+            # ---- check for title file
+            font_dir = os.listdir(font_folder)
 
-        if not [i for i in os.listdir(font_folder) if 'title' in i]:
-            raise FileNotFoundError('Make sure that the fonts folder contains a title.ttf or title.otf file')
-        else:
-            title_path = os.path.join(font_folder, font_dir[font_dir.index([i for i in font_dir if 'title' in i][0])])
+            if not [i for i in os.listdir(font_folder) if 'title' in i]:
+                raise FileNotFoundError('''Make sure that the fonts folder \
+                contains a title.ttf or title.otf file''')
+            else:
+                title_path = os.path.join(
+                    font_folder, font_dir[font_dir.index(
+                        [i for i in font_dir if 'title' in i][0])])
 
-        # ---- check for text file
-        if not [i for i in os.listdir(font_folder) if 'text' in i]:
-            raise FileNotFoundError('Make sure that the fonts folder contains a text.ttf or text.otf file')
-        else:
-            text_path = os.path.join(font_folder, font_dir[font_dir.index([i for i in font_dir if 'text' in i][0])])
+            # ---- check for text file
+            if not [i for i in os.listdir(font_folder) if 'text' in i]:
+                raise FileNotFoundError('Make sure that the fonts folder \
+                    contains a text.ttf or text.otf file')
+            else:
+                text_path = os.path.join(font_folder,
+                    font_dir[font_dir.index(
+                        [i for i in font_dir if 'text' in i][0])])
 
-    # ---- if we add and define a different tmp font
-    else:
-        title_path = os.path.join(font_folder, 'fonts', font_file)
-        text_path = os.path.join(font_folder, 'fonts', font_file)
+            self.title = font_manager.FontProperties(
+                fname=title_path, size = fontsize[size][0])
+            self.label = font_manager.FontProperties(
+                fname=text_path, size = fontsize[size][1])
+            self.legend = font_manager.FontProperties(
+                fname=text_path,size = fontsize[size][2])
+            self.size = fontsize[size]
 
-    fonts = {'title':font_manager.FontProperties(fname=title_path, size = fontsize[size][0]),
-             'label':font_manager.FontProperties(fname=text_path, size = fontsize[size][1]),
-             'legend':font_manager.FontProperties(fname=text_path, size = fontsize[size][2]),
-             'size':fontsize[size]}
+    def __init__(self, size, ylabel):
+        """
+        Only used internally
+        """
+        # ---- create style settings for plot padding and ticks
+        self.figsize = {'half_slide':(13,8.6666667),
+        'full_slide': (23,15)}[size]
 
-    # ---- create style settings for plot padding and ticks
-    figsize = {'print': (6,4),
-               'half_slide':(13,8.6666667),
-               'full_slide': (23,15)}[size]
-    label_pad = {'print': (5, 3*find_text_width(ylabel)[1] + 30),
-                 'half_slide': (35,3*find_text_width(ylabel)[1] + 70),
-                 'full_slide': (45,3*find_text_width(ylabel)[1] + 90)}[size]
-    title_pad = {'print': 15, 'half_slide': 35, 'full_slide': 45}[size]
-    linewidth = {'print': 1, 'half_slide': 2, 'full_slide': 3}[size]
-    tick_pad = {'print': (3, 3), 'half_slide': (5, 15), 'full_slide': (7.5, 20)}[size]
-    tick_length = {'print': 2.5, 'half_slide': 10, 'full_slide': 12.5}[size]
+        self.label_pad = {'half_slide': (35,3*find_text_width(ylabel)[1] + 70),
+        'full_slide': (45,3*find_text_width(ylabel)[1] + 90)}[size]
 
-    return figsize, label_pad, title_pad, linewidth, tick_pad, tick_length, fonts
-
+        self.title_pad = {'half_slide': 35, 'full_slide': 45}[size]
+        self.linewidth = {'half_slide': 2, 'full_slide': 3}[size]
+        self.tick_pad = {'half_slide': (5, 15), 'full_slide': (7.5, 20)}[size]
+        self.tick_length = {'half_slide': 10, 'full_slide': 12.5}[size]
+        self.fonts = self.fonts(size)
 
 # ---- define the marker size based on the plot size
 def define_markersize(size, marker_shape):
-    markersize = {'print':6, 'half_slide':10, 'full_slide':14}[size]
+    markersize = {'half_slide':10, 'full_slide':14}[size]
     if marker_shape not in ['', False, 'none', 'None', None, 'na', 'NA', 'n/a']:
         markersize = markersize
-        markeredgewidth = {'print':0.75, 'half_slide':2, 'full_slide':3}[size]
+        markeredgewidth = {'half_slide':2, 'full_slide':3}[size]
     else:
         markersize = 0
         markeredgewidth = 0

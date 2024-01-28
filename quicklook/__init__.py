@@ -13,3 +13,7 @@ from .src.cs_attributes import color_libraries
 from .src.bar_plot import bar_plot
 from .src.line_plot import line_plot
 from .src.reference_line import reference_line
+from .src.chart_legend import legend
+
+# ---- templates
+from .src.templates import templates
