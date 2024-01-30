@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from .plot_func_internal import *
+from .plot_and_text_styling import *
 from .cs_attributes import *
 
 class chart_skeleton:
@@ -48,6 +48,7 @@ class chart_skeleton:
         # ---- req for reference_line
         if type(x_min_max) is tuple and x_min_max[1] > x_min_max[0]:
             self.x_min_max = x_min_max
+            self.xrange = x_min_max[1] - x_min_max[0]
         else:
             raise AttributeError('x_min_max must be a tuple (e.g., (0,1) \
                                   where the second value is greater than \
@@ -57,6 +58,7 @@ class chart_skeleton:
         # ---- req for reference_line
         if type(y_min_max) is tuple and y_min_max[1] > y_min_max[0]:
             self.y_min_max = y_min_max
+            self.yrange = y_min_max[1] - y_min_max[0]
         else:
             raise AttributeError('y_min_max must be a tuple (e.g., (0,1) where\
                                   the second value is greater than the first')
@@ -115,10 +117,12 @@ class chart_skeleton:
         # style the plot -------------------------------------------------------
         # ----------------------------------------------------------------------
         # ---- define plot style based on style and size choice
-        ps = plot_style(size, ylabel)
+        ps = chart_skeleton_style(size, ylabel)
+        fs = font_style(size)
 
         # ---- req for legend and text
         self.plot_style = ps
+        self.font_style = fs
 
         # ---- create the plot
         fig, ax = plt.subplots(nrows=1, figsize = ps.figsize)
@@ -126,7 +130,7 @@ class chart_skeleton:
 
         # ---- add the title
         ax.set_title(title, color = color_library.text,
-                     pad = ps.title_pad, fontproperties = ps.fonts.title)
+                     pad = ps.title_pad, fontproperties = fs.title)
 
         # ---- create a patch to set the background color of the plot
         ax.patch.set_xy((-0.16, -0.14))
@@ -162,9 +166,9 @@ class chart_skeleton:
                            length = ps.tick_length)
 
         for tick in ax.get_xticklabels():
-            tick.set_font_properties(ps.fonts.label)
+            tick.set_font_properties(fs.label)
         for tick in ax.get_yticklabels():
-            tick.set_font_properties(ps.fonts.label)
+            tick.set_font_properties(fs.label)
 
         # ---- set the axis limits and number of ticks
         ax.set_ylim(y_min_max)
@@ -178,11 +182,11 @@ class chart_skeleton:
         ax.set_ylabel(ylabel, color=color_library.text,
                       rotation = 0, labelpad = ps.label_pad[1],
                       horizontalalignment = 'center',
-                      linespacing = 1.6, fontproperties = ps.fonts.label)
+                      linespacing = 1.6, fontproperties = fs.label)
 
         # ---- label the x axis
         ax.set_xlabel(xlabel, color = color_library.text,
-                      labelpad = ps.label_pad[0], fontproperties = ps.fonts.label)
+                      labelpad = ps.label_pad[0], fontproperties = fs.label)
 
         # ---- set the x and y tick labels
         set_tick_labels(xtick_labels, 'x', ax, x_min_max)

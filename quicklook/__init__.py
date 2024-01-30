@@ -12,8 +12,11 @@ from .src.cs_attributes import color_libraries
 # ---- plots
 from .src.bar_plot import bar_plot
 from .src.line_plot import line_plot
+
+# ---- reference items
 from .src.reference_line import reference_line
 from .src.chart_legend import legend
+from .src.text import text
 
 # ---- templates
 from .src.templates import templates

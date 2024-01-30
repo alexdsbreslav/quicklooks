@@ -14,13 +14,13 @@ class chart_xlabel:
 class chart_size:
     half_slide = 'half_slide'
     full_slide = 'full_slide'
-    print = 'print'
 
 class color_libraries:
     class mariglow:
         default = ['#9AA7FE', '#4B64FE', '#203DFE'] #blue
         background = '#ffffff'
         text = '#000000'
+        color_list = ['orange', 'peach', 'navy', 'blue']
         orange = ['#EF7B57', '#E94819', '#BB3911']
         peach = ['#FAF3EF', '#ECCFC0', '#DEAB91']
         navy = ['#2C4177', '#1A2747', '#0B101E']

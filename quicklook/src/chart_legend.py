@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from .plot_func_internal import define_markersize
+from .plot_and_text_styling import define_markersize
 
 class legend:
     """
@@ -28,7 +28,7 @@ class legend:
 
         legend = chart_skeleton.ax.legend(
                             loc = legend_location,
-                            prop = chart_skeleton.plot_style.fonts.legend,
+                            prop = chart_skeleton.font_style.legend,
                             frameon = frame,
                             fancybox = True,
                             facecolor = chart_skeleton.color_library.background,

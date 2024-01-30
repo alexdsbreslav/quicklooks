@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from .plot_func_internal import define_markersize
+from .plot_and_text_styling import define_markersize
+
 
 class reference_line:
     """

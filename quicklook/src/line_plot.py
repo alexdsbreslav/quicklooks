@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from .plot_func_internal import define_markersize
+from .plot_and_text_styling import define_markersize
 
 class line_plot:
     """
@@ -15,11 +15,12 @@ class line_plot:
     marker_shape = None, #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
     opacity = 1,
     label_for_legend = '',
+    plot_label = True,
     layer_order = 1)
     """
 
     def __init__(self, chart_skeleton, x, y, yerror, linewidth, linestyle,
-    color, marker_shape, opacity, label_for_legend, layer_order):
+    color, marker_shape, opacity, label_for_legend, plot_label, layer_order):
 
         if not chart_skeleton.ax:
             raise Exception('''The chart skeleton has not been built. \
@@ -53,6 +54,7 @@ class line_plot:
 
         # ---- define shades of color
         line = color[1]
+        fill = color[0]
         edge = color[2]
 
         # ---- define markersize
@@ -65,9 +67,9 @@ class line_plot:
                                   x,
                                   y - yerror,
                                   y + yerror,
-                                  color = line,
+                                  color = fill,
                                   label = None,
-                                  alpha = 0.2,
+                                  alpha = 0.6 if fill == '#000000' else 0.8,
                                   zorder = layer_order + 2);
 
         else:
@@ -107,6 +109,18 @@ class line_plot:
         else:
             ub = None
             lb = None
+
+        if plot_label:
+            text = chart_skeleton.ax.text(
+                    x[-1] + (chart_skeleton.xrange)*0.01,
+                    y[-1],
+                    label_for_legend,
+                    fontproperties=chart_skeleton.font_style.label,
+                    horizontalalignment = 'left',
+                    verticalalignment = 'center',
+                    size = chart_skeleton.font_style.size.l,
+                    color = line,
+                    zorder = layer_order + 2);
 
         self.line_obj = mean
         self.yerr_fill = fill
