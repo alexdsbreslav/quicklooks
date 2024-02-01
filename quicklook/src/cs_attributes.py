@@ -29,3 +29,17 @@ class color_libraries:
         gray = ['#ced4da', '#adb5bd', '#868e96']
         dark_gray = ['#495057', '#343a40', '#212529']
         black = ['#000000', '#000000', '#000000']
+
+    class skygrove:
+        default = ['#6E80D8', '#3E56CC', '#2B3FA1'] #blue
+        background = '#ffffff'
+        text = '#000000'
+        color_list = ['blue', 'periwinkle', 'sea_green', 'green_tea']
+        blue = ['#6E80D8', '#3E56CC', '#2B3FA1']
+        periwinkle = ['#EBEFFF', '#ADBEFF', '#708DFF']
+        sea_green = ['#57B27C', '#3E885B', '#2D6242']
+        green_tea = ['#EAF0D1', '#D5E1A3', '#BFD274']
+        light_gray = ['#f1f3f5', '#e9ecef', '#dee2e6']
+        gray = ['#ced4da', '#adb5bd', '#868e96']
+        dark_gray = ['#495057', '#343a40', '#212529']
+        black = ['#000000', '#000000', '#000000']

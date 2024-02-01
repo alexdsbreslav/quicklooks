@@ -101,9 +101,9 @@ def set_tick_labels(labels, axis, axis_object, min_max):
         pass
     elif labels == 'percents':
         if axis == 'x':
-            axis_object.xaxis.set_major_formatter(ticker.PercentFormatter(xmax=min_max[1]))
+            axis_object.xaxis.set_major_formatter(ticker.PercentFormatter(xmax=1))
         elif axis == 'y':
-            axis_object.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=min_max[1]))
+            axis_object.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1))
     elif type(labels) is list:
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')

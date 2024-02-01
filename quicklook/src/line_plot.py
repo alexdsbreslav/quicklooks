@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from .plot_and_text_styling import define_markersize
+import pandas as pd
 
 class line_plot:
     """
@@ -111,9 +112,19 @@ class line_plot:
             lb = None
 
         if plot_label:
+            if type(x) is pd.core.series.Series:
+                x_end = x.iloc[-1]
+            else:
+                x_end = x[-1]
+
+            if type(y) is pd.core.series.Series:
+                y_end = y.iloc[-1]
+            else:
+                y_end = y[-1]
+
             text = chart_skeleton.ax.text(
-                    x[-1] + (chart_skeleton.xrange)*0.01,
-                    y[-1],
+                    x_end + (chart_skeleton.xrange)*0.01,
+                    y_end,
                     label_for_legend,
                     fontproperties=chart_skeleton.font_style.label,
                     horizontalalignment = 'left',

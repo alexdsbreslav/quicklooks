@@ -6,7 +6,7 @@ class chart_skeleton:
     """
     chart_skeleton = ql.chart_skeleton(
     size = ql.chart_size.half_slide,
-    color_library = ql.color_libraries.mariglow,
+    color_library = ql.color_libraries.skygrove,
     title = '',
     xlabel = '',
     ylabel = '',
