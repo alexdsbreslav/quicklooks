@@ -4,31 +4,21 @@
 quicklook is a Python package for visualizing data quickly.  
 Check out the documentation by clicking [here](https://github.com/alexdsbreslav/quicklook/tree/master/how_to_use_quicklook) or by navigating to the folder `how_to_use_quicklook`.
 
+## Updated version coming soon!
+I am currently overhauling my data visualization package to (1) make it easier to use, (2) adding functionality that I (and I imagine many) data scientists want, and (3) creating a slide template in Figma and Google Slides so that your slides and data visualization all look amazing together.
+
 ## Why quicklook?
-My name is Alex. I am a cognitive scientist and quantitative user researcher; you can check out my [LinkedIn here](https://www.linkedin.com/in/alexanderbreslav/). I taught myself how to code during my PhD. As I was learning, data visualization posed a big problem. I constantly needed to visualize data, but creating visualizations that were attractive, easy-to-read, and shareable took forever. 
-
-I started writing quicklook to solve my own data visualization problems and I wanted to share my progress with others. Please check it out and let me know if I can make updates to help you solve your data visualization challenges! Please send me any feedback or questions (alexdsbreslav@gmail.com); this is the first and only package that I've written so your frustrations, confusions, and challenges are all incredibly valuable input!
-
-**The goal of quicklook is to create an easy way for users to make attractive, easy-to-read, and immediately shareable visualizations for their everyday analyses.** 
+Creating attractive, ready-to-share data visualizations takes forever. quickook is a cut-and-paste Python package that does the design work for you and makes it easy to create beautifuly simple data visualizations.
 
 ## Who is quicklook best for?
-This package is written for **researchers that have limited experience programming in Python**. I remember looking at documentaton for matplotlib, seaborn, bokeh, plotly etc. and being completely confused. quicklook aims to solve this problem; I want you to be able to visualize your data in Python without the incredibly time-consuming learning curve.
-
-In quicklook, I do my best to keep the language, examples, and documentation accessible for people just learning how to code.
-
-**To use quicklook, you'll need to know the basics of Python and Jupyter Notebooks.**
-
-## Still learning Python or how to use Jupyter Notebooks? 
-[Check out my python_for_uxr tutorial](https://github.com/alexdsbreslav/python_for_uxr)! This tutorial is designed specifically for researchers interested in learning how to code.
+quicklook is for any data scientist, product manager, or researcher that knows a little bit of Python and is analyzing their data in a Jupyter Notebook. My goal in writing quicklook was to make data viz more efficient, but in the process, I've also created a package that is easy to use for beginners.
 
 ## To install...
-1. Open Jupyter Lab
-2. Open a terminal
-3. Type `pip install git+git://github.com/alexdsbreslav/quicklook.git` and hit enter!
+Directions to come; I am currently overhauling the package and will upload to pip for easy installation.
 
 ## Documentation
-The [documentation is here](https://github.com/alexdsbreslav/quicklook/tree/master/how_to_use_quicklook) and always accessible from the main page in the folder `how_to_use_quicklook`! 
+The [documentation is here](https://github.com/alexdsbreslav/quicklook/tree/master/how_to_use_quicklook), but it's outdated. I am currently overhauling the package! 
 
 ## Acknowledgments
-quicklook is built using [Matplotlib](https://matplotlib.org/), [NumPy](https://numpy.org/), [Open Color](https://yeun.github.io/open-color/), and [seaborn](https://seaborn.pydata.org/).
+quicklook is built using [Matplotlib](https://matplotlib.org/), [NumPy](https://numpy.org/), [Pandas](https://pandas.pydata.org/), [Coolors](https://coolors.co/), and [seaborn](https://seaborn.pydata.org/).
 
