@@ -43,8 +43,6 @@ class color_libraries:
         gray = ['#ced4da', '#adb5bd', '#868e96']
         dark_gray = ['#495057', '#343a40', '#212529']
         black = ['#000000', '#000000', '#000000']
-<<<<<<< Updated upstream
-=======
 
     class opencolor:
         default = ['#4dabf7','#339af0','#228be6'] #blue
