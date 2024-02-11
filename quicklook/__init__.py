@@ -12,6 +12,7 @@ from .src.cs_attributes import color_libraries
 # ---- plots
 from .src.bar_plot import bar_plot
 from .src.line_plot import line_plot
+from .src.dist_plot import distribution_plot
 
 # ---- reference items
 from .src.reference_line import reference_line
