@@ -4,6 +4,7 @@ from matplotlib import font_manager
 import numpy as np
 import warnings
 import matplotlib.ticker as ticker
+import matplotlib.dates as mdates
 
 # ---- used to find the text width for the y label
 # ---- this helps set the distance between the edge of the plot
@@ -99,13 +100,10 @@ def define_markersize(size, marker_shape):
     return markersize, markeredgewidth
 
 def set_tick_labels(labels, axis, axis_object, min_max):
+    # ---- don't do anything if default
     if labels == 'default':
         pass
-    elif labels == 'percents':
-        if axis == 'x':
-            axis_object.xaxis.set_major_formatter(ticker.PercentFormatter(xmax=1))
-        elif axis == 'y':
-            axis_object.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1))
+    # ---- handle lists; x/y differentiation baked in
     elif type(labels) is list:
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
@@ -126,4 +124,70 @@ def set_tick_labels(labels, axis, axis_object, min_max):
             if axis == 'x':
                 axis_object.set_xticklabels(new_labels)
             elif axis == 'y':
+                axis_object.set_yticklabels(new_labels)
+    # ---- handle everything else, split by axis
+    else:
+        labels_need_edit = False
+        if axis == 'x':
+            if labels == 'percents':
+                axis_object.xaxis.set_major_formatter(ticker.PercentFormatter(xmax=1))
+            elif labels == 'years':
+                axis_object.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+            elif labels == 'quarters':
+                axis_object.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
+                labels_need_edit = True
+            # ---- dont include year if all months in the same year
+            elif labels == 'months':
+                if min_max[0].year == min_max[1].year:
+                    axis_object.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+                # ---- include year if all months goes across two years
+                else:
+                    axis_object.xaxis.set_major_formatter(mdates.DateFormatter('%b\n%Y'))
+                    labels_need_edit = True
+
+            elif labels == 'days':
+                axis_object.xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
+
+            else:
+                raise TypeError('''xtick_labels not properly defined''')
+
+            # ---- alter the xtick labels for quarters and month/year
+            if labels_need_edit:
+                pos = [i.get_position()[0] for i in axis_object.get_xticklabels()]
+                axis_object.xaxis.set_major_locator(ticker.FixedLocator(pos))
+                ao_labels = [i.get_text() for i in axis_object.get_xticklabels()]
+
+                # ---- replace month with name of quarter
+                if labels == 'quarters':
+                    replacements = {'Jan':'Q1', 'Apr':'Q2', 'Jul':'Q3', 'Oct':'Q4'}
+                    new_labels = ['{}\n{}'.format(replacements[l.split(' ')[0]],
+                        l.split(' ')[1]) for l in ao_labels]
+                # ---- only keep the first year and if month is Jan
+                elif labels == 'months':
+                    new_labels = [l if l.split('\n')[0] == 'Jan' or \
+                        l == ao_labels[0] else l.split('\n')[0] for l in ao_labels]
+
+                axis_object.set_xticklabels(new_labels)
+
+        elif axis == 'y':
+            if labels == 'percents':
+                axis_object.yaxis.set_major_formatter(ticker.PercentFormatter(xmax=1))
+            elif labels in ['1k', '100k', '1m']:
+                pos = [i.get_position()[1] for i in axis_object.get_yticklabels()]
+                axis_object.yaxis.set_major_locator(ticker.FixedLocator(pos))
+                ao_labels = [i.get_text() for i in axis_object.get_yticklabels()]
+
+                text_map = dict(zip(['1k','100k','1m'],[1e3,1e3,1e6]))
+                denom = text_map[labels]
+                label = labels[-1].upper()
+
+                if labels == '100k':
+                    new_labels = ['{:3.0f}{}'.format(
+                        i.get_position()[1]/denom,label
+                    ) for i in axis_object.get_yticklabels()]
+                else:
+                    new_labels = ['{:3.1f}{}'.format(
+                        i.get_position()[1]/denom,label
+                    ) for i in axis_object.get_yticklabels()]
+
                 axis_object.set_yticklabels(new_labels)

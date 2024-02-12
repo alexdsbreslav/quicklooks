@@ -1,15 +1,17 @@
 class chart_ylabel:
     default = 'default'
     percents = 'percents'
+    millions = '1m'
+    hundredK = '100k'
+    thousands = '1k'
 
 class chart_xlabel:
     default = 'default'
     percents = 'percents'
-    # years = 'years'
-    # quarters = 'quarters'
-    # months = 'months'
-    # weeks = 'weeks'
-    # days = 'days'
+    years = 'years'
+    quarters = 'quarters'
+    months = 'months'
+    days = 'days'
 
 class chart_size:
     half_slide = 'half_slide'

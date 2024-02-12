@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
 from .plot_and_text_styling import *
 from .cs_attributes import *
+from datetime import datetime
+from dateutil import relativedelta
+import matplotlib.dates as mdates
 
 class chart_skeleton:
     """
@@ -48,21 +51,13 @@ class chart_skeleton:
             raise AttributeError('xlabel not properly define: must be a string \
                                  (e.g., "Date")')
 
-        # ---- x_min_max
-        # ---- req for reference_line
-        if type(x_min_max) is tuple and x_min_max[1] > x_min_max[0]:
-            self.x_min_max = x_min_max
-            self.xrange = x_min_max[1] - x_min_max[0]
-        else:
-            raise AttributeError('x_min_max must be a tuple (e.g., (0,1) \
-                                  where the second value is greater than \
-                                  the first')
-
         # ---- y_min_max
         # ---- req for reference_line
         if type(y_min_max) is tuple and y_min_max[1] > y_min_max[0]:
             self.y_min_max = y_min_max
-            self.yrange = y_min_max[1] - y_min_max[0]
+            yrange = y_min_max[1] - y_min_max[0]
+            self.yrange = yrange
+
         else:
             raise AttributeError('y_min_max must be a tuple (e.g., (0,1) where\
                                   the second value is greater than the first')
@@ -72,38 +67,91 @@ class chart_skeleton:
             raise Exception('xtick_labels not properly defined: xtick_labels \
                              must be set to default, percents, or defined \
                              as a list of strings.')
-        elif type(xtick_labels) is str and xtick_labels not in ['default', 'percents']:
-            raise Exception('xtick_labels not properly defined: xtick_labels \
-                             must be set to default, percents, or defined \
-                             as a list of strings.')
+
+        # ---- set xaxis_type (will overwrite if timeseries)
+        xaxis_type = 'default'
+
+        # ---- check that label type and min_max match
+        if xtick_labels in ['years', 'months', 'quarters', 'days']:
+            if type(x_min_max[0]) is not str or type(x_min_max[1]) is not str:
+                raise TypeError('''If xtick label is set to a timeseries,
+                x_min_max must be a tuple with two date strings in the format
+                YYYY-MM-DD''')
+            # ---- if they do, convert str to datetime
+            else:
+                x_min_max = (datetime.strptime(x_min_max[0], '%Y-%m-%d'),
+                             datetime.strptime(x_min_max[1], '%Y-%m-%d'))
+
+                xaxis_type = 'timeseries'
+
+        # ---- req for reference line
+        self.xaxis_type = xaxis_type
 
         # ---- ytick_labels
         if type(ytick_labels) not in [str, list]:
-            raise Exception('ytick_labels not properly defined: ytick_labels \
-                             must be set to default, percents, or defined as a \
-                             list of strings.')
-        elif type(ytick_labels) is str and ytick_labels not in ['default', 'percents']:
-            raise Exception('ytick_labels not properly defined: ytick_labels \
-                             must be set to default, percents, or defined as a \
-                             list of strings.')
+            raise Exception('''ytick_labels not properly defined: ytick_labels
+                             must be set to default, percents, or defined as a
+                             list of strings.''')
 
-        # ---- xtick_interval
-        if xtick_interval > x_min_max[1] - x_min_max[0]:
-            raise AttributeError('xtick_interval is not properly defined: \
-                                  xtick_interval must be greater than \
-                                  x_max minus x_min.')
-        elif (x_min_max[1]-x_min_max[0])/xtick_interval > 50:
-            raise RuntimeError('quicklook is trying to plot too many xticks; \
-                                increase the xtick_interval')
+        # ---- check xtick labels
+        # ---- for timeseries
+        def_error = False
+        int_error = False
 
-        # ---- ytick_interval
-        if ytick_interval > y_min_max[1] - y_min_max[0]:
-            raise AttributeError('ytick_interval is not properly defined: \
-                                  ytick_interval must be greater than \
-                                  y_max minus y_min.')
-        elif (y_min_max[1]-y_min_max[0])/ytick_interval > 50:
-            raise RuntimeError('quicklook is trying to plot too many yticks; \
-                                increase the ytick_interval')
+        if xaxis_type == 'timeseries':
+            xrange = (x_min_max[1] - x_min_max[0]).days
+            rd = relativedelta.relativedelta(x_min_max[1], x_min_max[0])
+
+            if xtick_labels == 'days':
+                def_error = True if xtick_interval > xrange else False
+                int_error = True if 20*xtick_interval < xrange else False
+
+            elif xtick_labels == 'months':
+                if 2 > rd.years * 12 + rd.months:
+                    raise Exception('''xtick_interval not properly defined.
+                    Use days if the date range <= 3 months''')
+                elif 15 < rd.years * 12 + rd.months:
+                    raise Exception('''xtick_interval not properly defined.
+                    Use quarters if the date range > 15 months''')
+
+            elif xtick_labels == 'quarters':
+                if 9 > rd.years * 12 + rd.months:
+                    raise Exception('''xtick_interval not properly defined.
+                    Use months if the date range <= 9 months''')
+                elif 48 < rd.years * 12 + rd.months:
+                    raise Exception('''xtick_interval not properly defined.
+                    Use quarters if the date range > 16 quarters''')
+
+            elif xtick_labels == 'years':
+                def_error = True if xtick_interval > rd.years else False
+                int_error = True if 20*xtick_interval < rd.years else False
+
+        # ---- for everything else
+        else:
+            xrange = x_min_max[1] - x_min_max[0]
+            def_error = True if xtick_interval > xrange else False
+            int_error = True if 20*xtick_interval < xrange else False
+
+        if def_error:
+            raise Exception('''xtick_interval not properly defined.
+            Decrease the xtick_interval or change the xtick_labels''')
+        if int_error:
+            raise Exception('''xtick_interval is too small.
+            Increase the xtick_interval or change the xtick_labels''')
+
+
+        self.x_min_max = x_min_max
+        # ---- req for reference line
+        self.xrange = xrange
+
+        # ---- check ytick_labels
+        if ytick_interval > yrange:
+            raise Exception('''ytick_interval not properly defined;
+            decrease the ytick_interval''')
+
+        elif 20*ytick_interval < yrange:
+            raise Exception('''ytick_interval is too small;
+            increase the ytick_interval.''')
 
         # ---- vertical gridlines
         if type(vertical_gridlines_on) is not bool:
@@ -180,7 +228,20 @@ class chart_skeleton:
 
         # ---- set the number of ticks on the axes
         ax.yaxis.set_major_locator(plt.MultipleLocator(ytick_interval))
-        ax.xaxis.set_major_locator(plt.MultipleLocator(xtick_interval))
+        if xaxis_type == 'default':
+            ax.xaxis.set_major_locator(plt.MultipleLocator(xtick_interval))
+        else:
+            if xtick_labels == 'years':
+                ax.xaxis.set_major_locator(mdates.YearLocator(base=1))
+                print('xtick_interval ignored when xtick_label = years\n')
+            elif xtick_labels == 'quarters':
+                ax.xaxis.set_major_locator(mdates.MonthLocator((1,4,7,10)))
+                print('xtick_interval ignored when xtick_label = quarters\n')
+            elif xtick_labels == 'months':
+                ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
+                print('xtick_interval ignored when xtick_label = months\n')
+            elif xtick_labels == 'days':
+                ax.xaxis.set_major_locator(mdates.YearLocator(base=xtick_interval))
 
         # ---- label the y axis
         ax.set_ylabel(ylabel, color=color_library.text,

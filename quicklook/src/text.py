@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class text:
     """
     text = ql.text(chart_skeleton,
@@ -22,6 +24,12 @@ class text:
             raise Exception('''The chart skeleton has not been built. \
             You must build a chart skeleton for each new plot that you \
             want to create.''')
+
+        if chart_skeleton.xaxis_type == 'timeseries' and type(text_location_on_x_axis) is str:
+            location = datetime.strptime(location,'%Y-%m-%d')
+        elif chart_skeleton.xaxis_type == 'timeseries' and type(text_location_on_x_axis) is not str:
+            raise TypeError('''If xtick_label is set to timeseries,
+            location must be a string in the format YYYY-MM-DD''')
 
         if box_around_text:
             text = chart_skeleton.ax.text(

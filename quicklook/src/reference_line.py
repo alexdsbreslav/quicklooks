@@ -1,7 +1,8 @@
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from .plot_and_text_styling import define_markersize
-
+from datetime import datetime
 
 class reference_line:
     """
@@ -33,11 +34,22 @@ class reference_line:
         markersize, markeredgewidth = define_markersize(chart_skeleton.size, marker_shape)
 
         if line_type == 'h':
-            x = np.linspace(chart_skeleton.x_min_max[0],
-                            chart_skeleton.x_min_max[1],10)
+            if chart_skeleton.xaxis_type == 'timeseries':
+                x = pd.date_range(chart_skeleton.x_min_max[0],
+                                  chart_skeleton.x_min_max[1],
+                                  periods=10)
+            else:
+                x = np.linspace(chart_skeleton.x_min_max[0],
+                                chart_skeleton.x_min_max[1],10)
             y = np.full(10,location)
 
         elif line_type == 'v':
+            if chart_skeleton.xaxis_type == 'timeseries' and type(location) is str:
+                location = datetime.strptime(location,'%Y-%m-%d')
+            elif chart_skeleton.xaxis_type == 'timeseries' and type(location) is not str:
+                raise TypeError('''If xtick_label is set to timeseries,
+                location must be a string in the format YYYY-MM-DD''')
+
             x = np.full(10,location)
             y = np.linspace(chart_skeleton.y_min_max[0],
                             chart_skeleton.y_min_max[1],10)

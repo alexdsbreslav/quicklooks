@@ -2,10 +2,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from .plot_and_text_styling import define_markersize
 import pandas as pd
+from datetime import timedelta
 
 class line_plot:
     """
-    # ---- [PLACEHOLDER] describe your line plot -------------------------------
     line = ql.line_plot(chart_skeleton,
     x = ,
     y = ,
@@ -122,8 +122,13 @@ class line_plot:
             else:
                 y_end = y[-1]
 
+            if chart_skeleton.xaxis_type == 'timeseries':
+                x_loc = x_end + timedelta(chart_skeleton.xrange*0.01)
+            else:
+                x_loc = x_end + (chart_skeleton.xrange)*0.01
+
             text = chart_skeleton.ax.text(
-                    x_end + (chart_skeleton.xrange)*0.01,
+                    x_loc,
                     y_end,
                     label_for_legend,
                     fontproperties=chart_skeleton.font_style.label,
