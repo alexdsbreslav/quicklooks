@@ -7,6 +7,7 @@ class chart_skeleton:
     chart_skeleton = ql.chart_skeleton(
     size = ql.chart_size.half_slide,
     color_library = ql.color_libraries.skygrove,
+    font = ql.fonts.rubik,
     title = '',
     xlabel = '',
     ylabel = '',
@@ -18,7 +19,7 @@ class chart_skeleton:
     vertical_gridlines_on = False);
     """
 
-    def __init__(self, size, color_library, title, ylabel, xlabel, x_min_max,
+    def __init__(self, size, color_library, font, title, ylabel, xlabel, x_min_max,
                  y_min_max, xtick_interval, ytick_interval, xtick_labels,
                  ytick_labels, horizontal_gridlines_on, vertical_gridlines_on):
 
@@ -28,6 +29,9 @@ class chart_skeleton:
 
         # ---- colors
         self.color_library = color_library
+
+        # ---- font
+        self.font = font
 
         # ---- title
         if type(title) is not str:
@@ -118,7 +122,7 @@ class chart_skeleton:
         # ----------------------------------------------------------------------
         # ---- define plot style based on style and size choice
         ps = chart_skeleton_style(size, ylabel)
-        fs = font_style(size)
+        fs = font_style(size, self)
 
         # ---- req for legend and text
         self.plot_style = ps

@@ -8,6 +8,7 @@ from .src.cs_attributes import chart_size
 from .src.cs_attributes import chart_xlabel
 from .src.cs_attributes import chart_ylabel
 from .src.cs_attributes import color_libraries
+from .src.cs_attributes import fonts
 
 # ---- plots
 from .src.bar_plot import bar_plot

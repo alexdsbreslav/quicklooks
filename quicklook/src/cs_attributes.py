@@ -15,6 +15,15 @@ class chart_size:
     half_slide = 'half_slide'
     full_slide = 'full_slide'
 
+class fonts:
+    lato = 'lato'
+    montserrat = 'montserrat'
+    oswald = 'oswald'
+    roboto = 'roboto'
+    rubik = 'rubik'
+    source_sans = 'source_sans'
+    work_sans = 'work_sans'
+
 class color_libraries:
     class mariglow:
         default = ['#9AA7FE', '#4B64FE', '#203DFE'] #blue
