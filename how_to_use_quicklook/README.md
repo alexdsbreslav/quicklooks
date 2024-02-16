@@ -1,15 +1,23 @@
 # How to use quicklook
-**quicklook is written to be copied-and-pasted into your code**. I use quicklook in JupyterLab (and Jupyter Notebook) and I wrote it with that user interface in mind. If you do not already use JupyterLab and are interested in learning how, check out my [python_for_uxr tutorial](https://github.com/alexdsbreslav/python_for_uxr).
+quicklook **is a copy-and-paste** library that leverages Jupyter Notebooks user interface to make data visualization quick and efficient. 
 
-## Before you start...
-1. Make sure that quicklook is imported into your notebook. At the top of every one of my notebooks, I import quicklook along with several other key packages:
+## To start...
+1. Import quicklook (as well as a few key packages into your notebook)
 ```python
 import pandas as pd
 import numpy as np
-import os
-import quicklook
+import quicklook as ql
 ```
-2. Learn a few tips that will make copying-and-pasting quicklook code into your Jupyter Notebook quick and easy. [Right-click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md) to open the cheat-sheet in a new tab.
+Make sure you are familiar with two key Jupyter Notebook shortcuts:
+1. Hitting `tab` after you type `ql.` will show you a dropdown of everything in quicklook.
+2. Hitting `shift-tab` after you've entered a class name (e.g., `ql.chart_skeleton`) will show you the Docstring.
+
+For every function in quicklook, you'll copy and paste the Docstring into your code!
+
+
+https://github.com/alexdsbreslav/quicklook/assets/21344372/c2fe5d27-db2e-4c3e-a8d0-fd43b19ac02e
+
+
 
 ## For each new chart that you want to create...
 ### Step 1: Build a chart skeleton.
