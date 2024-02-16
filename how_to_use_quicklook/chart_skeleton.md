@@ -1,6 +1,5 @@
 ## quicklook.chart_skeleton
-A chart skeleton is the background, title, axes, and axis labels. It is a skeleton (or wireframe, or background) that we will layer plots on to. Plots are various ways that we can visualize data like line plots, bar plots, histograms, scatter plots etc.
-
+A chart skeleton is the background, title, axes, and axis labels. It is a skeleton (or wireframe, or background) that we will layer plots on to.
 ```python
 chart_skeleton = ql.chart_skeleton(
 size = ql.chart_size.notebook,
