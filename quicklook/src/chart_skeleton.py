@@ -245,7 +245,7 @@ class chart_skeleton:
 
         # ---- label the y axis
         ax.set_ylabel(ylabel, color=color_library.text,
-                      rotation = 0, labelpad = ps.label_pad[1],
+                      rotation = 90 if size == 'half_slide' else 0, labelpad = ps.label_pad[1],
                       horizontalalignment = 'center',
                       linespacing = 1.6, fontproperties = fs.label)
 

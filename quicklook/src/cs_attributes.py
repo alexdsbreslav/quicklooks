@@ -14,6 +14,7 @@ class chart_xlabel:
     days = 'days'
 
 class chart_size:
+    notebook = 'notebook'
     half_slide = 'half_slide'
     full_slide = 'full_slide'
 

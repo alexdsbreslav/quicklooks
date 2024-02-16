@@ -34,25 +34,41 @@ class chart_skeleton_style:
                              [len(text[idx_list[-1]+2:])]))
 
         # ---- create style settings for plot padding and ticks
-        self.figsize = {'half_slide':(13,8.6666667),
-        'full_slide': (23,15)}[chart_size]
+        self.figsize = {
+        'notebook': (6*16/9,6),
+        'half_slide':(15,15*3/4),
+        'full_slide': (30,30/1.94)
+        }[chart_size]
 
-        self.label_pad = {'half_slide': (35,3*find_text_width(ylabel)[1] + 70),
-        'full_slide': (45,3*find_text_width(ylabel)[1] + 90)}[chart_size]
+        self.label_pad = {
+        'notebook': (15,3*find_text_width(ylabel)[1] + 20),
+        'half_slide': (15,15),
+        'full_slide': (30,3*find_text_width(ylabel)[1] + 70)
+        }[chart_size]
 
-        self.title_pad = {'half_slide': 35, 'full_slide': 45}[chart_size]
-        self.linewidth = {'half_slide': 2, 'full_slide': 3}[chart_size]
-        self.tick_pad = {'half_slide': (5, 15), 'full_slide': (7.5, 20)}[chart_size]
-        self.tick_length = {'half_slide': 10, 'full_slide': 12.5}[chart_size]
+        self.title_pad = {'notebook': 30,
+                          'half_slide': 35,
+                          'full_slide': 35}[chart_size]
+        self.linewidth = {'notebook':2,
+                          'half_slide': 2,
+                          'full_slide': 4}[chart_size]
+        self.tick_pad = {'notebook': (5,5),
+                         'half_slide': (5, 5),
+                         'full_slide': (10, 10)}[chart_size]
+        self.tick_length = {'notebook': 6,
+                            'half_slide': 6,
+                            'full_slide': 10}[chart_size]
 
 class font_style:
     class font_size:
         def __init__(self,chart_size):
-            fs = {'half_slide': (26,20,16,12), 'full_slide': (40,34,30,26)}
-            self.xl = fs[chart_size][0]
-            self.l = fs[chart_size][1]
-            self.m = fs[chart_size][2]
-            self.s = fs[chart_size][3]
+            fs = {'notebook': 20,
+                  'half_slide': 32,
+                  'full_slide': 48}
+            self.xl = fs[chart_size]
+            self.l = fs[chart_size] - 4
+            self.m = fs[chart_size] - 8
+            self.s = fs[chart_size] - 12
 
     def __init__(self,chart_size,chart_skeleton):
         # ---- define fonts
@@ -90,10 +106,14 @@ class font_style:
 
 # ---- define the marker size based on the plot size
 def define_markersize(size, marker_shape):
-    markersize = {'half_slide':10, 'full_slide':14}[size]
+    markersize = {'notebook':7,
+                  'half_slide':10,
+                  'full_slide':14}[size]
     if marker_shape not in ['', False, 'none', 'None', None, 'na', 'NA', 'n/a']:
         markersize = markersize
-        markeredgewidth = {'half_slide':2, 'full_slide':3}[size]
+        markeredgewidth = {'notebook':2,
+                           'half_slide':2,
+                           'full_slide':3}[size]
     else:
         markersize = 0
         markeredgewidth = 0
