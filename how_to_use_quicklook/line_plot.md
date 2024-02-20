@@ -1,5 +1,5 @@
 # quicklook.line_plot
-To add a line to your chart, you will use th code:
+To add a line to your chart, you will use the code:
 ```python
 line = ql.line_plot(chart_skeleton,
 x = ,
