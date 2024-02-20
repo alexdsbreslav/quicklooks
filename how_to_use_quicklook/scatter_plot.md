@@ -1,4 +1,5 @@
 # quicklook.scatter_plot
+To add a scatter plot to your chart, you will use the code:
 ```python
 scatter = ql.scatter_plot(chart_skeleton,
 x = ,
