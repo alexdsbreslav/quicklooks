@@ -21,6 +21,7 @@ Parameters are the aspects of the line plot that you can change. Each parameter 
 - **x**: 1-dimensional array or iterable
     - Recommended: pandas [series](https://pandas.pydata.org/docs/reference/api/pandas.Series.html), pandas [index](https://pandas.pydata.org/docs/reference/api/pandas.Index.html), or numpy [array](https://numpy.org/doc/stable/reference/generated/numpy.array.html)
     - Advanced: this can take any iterable (e.g., range, list, tuple etc.)
+    - Note that if `xtick_labels` is a timeseries (i.e., `days`, `months`, `quarters`, or `years`), x must be an array of dates or datetimes; see more on this type of data [here](https://docs.python.org/3/library/datetime.html).
 - **y**: 1-dimensional array or iterable
     - Recommended: pandas [series](https://pandas.pydata.org/docs/reference/api/pandas.Series.html), pandas [index](https://pandas.pydata.org/docs/reference/api/pandas.Index.html), or numpy [array](https://numpy.org/doc/stable/reference/generated/numpy.array.html)
     - Advanced: this can take any iterable (e.g., range, list, tuple etc.)
@@ -54,4 +55,115 @@ These are values that are stored in the `line` object once you've run the code. 
 - **y_lb**: given error, returns lower bound line as [matploblib.lines.Line2D](https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D)
 
 ## Examples
-[PLACEHOLDER]
+```python
+import pandas as pd
+import numpy as np
+import quicklook as ql
+```
+```python
+# ---- make up some random data
+x = np.linspace(0,30,30)
+mobile = np.linspace(0,0.7,30)**(1/2)
+web = np.linspace(0,0.8,30)**(1/3)
+
+# ---- create the chart skeleton
+chart_skeleton = ql.chart_skeleton(
+size = ql.chart_size.notebook,
+color_library = ql.color_libraries.skygrove,
+font = ql.fonts.rubik,
+title = 'Version Uptake Since Launch',
+xlabel = 'Days Since Launch',
+ylabel = 'Users',
+x_min_max = (0,30), y_min_max = (0,1),
+xtick_interval = 3, ytick_interval = 0.1,
+xtick_labels = ql.chart_xlabel.default,
+ytick_labels = ql.chart_ylabel.percents,
+horizontal_gridlines_on = False,
+vertical_gridlines_on = False);
+
+# ---- add two lines
+line = ql.line_plot(chart_skeleton,
+x = x,
+y = mobile,
+yerror = None, #If no values, None
+color = chart_skeleton.color_library.default,
+linewidth = 3,
+linestyle = 'solid', #['solid', 'dashed', 'dotted', 'dashdot']
+marker_shape = None, #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+opacity = 1,
+label = 'Mobile',
+plot_label = True,
+layer_order = 1)
+
+line = ql.line_plot(chart_skeleton,
+x = x,
+y = web,
+yerror = None, #If no values, None
+color = chart_skeleton.color_library.periwinkle,
+linewidth = 3,
+linestyle = 'solid', #['solid', 'dashed', 'dotted', 'dashdot']
+marker_shape = None, #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+opacity = 1,
+label = 'Web',
+plot_label = True,
+layer_order = 1)
+```
+![download-3](https://github.com/alexdsbreslav/quicklook/assets/21344372/d09cd806-5603-4710-ac3f-480b1ab9d400)
+
+```python
+# ---- make up some arbitrary data
+rng = np.random.RandomState(1)
+baseline = 7e6
+activate = np.round(rng.normal(10e3,100e3,411))
+lapse = np.round(rng.normal(9.5e3,100e3,411))
+mau = baseline + (activate - lapse).cumsum()
+
+df = pd.DataFrame({'mau':mau}, index=pd.date_range('2023-01-01', '2024-02-15'))
+
+# ---- create the chart skeleton
+chart_skeleton = ql.chart_skeleton(
+size = ql.chart_size.notebook,
+color_library = ql.color_libraries.mariglow,
+font = ql.fonts.oswald,
+title = 'Montly Active Users',
+xlabel = 'Quarter',
+ylabel = 'MAU',
+x_min_max = ('2023-01-01','2024-02-15'), y_min_max = (5.5e6,9.5e6),
+xtick_interval = 3, ytick_interval = 0.5e6,
+xtick_labels = ql.chart_xlabel.quarters,
+ytick_labels = ql.chart_ylabel.millions,
+horizontal_gridlines_on = False,
+vertical_gridlines_on = True);
+
+# ---- add daily numbers
+line = ql.line_plot(chart_skeleton,
+x = df.index,
+y = df.mau,
+yerror = None, #If no values, None
+color = chart_skeleton.color_library.light_gray,
+linewidth = 2,
+linestyle = 'solid', #['solid', 'dashed', 'dotted', 'dashdot']
+marker_shape = None, #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+opacity = 1,
+label = 'Daily',
+plot_label = False,
+layer_order = 1)
+
+# ---- add rolling average
+line = ql.line_plot(chart_skeleton,
+x = df.index,
+y = df.mau.rolling(30, center=True).mean(),
+yerror = df.mau.rolling(30, center=True).sem(), #If no values, None
+color = chart_skeleton.color_library.default,
+linewidth = 3,
+linestyle = 'solid', #['solid', 'dashed', 'dotted', 'dashdot']
+marker_shape = None, #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+opacity = 1,
+label = '30d Avg',
+plot_label = False,
+layer_order = 2)
+
+legend = ql.legend(chart_skeleton,
+legend_location = ql.legend.loc.best, frame=False);
+```
+![download-4](https://github.com/alexdsbreslav/quicklook/assets/21344372/d73e1039-67a1-4090-981b-7fac5e647aee)
