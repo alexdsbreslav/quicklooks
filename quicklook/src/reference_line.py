@@ -15,12 +15,12 @@ class reference_line:
     linestyle = '--', #['-', '--', ':', '-.']
     marker_shape = None, #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
     opacity = 1,
-    label_for_legend = '',
+    label = '',
     layer_order = 1)
     """
 
     def __init__(self, chart_skeleton, line_type, location, color, linewidth,
-    linestyle, marker_shape, opacity, label_for_legend, layer_order):
+    linestyle, marker_shape, opacity, label, layer_order):
 
         if not chart_skeleton.ax:
             raise Exception('The chart skeleton has not been built. \
@@ -86,7 +86,7 @@ class reference_line:
                 mec = edge,
                 mew = markeredgewidth,
                 alpha = opacity,
-                label = label_for_legend,
+                label = label,
                 zorder = layer_order + 2);
 
         self.line_obj = line

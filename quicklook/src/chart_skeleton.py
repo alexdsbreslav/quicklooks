@@ -241,7 +241,7 @@ class chart_skeleton:
                 ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
                 print('xtick_interval ignored when xtick_label = months\n')
             elif xtick_labels == 'days':
-                ax.xaxis.set_major_locator(mdates.YearLocator(base=xtick_interval))
+                ax.xaxis.set_major_locator(mdates.DayLocator(interval=xtick_interval))
 
         # ---- label the y axis
         ax.set_ylabel(ylabel, color=color_library.text,

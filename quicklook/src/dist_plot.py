@@ -14,14 +14,14 @@ class distribution_plot:
     color = chart_skeleton.color_library.default,
     color_brightness = 'default', #{}
     opacity = 1,
-    label_for_legend = '',
+    label = '',
     layer_order = 1)
     """
 
     def __init__(self, chart_skeleton, data, override_chart_skeleton,
     distribution_min_max, bin_interval,
     dist_type, color, color_brightness, opacity,
-    label_for_legend, layer_order):
+    label, layer_order):
 
         if not chart_skeleton.ax:
             raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
@@ -112,13 +112,13 @@ class distribution_plot:
             dist = sns.kdeplot(data, fill=True, linewidth=0, color=fill,
                                clip= chart_skeleton.ax.get_xlim() if override_chart_skeleton else distribution_min_max,
                                alpha=opacity, ax=chart_skeleton.ax,
-                               zorder=3, label=label_for_legend);
+                               zorder=3, label=label);
 
         else:
             # ---- plot distribution
             dist = chart_skeleton.ax.hist(data, bins=bins, alpha=opacity,
                                       rwidth=0.85, color=fill, density= dist_type == 'binned_density',
-                                      linewidth=0, label=label_for_legend,
+                                      linewidth=0, label=label,
                                       zorder = 3, joinstyle='round');
         if override_chart_skeleton:
             print('Your build_chart_skeleton settings are automatically being set as:\n'

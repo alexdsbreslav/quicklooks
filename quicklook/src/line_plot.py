@@ -15,13 +15,13 @@ class line_plot:
     linestyle = '-', #['-', '--', ':', '-.']
     marker_shape = None, #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
     opacity = 1,
-    label_for_legend = '',
+    label = '',
     plot_label = True,
     layer_order = 1)
     """
 
     def __init__(self, chart_skeleton, x, y, yerror, linewidth, linestyle,
-    color, marker_shape, opacity, label_for_legend, plot_label, layer_order):
+    color, marker_shape, opacity, label, plot_label, layer_order):
 
         if not chart_skeleton.ax:
             raise Exception('''The chart skeleton has not been built. \
@@ -87,7 +87,7 @@ class line_plot:
                     markeredgecolor = edge,
                     markeredgewidth = markeredgewidth,
                     alpha = opacity,
-                    label = label_for_legend,
+                    label = label,
                     solid_capstyle='round',
                     zorder = layer_order + 2);
 
@@ -130,7 +130,7 @@ class line_plot:
             text = chart_skeleton.ax.text(
                     x_loc,
                     y_end,
-                    label_for_legend,
+                    label,
                     fontproperties=chart_skeleton.font_style.label,
                     horizontalalignment = 'left',
                     verticalalignment = 'center',

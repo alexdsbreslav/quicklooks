@@ -13,11 +13,11 @@ class scatter_plot:
     color = chart_skeleton.color_library.default,
     marker_shape = 'o', #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x', '']
     opacity = 1,
-    label_for_legend = '',
+    label = '',
     layer_order = 1)
     '''
     def __init__(self, chart_skeleton, x, y, x_error, y_error,
-    color, marker_shape, opacity, label_for_legend, layer_order):
+    color, marker_shape, opacity, label, layer_order):
 
         if not chart_skeleton.ax:
             raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
@@ -96,7 +96,7 @@ class scatter_plot:
                 mec = None if x_error is not None and y_error is not None else edge,
                 mfc = line,
                 mew = 0 if x_error is not None and y_error is not None else markeredgewidth,
-                label = label_for_legend,
+                label = label,
                 alpha = opacity,
                 zorder = layer_order + 2);
 
