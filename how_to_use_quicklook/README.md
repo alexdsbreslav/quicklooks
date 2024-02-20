@@ -23,7 +23,7 @@ https://github.com/alexdsbreslav/quicklook/assets/21344372/c2fe5d27-db2e-4c3e-a8
 ### Step 1: Build a chart skeleton.
 A **chart skeleton** is the background, title, axes, and axis labels. It is a skeleton (or wireframe, or background) that we will layer **plots** onto.
 **Plots** are various ways that we can visualize data like line plots, bar plots, histograms, scatter plots etc.
-- [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) to go to directions for building a chart skeleton.
+- [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/chart_skeleton.md) to go to directions for building a chart skeleton.
 
 ### Step 2: Add plots to your chart skeleton to visualize your data.
 Click on the links below to go to directions for that plot:
