@@ -1,135 +1,23 @@
-# Add a bar plot to your chart skeleton
-To add a bar to your chart, we will use the function:
+# quicklook.bar_plot
+To add a bar to your chart, you will use the code:
 ```python
-quicklook.add_bar_plot
-```
-
-**Always copy and paste!** quicklook is designed as a copy-and-paste package. You should always copy the default code into your notebook from the documentation.
-For tips on how to easily copy-and-paste quicklook code into your notebook, [click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md).
-
-## Basic Example:
-1. Make sure that quicklook is imported into your notebook.
-2. Get your data! Here, I'll create some arbitrary data and save it as `x_values` and `y_values`.
-3. Create your chart skeleton.
-    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
-4. Add your bars using `quicklook.add_bar_plot`
-
-```python
-import pandas as pd
-import numpy as np
-import os
-import quicklook
-```
-```python
-# ---- create arbitrary data
-rng = np.random.RandomState(1)
-x_labels = ['Category {}'.format(i) for i in range(4)]
-y_values = rng.rand(4)
-
-# ---- create the chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(
-size = 'half_slide', #['print', 'half_slide', 'full_slide']
-title = 'Making a Bar Plot',
-xlabel = 'Categories',
-ylabel = 'Y\nValues',
-x_min_max = (0,4), y_min_max = (0,1),
-xtick_interval = 1, ytick_interval = 0.25,
-xtick_labels = 'default', #['default', 'percents', list]
-ytick_labels = 'default', #['default', 'percents', list]
-horizontal_gridlines_on = False,
-vertical_gridlines_on = False);
-
-# ---- add a bar plot
-bar = quicklook.add_bar_plot(chart_skeleton,
-x_labels = x_labels,
-y = y_values,
-y_error = None, #If no values, None
-bars_at_each_xlabel = 1,
+bar = ql.bar_plot(chart_skeleton,
+xlabels = ,
+y = ,
+yerror = None, #If no values, None
+bars_per_xlabel = 1,
 bar_index = 0,
-color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-color_brightness = 'default', #['light', 'default', 'dark']
+color = chart_skeleton.color_library.default,
 opacity = 1,
-label_for_legend = '',
+label = '',
 layer_order = 1)
 ```
-![basic_example](https://github.com/alexdsbreslav/quicklook/blob/master/images/plots/bar/basic_example.png)
 
-## Complete Example:
-1. Make sure that quicklook is imported into your notebook.
-2. Get your data! Here, I'll create some arbitrary data.
-3. Create your chart skeleton.
-   - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
-4. Add multiple bar plots using `quicklook.add_bar_plot` and adjust the style options.
-5. Add a legend.
-   - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_legend.md) for more details on adding a legend to your chart
-6. Save the chart to your computer.
-    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/save_chart_to_your_computer.md) for more details on how to save your chart to your computer.
-```python
-import pandas as pd
-import numpy as np
-import os
-import quicklook
-```
-```python
-# ---- create arbitrary data
-rng = np.random.RandomState(1)
-x_labels = ['Category {}'.format(i) for i in range(4)]
-blue_y_values = rng.rand(4)
-green_group_y_values = pd.DataFrame(rng.rand(4,10))
-
-# ---- create the chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(
-size = 'half_slide', #['print', 'half_slide', 'full_slide']
-title = 'Making a Bar Plot',
-xlabel = 'Categories',
-ylabel = 'Y\nValues',
-x_min_max = (0,4), y_min_max = (0,1),
-xtick_interval = 1, ytick_interval = 0.25,
-xtick_labels = 'default', #['default', 'percents', list]
-ytick_labels = 'default', #['default', 'percents', list]
-horizontal_gridlines_on = False,
-vertical_gridlines_on = False);
-
-# ---- add a bar plot
-blue_bar = quicklook.add_bar_plot(chart_skeleton,
-x_labels = x_labels,
-y = blue_y_values,
-y_error = None, #If no values, None
-bars_at_each_xlabel = 2,
-bar_index = 0,
-color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-color_brightness = 'default', #['light', 'default', 'dark']
-opacity = 1,
-label_for_legend = 'Blue Bars',
-layer_order = 1)
-
-# ---- add a green bar plot
-# ---- these bars are the means of a group, so we'll also show the standard error
-green_bar = quicklook.add_bar_plot(chart_skeleton,
-x_labels = x_labels,
-y = green_group_y_values.mean(1),
-y_error =  green_group_y_values.sem(1), #If no values, None
-bars_at_each_xlabel = 2,
-bar_index = 1,
-color_name = 'green', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-color_brightness = 'default', #['light', 'default', 'dark']
-opacity = 1,
-label_for_legend = 'Green Bars',
-layer_order = 1)
-
-# ---- add legend
-legend = quicklook.add_legend(chart_skeleton,
-legend_location = 'best', frame_around_legend=False);
-
-# ---- save chart to computer
-quicklook.save_chart_to_computer(chart_skeleton,
-                     chart_name = 'complete_example',
-                     path_to_folder_to_save_chart_in = os.path.join(img_output,'plots','bar'),
-                     print_confirmation=False);
-```
-![complete_example](https://github.com/alexdsbreslav/quicklook/blob/master/images/plots/bar/complete_example.png)
-
-## Note:
+**Always copy and paste!** quicklook is designed as a copy-and-paste package. Once you've typed `ql.bar_plot` into your notebook, you can hit `shift-tab` to view and copy/paste the Docstring.
+## Parameters
+## Returns
+## Examples
+## Note
 - To add multiple bars, I set `bars_at_each_xlabel = 2`
 - For the blue bars, I set `bar_index = 0`; this means that they will be created at the left most index 0.
 - For the green bars, I set `bar_index = 1`; this means that they will be created at the right-most index 1<sup>*</sup>.
