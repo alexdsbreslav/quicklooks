@@ -1,154 +1,57 @@
-# Add a line plot to your chart skeleton
-To add a line to your chart, we will use the function:
+# quicklook.line_plot
+To add a line to your chart, you will use th code:
 ```python
-quicklook.add_line_plot
-```
-
-**Always copy and paste!** quicklook is designed as a copy-and-paste package. You should always copy the default code into your notebook from the documentation.
-For tips on how to easily copy-and-paste quicklook code into your notebook, [click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/copy_and_paste_quicklook_code.md).
-
-## Basic Example:
-1. Make sure that quicklook is imported into your notebook.
-2. Get your data! Here, I'll create some arbitrary data and save it as `x_values` and `y_values`.
-3. Create your chart skeleton.
-    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
-4. Add your line using `quicklook.add_line_plot`
-
-```python
-import pandas as pd
-import numpy as np
-import os
-import quicklook
-```
-```python
-# ---- create arbitrary data
-x_values = np.linspace(-1,1,20)
-y_values = [1/(1+np.exp(-5*i)) for i in x_values]
-
-# ---- create the chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(
-size = 'half_slide',
-title = 'Making a Line Plot',
-xlabel = 'X Values',
-ylabel = 'Y\nValues',
-x_min_max = (-1,1), y_min_max = (0,1),
-xtick_interval = 0.25, ytick_interval = 0.25,
-xtick_labels = 'default',
-ytick_labels = 'default',
-horizontal_gridlines_on = False,
-vertical_gridlines_on = False);
-
-# ---- add line
-line = quicklook.add_line_plot(chart_skeleton,
-x = x_values,
-y = y_values,
-y_error = None, #If no values, None
-color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-color_brightness = 'default', #['default', 'light', 'dark']
-linewidth = 7,
-linestyle = '-', #['-', '--', ':', '-.']
-marker_shape = '', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
-opacity = 1,
-label_for_legend = '',
-layer_order = 1)
-```
-![basic_example](https://github.com/alexdsbreslav/quicklook/blob/master/images/plots/line/basic_example.png)
-
-## Complete Example:
-1. Make sure that quicklook is imported into your notebook.
-2. Get your data! Here, I'll create some arbitrary data.
-3. Create your chart skeleton.
-   - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/build_chart_skeleton.md) for more details on how to build a chart skeleton
-4. Add multiple lines using `quicklook.add_line_plot` and adjust the style options.
-5. Add a legend.
-   - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/add_legend.md) for more details on adding a legend to your chart
-6. Save the chart to your computer.
-    - [Click here](https://github.com/alexdsbreslav/quicklook/blob/master/how_to_use_quicklook/save_chart_to_your_computer.md) for more details on how to save your chart to your computer.
-```python
-import pandas as pd
-import numpy as np
-import os
-import quicklook
-```
-```python
-# ---- create arbitrary x values
-x_values = np.linspace(-1,1,20)
-# ---- create y values for gray line
-y_values = [1/(1+np.exp(-5*i)) for i in x_values]
-# ---- create slightly different y values for blue line
-blue_y_values = [0.75/(1+np.exp(-5*i))+0.25 for i in x_values]
-# ---- create y values for 10 different participants
-rng = np.random.RandomState(1)
-purple_group_y_values = pd.DataFrame([[0.75/(1+np.exp(-5*i)) for i in x_values]+rng.uniform(-0.2,0.2,20) for i in range(10)],
-                                            columns = x_values).T
-
-# ---- create the chart skeleton
-chart_skeleton = quicklook.build_chart_skeleton(
-size = 'half_slide',
-title = 'Making a Line Plot',
-xlabel = 'X Values',
-ylabel = 'Y\nValues',
-x_min_max = (-1,1), y_min_max = (0,1),
-xtick_interval = 0.25, ytick_interval = 0.25,
-xtick_labels = 'default',
-ytick_labels = 'default',
-horizontal_gridlines_on = False,
-vertical_gridlines_on = False);
-
-# ---- add thin dark gray dotted line without markers
-dot_line = quicklook.add_line_plot(chart_skeleton,
-x = x_values,
-y = y_values,
-y_error = None, #If no values, None
-color_name = 'gray', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-color_brightness = 'dark', #['default', 'light', 'dark']
-linewidth = 3,
-linestyle = ':', #['-', '--', ':', '-.']
-marker_shape = 'None', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
-opacity = 1,
-label_for_legend = 'Gray Reference Line',
-layer_order = 3)
-
-# ---- add thick blue line with dot markers
-# ---- make slightly transparent so grey line shows through
-# ---- these values do not have any error
-thick_blue = quicklook.add_line_plot(chart_skeleton,
-x = x_values,
-y = blue_y_values,
-y_error = None, #If no values, None
-color_name = 'blue', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-color_brightness = 'default', #['default', 'light', 'dark']
-linewidth = 7,
-linestyle = '-', #['-', '--', ':', '-.']
-marker_shape = '.', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
-opacity = 0.5,
-label_for_legend = 'Blue Line',
-layer_order = 1)
-
-# ---- add medium grape line with diamond markers
-# ---- make slightly transparent so gray line shows through
-# ---- this line is the mean of a group, so we'll also show the standard error
-medium_grape = quicklook.add_line_plot(chart_skeleton,
-x = x_values,
-y = purple_group_y_values.mean(1),
-y_error = purple_group_y_values.sem(1), #If no values, None
-color_name = 'grape', #['gray', 'red', 'pink', 'grape', 'violet', 'indigo', 'blue', 'cyan', 'teal', 'green', 'lime', 'yellow', 'orange']
-color_brightness = 'default', #['default', 'light', 'dark']
+line = ql.line_plot(chart_skeleton,
+x = ,
+y = ,
+yerror = None, #If no values, None
+color = chart_skeleton.color_library.default,
 linewidth = 5,
 linestyle = '-', #['-', '--', ':', '-.']
-marker_shape = 'd', #['None', 'o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
-opacity = 0.5,
-label_for_legend = 'Purple Group',
-layer_order = 3)
-
-# ---- add legend
-quicklook.add_legend(chart_skeleton,
-legend_location = 'best', frame_around_legend=False);
-
-# ---- save plot
-quicklook.save_chart_to_computer(chart_skeleton,
-                     chart_name = 'complete_example',
-                     path_to_folder_to_save_chart_in = os.path.join(img_output, 'plots', 'line'),
-                     print_confirmation=False)
+marker_shape = None, #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+opacity = 1,
+label_for_legend = '',
+plot_label = True,
+layer_order = 1)
 ```
-![complete_example](https://github.com/alexdsbreslav/quicklook/blob/master/images/plots/line/complete_example.png)
+
+**Always copy and paste!** quicklook is designed as a copy-and-paste package. Once you've typed `ql.line_plot` into your notebook, you can hit `shift-tab` to view and copy/paste the Docstring.
+## Parameters
+Parameters are the aspects of the line plot that you can change. Each parameter only accepts certain values.
+- **x**: 1-dimensional array or iterable
+    - Recommended: pandas [series](https://pandas.pydata.org/docs/reference/api/pandas.Series.html), pandas [index](https://pandas.pydata.org/docs/reference/api/pandas.Index.html), or numpy [array](https://numpy.org/doc/stable/reference/generated/numpy.array.html)
+    - Advanced: this can take any iterable (e.g., range, list, tuple etc.)
+- **y**: 1-dimensional array or iterable
+    - Recommended: pandas [series](https://pandas.pydata.org/docs/reference/api/pandas.Series.html), pandas [index](https://pandas.pydata.org/docs/reference/api/pandas.Index.html), or numpy [array](https://numpy.org/doc/stable/reference/generated/numpy.array.html)
+    - Advanced: this can take any iterable (e.g., range, list, tuple etc.)
+- **yerror**: 1-dimensional array or iterable; default `None`
+    - Recommended: pandas [series](https://pandas.pydata.org/docs/reference/api/pandas.Series.html), pandas [index](https://pandas.pydata.org/docs/reference/api/pandas.Index.html), or numpy [array](https://numpy.org/doc/stable/reference/generated/numpy.array.html)
+    - Advanced: this can take any iterable (e.g., range, list, tuple etc.)
+- **linewidth**: integer; default `3`
+    - Recommended: values between 1-10
+- **linestyle**: string; default `'solid'`
+    - Recommended: one of ['solid', 'dotted', 'dashed', 'dashdot']
+    - Advanced: can take any matplotlib [LineStyle](https://matplotlib.org/stable/gallery/lines_bars_and_markers/linestyles.html)
+- **marker_shape**: string; default `None`
+    - Recommended: one of ['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
+    - Advanced: can take any matplotlib [marker](https://matplotlib.org/stable/api/markers_api.html)
+- **opacity**: float; default `1`
+    - 0 is invisible, 1 is entirely opaque
+- **label**: string;
+    - This is the label for the line which can shown in the plot and/or the legend
+- **plot_label**: bool (True or False); default `True`
+    - This dictates whether the label is plotted at the end of the line
+    - If `False`, strongly recommended that you add a legend to your plot using `ql.legend`
+    - Recommend `False` for plots intended for half slides (i.e., when `size = 'half_slide`)
+- **layer_order**: integer; default `1`
+    - This dictates what is drawn 1st, 2nd, 3rd etc.
+    - Higher numbered plots will be drawn on top of lower numbered plots; if `layer_order = 1` for all plots, plots will be drawn in the order that they appear in the code.
+## Returns
+These are values that are stored in the `line` object once you've run the code. **You will rarely ever need these,** but you can use these objects for advanced features like animating your plot into a gif.
+- **line_obj**: returns mean line; [matploblib.lines.Line2D](https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D)
+- **yerr_fill**: given error, returns fill between upper and lower bound as a [matploblib.collections.PolyCollection](https://matplotlib.org/stable/api/collections_api.html#matplotlib.collections.PolyCollection)
+- **y_ub**: given error, returns upper bound line as [matploblib.lines.Line2D](https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D)
+- **y_lb**: given error, returns lower bound line as [matploblib.lines.Line2D](https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D)
+
+## Examples
+[PLACEHOLDER]
