@@ -1,4 +1,5 @@
 # quicklook.text
+To add text to your chart, you will use the code:
 ```python
 text = ql.text(chart_skeleton,
 text = '',
