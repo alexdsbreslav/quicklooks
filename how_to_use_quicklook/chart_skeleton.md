@@ -1,4 +1,4 @@
-## quicklook.chart_skeleton
+# quicklook.chart_skeleton
 A chart skeleton is the background, title, axes, and axis labels. It is a skeleton (or wireframe, or background) that we will layer plots on to.
 ```python
 chart_skeleton = ql.chart_skeleton(
