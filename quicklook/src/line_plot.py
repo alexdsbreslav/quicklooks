@@ -11,8 +11,8 @@ class line_plot:
     y = ,
     yerror = None, #If no values, None
     color = chart_skeleton.color_library.default,
-    linewidth = 5,
-    linestyle = '-', #['-', '--', ':', '-.']
+    linewidth = 3,
+    linestyle = 'solid', #['solid', 'dashed', 'dotted', 'dashdot']
     marker_shape = None, #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
     opacity = 1,
     label = '',

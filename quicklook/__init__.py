@@ -23,3 +23,6 @@ from .src.text import text
 
 # ---- templates
 from .src.templates import templates
+
+# ---- save function
+from .src.save_chart import save_chart

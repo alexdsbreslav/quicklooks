@@ -6,7 +6,6 @@ from datetime import datetime
 
 class reference_line:
     """
-    # ---- [PLACEHOLDER] describe reference line -------------------------------
     ref_line = ql.reference_line(chart_skeleton,
     line_type = 'h', #['h' (hor), 'v' (vert), 'du' (diag-up), 'dd' (diag-down)]
     location = , #If diag-up or diag-down, None
