@@ -6,7 +6,7 @@ x = ,
 y = ,
 yerror = None, #If no values, None
 color = chart_skeleton.color_library.default,
-linewidth = 5,
+linewidth = 3,
 linestyle = '-', #['-', '--', ':', '-.']
 marker_shape = None, #['o', '.', 'v', '^', 's', 'd', 'D', 'X', 'x']
 opacity = 1,
@@ -43,7 +43,7 @@ Parameters are the aspects of the line plot that you can change. Each parameter 
 - **plot_label**: bool (True or False); default `True`
     - This dictates whether the label is plotted at the end of the line
     - If `False`, strongly recommended that you add a legend to your plot using `ql.legend`
-    - Recommend `False` for plots intended for half slides (i.e., when `size = 'half_slide`)
+    - Recommend `False` for plots intended for half slides (i.e., when `size = 'half_slide'`)
 - **layer_order**: integer; default `1`
     - This dictates what is drawn 1st, 2nd, 3rd etc.
     - Higher numbered plots will be drawn on top of lower numbered plots; if `layer_order = 1` for all plots, plots will be drawn in the order that they appear in the code.
