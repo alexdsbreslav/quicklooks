@@ -46,7 +46,7 @@ Parameters are the aspects of the distribution plot that you can change. Each pa
     - Higher numbered plots will be drawn on top of lower numbered plots; if `layer_order = 1` for all plots, plots will be drawn in the order that they appear in the code.
 ## Returns
 These are values that are stored in the `dist` object once you've run the code. **You will rarely ever need these,** but you can use these objects for advanced features like animating your plot into a gif.
-- **distribution_obj**: returns histogram as a set of three objects defined within [matploblib.pyplot.hist](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.hist.html). If `dist_type = 'smooth_density'` then returns histrogram as a matplotlib.axes.Axes object as outline within [seaborn.kdeplot](https://seaborn.pydata.org/generated/seaborn.kdeplot.html).
+- **distribution_obj**: returns histogram as a set of three objects defined within [matploblib.pyplot.hist](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.hist.html). If `dist_type = 'smooth_density'` then returns histrogram as a `matplotlib.axes.Axes` object as outlined within [seaborn.kdeplot](https://seaborn.pydata.org/generated/seaborn.kdeplot.html).
 ## Examples
 ## Note
 To accurately compare multiple distributions, I **strongly recommend**:
