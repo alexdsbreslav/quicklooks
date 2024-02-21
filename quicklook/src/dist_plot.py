@@ -12,7 +12,6 @@ class distribution_plot:
     bin_interval = None, #If dist_type is smooth_density, None
     dist_type = 'binned_counts', #['binned_counts', 'binned_density', 'smooth_density']
     color = chart_skeleton.color_library.default,
-    color_brightness = 'default', #{}
     opacity = 1,
     label = '',
     layer_order = 1)
@@ -20,8 +19,7 @@ class distribution_plot:
 
     def __init__(self, chart_skeleton, data, override_chart_skeleton,
     distribution_min_max, bin_interval,
-    dist_type, color, color_brightness, opacity,
-    label, layer_order):
+    dist_type, color, opacity, label, layer_order):
 
         if not chart_skeleton.ax:
             raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'

@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 
 class bar_plot:
     """
-    # ---- [PLACEHOLDER] describe your bar plot --------------------------------
     bar = ql.bar_plot(chart_skeleton,
     xlabels = ,
     y = ,
