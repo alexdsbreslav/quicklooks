@@ -28,6 +28,7 @@ Parameters are the aspects of the line plot that you can change. Each parameter 
 - **yerror**: 1-dimensional array or iterable; default `None`
     - Recommended: pandas [series](https://pandas.pydata.org/docs/reference/api/pandas.Series.html), pandas [index](https://pandas.pydata.org/docs/reference/api/pandas.Index.html), or numpy [array](https://numpy.org/doc/stable/reference/generated/numpy.array.html)
     - Advanced: this can take any iterable (e.g., range, list, tuple etc.)
+- **color**: this is defined by the chart_skeleton's color library; delete `default` and hit `tab` to see available colors in the color library
 - **linewidth**: integer; default `3`
     - Recommended: values between 1-10
 - **linestyle**: string; default `'solid'`
