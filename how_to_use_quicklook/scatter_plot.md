@@ -40,6 +40,6 @@ layer_order = 1)
 ## Returns
 - **scatter_obj**: returns points; [matploblib.lines.Line2D](https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D)
 - **error_obj**:
-  - given x *or* y error, returns fill between upper and lower bound as a [matploblib.container.ErrobarContainer](https://matplotlib.org/stable/api/container_api.html#matplotlib.container.ErrorbarContainer)
+  - given x *or* y error, returns [matploblib.container.ErrobarContainer](https://matplotlib.org/stable/api/container_api.html#matplotlib.container.ErrorbarContainer)
   - given x *and* y error, returns a dictionary with keys `fill` and `outline`, that provide lists of [matplotlib.patches.Ellipse](https://matplotlib.org/stable/api/_as_gen/matplotlib.patches.Ellipse.html)
 ## Examples
