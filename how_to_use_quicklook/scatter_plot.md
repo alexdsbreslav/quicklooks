@@ -17,7 +17,6 @@ layer_order = 1)
 - **x**: 1-dimensional array or iterable
     - Recommended: pandas [series](https://pandas.pydata.org/docs/reference/api/pandas.Series.html), pandas [index](https://pandas.pydata.org/docs/reference/api/pandas.Index.html), or numpy [array](https://numpy.org/doc/stable/reference/generated/numpy.array.html)
     - Advanced: this can take any iterable (e.g., range, list, tuple etc.)
-    - Note that if `xtick_labels` is a timeseries (i.e., `days`, `months`, `quarters`, or `years`), x must be an array of dates or datetimes; see more on this type of data [here](https://docs.python.org/3/library/datetime.html).
 - **y**: 1-dimensional array or iterable
     - Recommended: pandas [series](https://pandas.pydata.org/docs/reference/api/pandas.Series.html), pandas [index](https://pandas.pydata.org/docs/reference/api/pandas.Index.html), or numpy [array](https://numpy.org/doc/stable/reference/generated/numpy.array.html)
     - Advanced: this can take any iterable (e.g., range, list, tuple etc.)
