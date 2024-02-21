@@ -26,6 +26,11 @@ class distribution_plot:
         if not chart_skeleton.ax:
             raise Exception('The chart skeleton has not been built. You must build a chart skeleton for each new plot that you want to create.\n'
                             'Run quicklook.build_chart_skeleton to build a chart skeleton.')
+
+        if chart_skeleton.xaxis_type == 'timeseries':
+            raise Exception('''The chart skeleton xtick_label is set to a timeseries (e.g., months, days).
+                               This is not compatible with a distribution plot.''')
+
         # ---- check data types
         if type(data) in [str, int, float, bool]:
             raise TypeError('x is not properly defined. x should be a 1 dimensional array of values.')

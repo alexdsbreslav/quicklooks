@@ -24,6 +24,11 @@ class bar_plot:
             You must build a chart skeleton for each new plot that you want \
             to create.''')
 
+        if chart_skeleton.xaxis_type == 'timeseries':
+            raise Exception('''The chart skeleton xtick_label is set to a
+                               timeseries (e.g., months, days). This is not
+                               compatible with a scatter plot.''')
+
         if type(xlabels) in [str, int, float, bool]:
             raise TypeError('''x is not properly defined.
             x should be a 1 dimensional array of values.''')
@@ -118,6 +123,6 @@ class bar_plot:
         else:
             error = None
 
-        self.bar = bar
+        self.bar_obj = bar
         self.xlim = xlim
         self.zorder = layer_order + 2
