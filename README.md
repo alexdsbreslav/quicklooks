@@ -1,4 +1,4 @@
-![example_image](https://github.com/alexdsbreslav/quicklook/blob/master/images/quicklook_example.png)
+![example_plot](https://github.com/alexdsbreslav/quicklook/assets/21344372/1eb05d0b-5712-4bda-8500-78a5aa76f110)
 
 # quicklook
 quicklook is a Python package for visualizing data quickly.  
