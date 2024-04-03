@@ -1,4 +1,4 @@
-# quicklook.text
+# quicklooks.text
 To add text to your chart, you will use the code:
 ```python
 text = ql.text(chart_skeleton,
@@ -14,7 +14,7 @@ box_around_text = False,
 layer_order = 1)
 ```
 
-**Always copy and paste!** quicklook is designed as a copy-and-paste package. Once you've typed `ql.text` into your notebook, you can hit `shift-tab` to view and copy/paste the Docstring.
+**Always copy and paste!** quicklooks is designed as a copy-and-paste package. Once you've typed `ql.text` into your notebook, you can hit `shift-tab` to view and copy/paste the Docstring.
 ## Parameters
 ## Returns
 ## Examples
