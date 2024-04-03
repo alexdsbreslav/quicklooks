@@ -36,31 +36,7 @@ Parameters are the aspects of the chart skeleton that you can change. Each param
 ## Returns
 These are values that are stored in the `chart_skeleton` object once you've run the code. **You will rarely ever need these,** but you can use this object, as well as other instances returned in the `chart_skeleton` to add custom matplotlib layers to your chart.
 - **ax**: [matploblin.axes class](https://matplotlib.org/stable/api/axes_api.html)
-```python
-import numpy as np
-import pandas as pd
-import quicklooks as ql
-import matplotlib.pyplot as plt
 
-chart_skeleton = ql.chart_skeleton(
-size = ql.chart_size.notebook,
-color_library = ql.color_libraries.skygrove,
-font = ql.fonts.rubik,
-title = '',
-xlabel = '',
-ylabel = '',
-x_min_max = (0,30), y_min_max = (0,1),
-xtick_interval = 3, ytick_interval = 0.1,
-xtick_labels = ql.chart_xlabel.default,
-ytick_labels = ql.chart_ylabel.percents,
-horizontal_gridlines_on = False,
-vertical_gridlines_on = False);
-
-chart_skeleton.ax.plot(np.linspace(0,30,30),
-                       np.linspace(0,0.8,30)**(1/3),
-                       c=chart_skeleton.color_library.sea_green[0],
-                       linewidth=5)
-```
 ## Examples
 ```python
 chart_skeleton = ql.chart_skeleton(
