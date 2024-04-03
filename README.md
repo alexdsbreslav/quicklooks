@@ -1,13 +1,13 @@
 ![example_plot](https://github.com/alexdsbreslav/quicklook/assets/21344372/1eb05d0b-5712-4bda-8500-78a5aa76f110)
 
-# quicklook
+# quicklooks
 quicklook is a Python package for visualizing data quickly.  
 Check out the documentation by clicking [here](https://github.com/alexdsbreslav/quicklook/tree/master/how_to_use_quicklook) or by navigating to the folder `how_to_use_quicklook`.
 
-## Why quicklook?
+## Why quicklooks?
 Creating attractive, ready-to-share data visualizations takes forever. quickook is a cut-and-paste Python package that does the design work for you and makes it easy to create beautifuly simple data visualizations.
 
-## Who is quicklook best for?
+## Who is quicklooks best for?
 quicklook is for any data scientist, product manager, or researcher that knows a little bit of Python and is analyzing their data in a Jupyter Notebook. My goal in writing quicklook was to make data viz more efficient, but in the process, I've also created a package that is easy to use for beginners.
 
 ## To install...
