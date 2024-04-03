@@ -1,4 +1,4 @@
-# quicklook.bar_plot
+# quicklooks.bar_plot
 To add a bar to your chart, you will use the code:
 ```python
 bar = ql.bar_plot(chart_skeleton,
@@ -13,7 +13,7 @@ label = '',
 layer_order = 1)
 ```
 
-**Always copy and paste!** quicklook is designed as a copy-and-paste package. Once you've typed `ql.bar_plot` into your notebook, you can hit `shift-tab` to view and copy/paste the Docstring.
+**Always copy and paste!** quicklooks is designed as a copy-and-paste package. Once you've typed `ql.bar_plot` into your notebook, you can hit `shift-tab` to view and copy/paste the Docstring.
 ## Parameters
 Parameters are the aspects of the line plot that you can change. Each parameter only accepts certain values.
 - **xlabels**: list of strings; labels for each category of bars
