@@ -34,8 +34,9 @@ Parameters are the aspects of the chart skeleton that you can change. Each param
 - **vertical_gridlines_on**: bool (True or False); default False
 
 ## Returns
-These are values that are stored in the `chart_skeleton` object once you've run the code. **You will rarely ever need these,** but you can use this object, as well as other instances returned in the `chart_skeleton` to add custom matplotlib layers to your chart.
+These are values that are stored in the `chart_skeleton` object once you've run the code. The objects returned here are mostly used internally when you plot other objects onto the chart skeleton. **You will rarely ever need these,** but you can use the `.ax` object to add custom matplotlib layers to your chart. You can use the `.color_library` to get the hex codes for the available colors.
 - **ax**: [matploblin.axes class](https://matplotlib.org/stable/api/axes_api.html)
+- **color_library**: class containing available colors (e.g., `chart_skeleton.color_library.gray`) stored as lists of hex codes in the format `['lighter shade', 'color', 'darker shade']`.
 
 ## Examples
 ```python
