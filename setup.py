@@ -1,4 +1,8 @@
 from setuptools import setup
+from pathlib import Path
+
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
 
 setup(
   name = 'quicklook',         # How you named your package folder (MyLib)
@@ -6,6 +10,8 @@ setup(
   version = '0.1',      # Start with a small number and increase it with every change you make
   license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'quicklook is a Python package for visualizing data quickly using matplotlib.',   # Give a short description about your library
+  long_description = long_description,
+  long_description_content_type = 'text/markdown',
   author = 'Alex Breslav',                   # Type in your name
   author_email = 'alexdsbreslav@gmail.com',      # Type in your E-Mail
   url = 'https://www.linkedin.com/in/alexanderbreslav/',   # Provide either the link to your github or to your website
