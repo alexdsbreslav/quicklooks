@@ -1,4 +1,4 @@
-# quicklook.scatter_plot
+# quicklooks.scatter_plot
 To add a scatter plot to your chart, you will use the code:
 ```python
 scatter = ql.scatter_plot(chart_skeleton,
@@ -12,7 +12,7 @@ opacity = 1,
 label = '',
 layer_order = 1)
 ```
-**Always copy and paste!** quicklook is designed as a copy-and-paste package. Once you've typed `ql.scatter_plot` into your notebook, you can hit `shift-tab` to view and copy/paste the Docstring.
+**Always copy and paste!** quicklooks is designed as a copy-and-paste package. Once you've typed `ql.scatter_plot` into your notebook, you can hit `shift-tab` to view and copy/paste the Docstring.
 ## Parameters
 - **x**: 1-dimensional array or iterable
     - Recommended: pandas [series](https://pandas.pydata.org/docs/reference/api/pandas.Series.html), pandas [index](https://pandas.pydata.org/docs/reference/api/pandas.Index.html), or numpy [array](https://numpy.org/doc/stable/reference/generated/numpy.array.html)

@@ -1,4 +1,4 @@
-# quicklook.line_plot
+# quicklooks.line_plot
 To add a line to your chart, you will use the code:
 ```python
 line = ql.line_plot(chart_skeleton,
@@ -15,7 +15,7 @@ plot_label = True,
 layer_order = 1)
 ```
 
-**Always copy and paste!** quicklook is designed as a copy-and-paste package. Once you've typed `ql.line_plot` into your notebook, you can hit `shift-tab` to view and copy/paste the Docstring.
+**Always copy and paste!** quicklooks is designed as a copy-and-paste package. Once you've typed `ql.line_plot` into your notebook, you can hit `shift-tab` to view and copy/paste the Docstring.
 ## Parameters
 Parameters are the aspects of the line plot that you can change. Each parameter only accepts certain values.
 - **x**: 1-dimensional array or iterable
@@ -59,7 +59,7 @@ These are values that are stored in the `line` object once you've run the code. 
 ```python
 import pandas as pd
 import numpy as np
-import quicklook as ql
+import quicklooks as ql
 ```
 ```python
 # ---- make up some random data
@@ -109,7 +109,7 @@ label = 'Web',
 plot_label = True,
 layer_order = 1)
 ```
-![download-3](https://github.com/alexdsbreslav/quicklook/assets/21344372/d09cd806-5603-4710-ac3f-480b1ab9d400)
+![download-3](https://github.com/alexdsbreslav/quicklooks/assets/21344372/d09cd806-5603-4710-ac3f-480b1ab9d400)
 
 ```python
 # ---- make up some arbitrary data
@@ -167,4 +167,4 @@ layer_order = 2)
 legend = ql.legend(chart_skeleton,
 legend_location = ql.legend.loc.best, frame=False);
 ```
-![download-4](https://github.com/alexdsbreslav/quicklook/assets/21344372/d73e1039-67a1-4090-981b-7fac5e647aee)
+![download-4](https://github.com/alexdsbreslav/quicklooks/assets/21344372/d73e1039-67a1-4090-981b-7fac5e647aee)
