@@ -11,7 +11,7 @@ Creating attractive, ready-to-share data visualizations takes forever. quickook 
 quicklook is for any data scientist, product manager, or researcher that knows a little bit of Python and is analyzing their data in a Jupyter Notebook. My goal in writing quicklook was to make data viz more efficient, but in the process, I've also created a package that is easy to use for beginners.
 
 ## To install...
-Directions to come; I am currently overhauling the package and will upload to pip for easy installation.
+`pip install quicklooks`
 
 ## Documentation
 The [documentation is here](https://github.com/alexdsbreslav/quicklook/tree/master/how_to_use_quicklook).
