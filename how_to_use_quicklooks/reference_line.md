@@ -1,4 +1,4 @@
-# quicklook.reference_line
+# quicklooks.reference_line
 To add a reference line to your chart, you will use the code:
 ```python
 ref_line = ql.reference_line(chart_skeleton,
@@ -13,7 +13,7 @@ label = '',
 layer_order = 1)
 ```
 
-**Always copy and paste!** quicklook is designed as a copy-and-paste package. Once you've typed `ql.reference_line` into your notebook, you can hit `shift-tab` to view and copy/paste the Docstring.
+**Always copy and paste!** quicklooks is designed as a copy-and-paste package. Once you've typed `ql.reference_line` into your notebook, you can hit `shift-tab` to view and copy/paste the Docstring.
 ## Parameters
 ## Returns
 ## Examples
