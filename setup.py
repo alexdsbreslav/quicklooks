@@ -7,7 +7,7 @@ long_description = (this_directory / "README.md").read_text()
 setup(
   name = 'quicklooks',         # How you named your package folder (MyLib)
   packages = ['quicklooks'],   # Chose the same as "name"
-  version = '0.0.4',      # Start with a small number and increase it with every change you make
+  version = '0.0.5',      # Start with a small number and increase it with every change you make
   license='MIT',        # Chose a license from here: https://help.github.com/articles/licensing-a-repository
   description = 'quicklook is a Python package for visualizing data quickly using matplotlib.',   # Give a short description about your library
   long_description = long_description,
