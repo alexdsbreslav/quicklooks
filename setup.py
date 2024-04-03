@@ -15,7 +15,7 @@ setup(
   include_package_data=True, #fonts
   author = 'Alex Breslav',                   # Type in your name
   author_email = 'alexdsbreslav@gmail.com',      # Type in your E-Mail
-  url = 'https://www.linkedin.com/in/alexanderbreslav/',   # Provide either the link to your github or to your website
+  url = 'https://github.com/alexdsbreslav/quicklooks',   # Provide either the link to your github or to your website
   keywords = ['matplotlib', 'data-visualization', 'python'],   # Keywords that define your package best
   install_requires=[            # I get to this in a second
           'numpy',
