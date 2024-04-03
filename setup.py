@@ -12,6 +12,7 @@ setup(
   description = 'quicklook is a Python package for visualizing data quickly using matplotlib.',   # Give a short description about your library
   long_description = long_description,
   long_description_content_type = 'text/markdown',
+  include_package_data=True, #fonts
   author = 'Alex Breslav',                   # Type in your name
   author_email = 'alexdsbreslav@gmail.com',      # Type in your E-Mail
   url = 'https://www.linkedin.com/in/alexanderbreslav/',   # Provide either the link to your github or to your website
