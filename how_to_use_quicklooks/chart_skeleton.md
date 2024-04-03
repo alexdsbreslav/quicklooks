@@ -1,4 +1,4 @@
-# quicklook.chart_skeleton
+# quicklooks.chart_skeleton
 A chart skeleton is the background, title, axes, and axis labels. It is a skeleton (or wireframe, or background) that we will layer plots on to.
 ```python
 chart_skeleton = ql.chart_skeleton(
@@ -39,7 +39,7 @@ These are values that are stored in the `chart_skeleton` object once you've run 
 ```python
 import numpy as np
 import pandas as pd
-import quicklook as ql
+import quicklooks as ql
 import matplotlib.pyplot as plt
 
 chart_skeleton = ql.chart_skeleton(
@@ -77,7 +77,7 @@ ytick_labels = ql.chart_ylabel.percents,
 horizontal_gridlines_on = False,
 vertical_gridlines_on = False);
 ```
-![cs_example_1](https://github.com/alexdsbreslav/quicklook/assets/21344372/2148ba7f-ccf4-4fc4-ac90-1e3a273de488)
+![cs_example_1](https://github.com/alexdsbreslav/quicklooks/assets/21344372/2148ba7f-ccf4-4fc4-ac90-1e3a273de488)
 
 ```python
 chart_skeleton = ql.chart_skeleton(
@@ -94,7 +94,7 @@ ytick_labels = ql.chart_ylabel.millions,
 horizontal_gridlines_on = True,
 vertical_gridlines_on = True);
 ```
-![cs_example_2](https://github.com/alexdsbreslav/quicklook/assets/21344372/82720ebd-8aa1-4d9a-a910-f6f66329e589)
+![cs_example_2](https://github.com/alexdsbreslav/quicklooks/assets/21344372/82720ebd-8aa1-4d9a-a910-f6f66329e589)
 
 ## Next steps...
-Now you have a chart skeleton! The next step is to visualize your data using plots (e.g. line plots, bar plots, scatter plots, histograms) on top of your chart skeleton. [Click here](https://github.com/alexdsbreslav/quicklook/tree/master/how_to_use_quicklook) to go to the directory of plots that you can add.
+Now you have a chart skeleton! The next step is to visualize your data using plots (e.g. line plots, bar plots, scatter plots, histograms) on top of your chart skeleton. [Click here](https://github.com/alexdsbreslav/quicklooks/tree/master/how_to_use_quicklooks) to go to the directory of plots that you can add.
