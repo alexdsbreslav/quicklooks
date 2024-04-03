@@ -18,7 +18,7 @@ from .scatter_plot import scatter_plot
 
 # ---- reference items
 from .reference_line import reference_line
-from .chart_legend import legend
+from .legend import legend
 from .text import text
 
 # ---- templates
