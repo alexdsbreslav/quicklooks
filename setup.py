@@ -21,7 +21,6 @@ setup(
           'matplotlib',
           'pandas',
           'datetime',
-          'dateutil',
           'seaborn'
       ],
   classifiers=[
