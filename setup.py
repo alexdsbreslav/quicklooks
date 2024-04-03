@@ -9,7 +9,7 @@ setup(
   author = 'Alex Breslav',                   # Type in your name
   author_email = 'alexdsbreslav@gmail.com',      # Type in your E-Mail
   url = 'https://www.linkedin.com/in/alexanderbreslav/',   # Provide either the link to your github or to your website
-  download_url = 'https://github.com/alexdsbreslav/quicklook/archive/refs/tags/alpha_v01.tar.gz',
+  download_url = 'https://github.com/alexdsbreslav/quicklooks/archive/refs/tags/alpha_v0101.tar.gz',
   keywords = ['matplotlib', 'data-visualization', 'python'],   # Keywords that define your package best
   install_requires=[            # I get to this in a second
           'numpy',
