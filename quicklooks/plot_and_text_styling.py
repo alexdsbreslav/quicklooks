@@ -72,8 +72,9 @@ class font_style:
 
     def __init__(self,chart_size,chart_skeleton):
         # ---- define fonts
-        font_folder = os.path.join((os.path.abspath('')),
-                        'quicklook/fonts',
+        this_directory = Path(__file__).parent
+        font_folder = os.path.join(this_directory,
+                        'fonts',
                         chart_skeleton.font)
         # ---- handles font files regardless of .ttf or .otf
         # ---- check for title file
