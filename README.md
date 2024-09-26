@@ -28,5 +28,5 @@ import quicklooks as ql
 The [documentation is here](https://github.com/alexdsbreslav/quicklook/tree/master/how_to_use_quicklook).
 
 ## Acknowledgments
-quicklook is built using [Matplotlib](https://matplotlib.org/), [NumPy](https://numpy.org/), [Pandas](https://pandas.pydata.org/), [Coolors](https://coolors.co/), and [seaborn](https://seaborn.pydata.org/).
+quicklook is built using [Matplotlib](https://matplotlib.org/), [NumPy](https://numpy.org/), [Pandas](https://pandas.pydata.org/), [Coolors](https://coolors.co/), [opencolor](https://yeun.github.io/open-color/), and [seaborn](https://seaborn.pydata.org/).
 
