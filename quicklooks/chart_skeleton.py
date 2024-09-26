@@ -9,7 +9,7 @@ class chart_skeleton:
     """
     chart_skeleton = ql.chart_skeleton(
     size = ql.chart_size.notebook,
-    color_library = ql.color_libraries.skygrove,
+    color_library = ql.color_libraries.opencolor,
     font = ql.fonts.rubik,
     title = '',
     xlabel = '',
