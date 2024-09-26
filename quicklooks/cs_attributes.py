@@ -57,21 +57,61 @@ class color_libraries:
         black = ['#000000', '#000000', '#000000']
 
     class opencolor:
+        """
+        chart_skeleton.color_library.
+        color_list = [chart_skeleton.color_library.light_red, 
+                      chart_skeleton.color_library.red, 
+                      chart_skeleton.color_library.light_dark_red,
+                      chart_skeleton.color_library.light_pink, 
+                      chart_skeleton.color_library.pink, 
+                      chart_skeleton.color_library.light_dark_pink,
+                      chart_skeleton.color_library.light_grape, 
+                      chart_skeleton.color_library.grape, 
+                      chart_skeleton.color_library.light_dark_grape,
+                      chart_skeleton.color_library.light_violet, 
+                      chart_skeleton.color_library.violet, 
+                      chart_skeleton.color_library.dark_violet,
+                      chart_skeleton.color_library.light_indigo, 
+                      chart_skeleton.color_library.indigo, 
+                      chart_skeleton.color_library.dark_indigo,
+                      chart_skeleton.color_library.light_blue, 
+                      chart_skeleton.color_library.blue, 
+                      chart_skeleton.color_library.dark_blue,
+                      chart_skeleton.color_library.light_cyan, 
+                      chart_skeleton.color_library.cyan, 
+                      chart_skeleton.color_library.dark_cyan,
+                      chart_skeleton.color_library.light_teal, 
+                      chart_skeleton.color_library.teal, 
+                      chart_skeleton.color_library.dark_teal,
+                      chart_skeleton.color_library.light_green, 
+                      chart_skeleton.color_library.green, 
+                      chart_skeleton.color_library.dark_green,
+                      chart_skeleton.color_library.light_lime, 
+                      chart_skeleton.color_library.lime, 
+                      chart_skeleton.color_library.dark_lime,
+                      chart_skeleton.color_library.light_yellow, 
+                      chart_skeleton.color_library.yellow, 
+                      chart_skeleton.color_library.dark_yellow,
+                      chart_skeleton.color_library.light_orange, 
+                      chart_skeleton.color_library.orange, 
+                      chart_skeleton.color_library.dark_orange]
+        """
+        
         default = ['#4dabf7','#339af0','#228be6'] #blue
         background = '#ffffff'
         text = '#000000'
-        color_list = ['light_red', 'red', 'dark_red',
-                      'light_pink', 'pink', 'dark_pink',
-                      'light_grape', 'grape', 'dark_grape',
-                      'light_violet', 'violet', 'dark_violet',
-                      'light_indigo', 'indigo', 'dark_indigo',
-                      'light_blue', 'blue', 'dark_blue',
-                      'light_cyan', 'cyan', 'dark_cyan',
-                      'light_teal', 'teal', 'dark_teal',
-                      'light_green', 'green', 'dark_green',
-                      'light_lime', 'lime', 'dark_lime',
-                      'light_yellow', 'yellow', 'dark_yellow',
-                      'light_orange', 'orange', 'dark_orange']
+        color_list = [chart_skeleton.color_library.light_red', 'red', 'dark_red',
+                      chart_skeleton.color_library.light_pink', 'pink', 'dark_pink',
+                      chart_skeleton.color_library.light_grape', 'grape', 'dark_grape',
+                      chart_skeleton.color_library.light_violet', 'violet', 'dark_violet',
+                      chart_skeleton.color_library.light_indigo', 'indigo', 'dark_indigo',
+                      chart_skeleton.color_library.light_blue', 'blue', 'dark_blue',
+                      chart_skeleton.color_library.light_cyan', 'cyan', 'dark_cyan',
+                      chart_skeleton.color_library.light_teal', 'teal', 'dark_teal',
+                      chart_skeleton.color_library.light_green', 'green', 'dark_green',
+                      chart_skeleton.color_library.light_lime', 'lime', 'dark_lime',
+                      chart_skeleton.color_library.light_yellow', 'yellow', 'dark_yellow',
+                      chart_skeleton.color_library.light_orange', 'orange', 'dark_orange']
 
         light_red = ['#ffe3e3','#ffc9c9','#ffa8a8']
         red = ['#ff8787','#ff6b6b','#fa5252']
