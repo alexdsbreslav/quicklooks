@@ -56,6 +56,7 @@ class color_libraries:
         dark_gray = ['#495057', '#343a40', '#212529']
         black = ['#000000', '#000000', '#000000']
 
+    # https://yeun.github.io/open-color/
     class opencolor:
         """
         chart_skeleton.color_library.
@@ -153,3 +154,23 @@ class color_libraries:
         gray = ['#ced4da', '#adb5bd', '#868e96']
         dark_gray = ['#495057', '#343a40', '#212529']
         black = ['#000000', '#000000', '#000000']
+
+    # https://www.figma.com/blog/bringing-new-life-to-figmas-brand/
+    class figma:
+        default =  #blue
+        background = '#ffffff'
+        text = '#000000'
+        color_list = ['purple', 'periwinkle', 'blue', 'cornflower', 'yellow', 'green', 'coral', 'red']
+        purple = ['#B887FD', '#A261FC', '#8835FD']
+        periwinkle = ['#EFEBFE', '#C6BAFD', '#B29EFA']
+        blue = ['#888AFC', '#5659FB', '#383BFA']
+        cornflower = ['#C6D9FB', '#6B9DF4', '#79A7F6']
+        yellow = ['#FED35D', '#FEC62E', '#FEBD0B']
+        green = ['#27CE6F', '#20A85B', '#1A894A']
+        coral = ['#FEB5AF', '#FD857B', '#FD6B5D']
+        red = ['#F17255', '#EE4F2A', '#E23912']
+        light_gray = ['#f1f3f5', '#e9ecef', '#dee2e6']
+        gray = ['#ced4da', '#adb5bd', '#868e96']
+        dark_gray = ['#495057', '#343a40', '#212529']
+        black = ['#000000', '#000000', '#000000']
+        
