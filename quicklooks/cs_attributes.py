@@ -59,7 +59,6 @@ class color_libraries:
     # https://yeun.github.io/open-color/
     class opencolor:
         """
-        chart_skeleton.color_library.
         color_list = [chart_skeleton.color_library.light_red, 
                       chart_skeleton.color_library.red, 
                       chart_skeleton.color_library.light_dark_red,
@@ -157,7 +156,18 @@ class color_libraries:
 
     # https://www.figma.com/blog/bringing-new-life-to-figmas-brand/
     class figma:
-        default =  #blue
+        """
+        color_list = [chart_skeleton.color_library.purple, 
+                      chart_skeleton.color_library.periwinkle, 
+                      chart_skeleton.color_library.blue,
+                      chart_skeleton.color_library.cornflower, 
+                      chart_skeleton.color_library.yellow, 
+                      chart_skeleton.color_library.green,
+                      chart_skeleton.color_library.coral, 
+                      chart_skeleton.color_library.red]
+        """
+            
+        default = ['#888AFC', '#5659FB', '#383BFA'] #blue
         background = '#ffffff'
         text = '#000000'
         color_list = ['purple', 'periwinkle', 'blue', 'cornflower', 'yellow', 'green', 'coral', 'red']
@@ -173,4 +183,3 @@ class color_libraries:
         gray = ['#ced4da', '#adb5bd', '#868e96']
         dark_gray = ['#495057', '#343a40', '#212529']
         black = ['#000000', '#000000', '#000000']
-        
