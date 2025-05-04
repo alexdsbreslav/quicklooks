@@ -40,10 +40,9 @@ class legend:
 
         if frame:
             # ---- set the edgewidth on the frame
-            legend.get_frame().set_linewidth(
-                1 if chart_skeleton.size == 'half_slide' else 2)
+            legend.get_frame().set_linewidth(1)
 
             # ---- set the edge color of the frame
-            legend.get_frame().set_edgecolor(chart_skeleton.color_library.text)
+            legend.get_frame().set_edgecolor('0.8')
 
         self.legend_obj = legend
