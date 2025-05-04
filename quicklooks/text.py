@@ -26,7 +26,7 @@ class text:
             want to create.''')
 
         if chart_skeleton.xaxis_type == 'timeseries' and type(text_location_on_x_axis) is str:
-            location = datetime.strptime(location,'%Y-%m-%d')
+            text_location_on_x_axis = datetime.strptime(text_location_on_x_axis,'%Y-%m-%d')
         elif chart_skeleton.xaxis_type == 'timeseries' and type(text_location_on_x_axis) is not str:
             raise TypeError('''If xtick_label is set to timeseries,
             location must be a string in the format YYYY-MM-DD''')
