@@ -41,6 +41,7 @@ class color_libraries:
         gray = ['#ced4da', '#adb5bd', '#868e96']
         dark_gray = ['#495057', '#343a40', '#212529']
         black = ['#000000', '#000000', '#000000']
+        white = ['#ffffff', '#ffffff', '#ffffff']
 
     class skygrove:
         default = ['#6E80D8', '#3E56CC', '#2B3FA1'] #blue
@@ -55,6 +56,7 @@ class color_libraries:
         gray = ['#ced4da', '#adb5bd', '#868e96']
         dark_gray = ['#495057', '#343a40', '#212529']
         black = ['#000000', '#000000', '#000000']
+        white = ['#ffffff', '#ffffff', '#ffffff']
 
     # https://yeun.github.io/open-color/
     class opencolor:
@@ -100,18 +102,18 @@ class color_libraries:
         default = ['#4dabf7','#339af0','#228be6'] #blue
         background = '#ffffff'
         text = '#000000'
-        color_list = [chart_skeleton.color_library.light_red', 'red', 'dark_red',
-                      chart_skeleton.color_library.light_pink', 'pink', 'dark_pink',
-                      chart_skeleton.color_library.light_grape', 'grape', 'dark_grape',
-                      chart_skeleton.color_library.light_violet', 'violet', 'dark_violet',
-                      chart_skeleton.color_library.light_indigo', 'indigo', 'dark_indigo',
-                      chart_skeleton.color_library.light_blue', 'blue', 'dark_blue',
-                      chart_skeleton.color_library.light_cyan', 'cyan', 'dark_cyan',
-                      chart_skeleton.color_library.light_teal', 'teal', 'dark_teal',
-                      chart_skeleton.color_library.light_green', 'green', 'dark_green',
-                      chart_skeleton.color_library.light_lime', 'lime', 'dark_lime',
-                      chart_skeleton.color_library.light_yellow', 'yellow', 'dark_yellow',
-                      chart_skeleton.color_library.light_orange', 'orange', 'dark_orange']
+        color_list = ['light_red', 'red', 'dark_red',
+                      'light_pink', 'pink', 'dark_pink',
+                      'light_grape', 'grape', 'dark_grape',
+                      'light_violet', 'violet', 'dark_violet',
+                      'light_indigo', 'indigo', 'dark_indigo',
+                      'light_blue', 'blue', 'dark_blue',
+                      'light_cyan', 'cyan', 'dark_cyan',
+                      'light_teal', 'teal', 'dark_teal',
+                      'light_green', 'green', 'dark_green',
+                      'light_lime', 'lime', 'dark_lime',
+                      'light_yellow', 'yellow', 'dark_yellow',
+                      'light_orange', 'orange', 'dark_orange']
 
         light_red = ['#ffe3e3','#ffc9c9','#ffa8a8']
         red = ['#ff8787','#ff6b6b','#fa5252']
@@ -153,6 +155,7 @@ class color_libraries:
         gray = ['#ced4da', '#adb5bd', '#868e96']
         dark_gray = ['#495057', '#343a40', '#212529']
         black = ['#000000', '#000000', '#000000']
+        white = ['#ffffff', '#ffffff', '#ffffff']
 
     # https://www.figma.com/blog/bringing-new-life-to-figmas-brand/
     class figma:
@@ -183,3 +186,4 @@ class color_libraries:
         gray = ['#ced4da', '#adb5bd', '#868e96']
         dark_gray = ['#495057', '#343a40', '#212529']
         black = ['#000000', '#000000', '#000000']
+        white = ['#ffffff', '#ffffff', '#ffffff']
