@@ -4,6 +4,7 @@ from .cs_attributes import *
 from datetime import datetime
 from dateutil import relativedelta
 import matplotlib.dates as mdates
+import pandas as pd
 
 class chart_skeleton:
     """
@@ -72,17 +73,18 @@ class chart_skeleton:
         xaxis_type = 'default'
 
         # ---- check that label type and min_max match
-        if xtick_labels in ['years', 'months', 'quarters', 'days']:
-            if type(x_min_max[0]) is not str or type(x_min_max[1]) is not str:
-                raise TypeError('''If xtick label is set to a timeseries,
-                x_min_max must be a tuple with two date strings in the format
-                YYYY-MM-DD''')
-            # ---- if they do, convert str to datetime
-            else:
-                x_min_max = (datetime.strptime(x_min_max[0], '%Y-%m-%d'),
-                             datetime.strptime(x_min_max[1], '%Y-%m-%d'))
+        if xtick_labels in ['years', 'months', 'weeks', 'quarters', 'days']:
+            for i in range(2):
+                if type(x_min_max[i]) is str:
+                    x_min_max[i] = datetime.strptime(x_min_max[i], '%Y-%m-%d')
+                elif type(x_min_max[i]) in (datetime.date, pd._libs.tslibs.timestamps.Timestamp, datetime):
+                    pass
+                else:
+                    raise TypeError('''If xtick label is set to a timeseries,
+                    x_min_max must be a tuple with date strings in the format
+                    YYYY-MM-DD or datetime objects''')
 
-                xaxis_type = 'timeseries'
+            xaxis_type = 'timeseries'
 
         # ---- req for reference line
         self.xaxis_type = xaxis_type
@@ -102,14 +104,14 @@ class chart_skeleton:
             xrange = (x_min_max[1] - x_min_max[0]).days
             rd = relativedelta.relativedelta(x_min_max[1], x_min_max[0])
 
-            if xtick_labels == 'days':
+            if xtick_labels in ['days', 'weeks', 'years']:
                 def_error = True if xtick_interval > xrange else False
                 int_error = True if 20*xtick_interval < xrange else False
 
             elif xtick_labels == 'months':
                 if 2 > rd.years * 12 + rd.months:
                     raise Exception('''xtick_interval not properly defined.
-                    Use days if the date range <= 3 months''')
+                    Use days or weeks if the date range <= 3 months''')
                 elif 15 < rd.years * 12 + rd.months:
                     raise Exception('''xtick_interval not properly defined.
                     Use quarters if the date range > 15 months''')
@@ -121,10 +123,6 @@ class chart_skeleton:
                 elif 48 < rd.years * 12 + rd.months:
                     raise Exception('''xtick_interval not properly defined.
                     Use quarters if the date range > 16 quarters''')
-
-            elif xtick_labels == 'years':
-                def_error = True if xtick_interval > rd.years else False
-                int_error = True if 20*xtick_interval < rd.years else False
 
         # ---- for everything else
         else:
@@ -240,6 +238,8 @@ class chart_skeleton:
             elif xtick_labels == 'months':
                 ax.xaxis.set_major_locator(mdates.MonthLocator(interval=1))
                 print('xtick_interval ignored when xtick_label = months\n')
+            elif xtick_labels == 'weeks':
+                ax.xaxis.set_major_locator(mdates.WeekdayLocator(byweekday=0, interval=xtick_interval))
             elif xtick_labels == 'days':
                 ax.xaxis.set_major_locator(mdates.DayLocator(interval=xtick_interval))
 
