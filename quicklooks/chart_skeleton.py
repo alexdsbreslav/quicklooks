@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt # type: ignore
 from .plot_and_text_styling import *
 from .cs_attributes import *
-from datetime import datetime
+import datetime
 from dateutil import relativedelta # type: ignore
 import matplotlib.dates as mdates # type: ignore
 import pandas as pd # type: ignore
@@ -77,8 +77,8 @@ class chart_skeleton:
             tmp_min_max = [np.nan, np.nan]
             for i in range(2):
                 if type(x_min_max[i]) is str:
-                    tmp_min_max[i] = datetime.strptime(x_min_max[i], '%Y-%m-%d')
-                elif type(x_min_max[i]) in (datetime.date, pd._libs.tslibs.timestamps.Timestamp, datetime):
+                    tmp_min_max[i] = datetime.datetime.strptime(x_min_max[i], '%Y-%m-%d').date()
+                elif type(x_min_max[i]) in (datetime.date, pd._libs.tslibs.timestamps.Timestamp, datetime.datetime):
                     tmp_min_max[i] = x_min_max[i]
                 else:
                     raise TypeError('''If xtick label is set to a timeseries,
