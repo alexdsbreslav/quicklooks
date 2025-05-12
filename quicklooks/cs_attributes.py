@@ -160,7 +160,7 @@ class color_libraries:
             'purple': ['#B887FD', '#A261FC', '#8835FD'],
             'periwinkle': ['#EFEBFE', '#C6BAFD', '#B29EFA'],
             'blue': ['#888AFC', '#5659FB', '#383BFA'],
-            'cornflower': ['#C6D9FB', '#6B9DF4', '#79A7F6'],
+            'cornflower': ['#C6D9FB', '#6B9DF4', '#2E75EF'],
             'yellow': ['#FED35D', '#FEC62E', '#FEBD0B'],
             'green': ['#27CE6F', '#20A85B', '#1A894A'],
             'coral': ['#FEB5AF', '#FD857B', '#FD6B5D'],
