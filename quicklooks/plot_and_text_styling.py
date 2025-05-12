@@ -1,10 +1,10 @@
 from pathlib import Path
 import os
-from matplotlib import font_manager
-import numpy as np
+from matplotlib import font_manager # type: ignore
+import numpy as np # type: ignore
 import warnings
-import matplotlib.ticker as ticker
-import matplotlib.dates as mdates
+import matplotlib.ticker as ticker # type: ignore
+import matplotlib.dates as mdates # type: ignore
 
 # ---- used to find the text width for the y label
 # ---- this helps set the distance between the edge of the plot

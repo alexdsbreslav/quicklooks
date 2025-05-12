@@ -1,10 +1,10 @@
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt # type: ignore
 from .plot_and_text_styling import *
 from .cs_attributes import *
 from datetime import datetime
-from dateutil import relativedelta
-import matplotlib.dates as mdates
-import pandas as pd
+from dateutil import relativedelta # type: ignore
+import matplotlib.dates as mdates # type: ignore
+import pandas as pd # type: ignore
 
 class chart_skeleton:
     """
@@ -261,6 +261,7 @@ class chart_skeleton:
                       linespacing = 1.6, fontproperties = fs.label)
 
         # ---- label the x axis
+        self.xlabel = xlabel
         ax.set_xlabel(xlabel, color = color_library.text,
                       labelpad = ps.label_pad[0], fontproperties = fs.label)
 
