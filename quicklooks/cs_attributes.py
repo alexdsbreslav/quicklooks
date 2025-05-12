@@ -11,6 +11,7 @@ class chart_xlabel:
     years = 'years'
     quarters = 'quarters'
     months = 'months'
+    weeks = 'weeks'
     days = 'days'
 
 class chart_size:
