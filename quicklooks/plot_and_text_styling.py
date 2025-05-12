@@ -166,7 +166,7 @@ def set_tick_labels(labels, axis, axis_object, min_max):
                     axis_object.xaxis.set_major_formatter(mdates.DateFormatter('%b\n%Y'))
                     labels_need_edit = True
 
-            elif labels == 'days':
+            elif labels in ['days', 'weeks']:
                 axis_object.xaxis.set_major_formatter(mdates.DateFormatter('%m/%d'))
 
             else:

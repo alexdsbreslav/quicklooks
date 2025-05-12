@@ -74,17 +74,20 @@ class chart_skeleton:
 
         # ---- check that label type and min_max match
         if xtick_labels in ['years', 'months', 'weeks', 'quarters', 'days']:
+            tmp_min_max = [np.nan, np.nan]
             for i in range(2):
                 if type(x_min_max[i]) is str:
-                    x_min_max[i] = datetime.strptime(x_min_max[i], '%Y-%m-%d')
+                    tmp_min_max[i] = datetime.strptime(x_min_max[i], '%Y-%m-%d')
                 elif type(x_min_max[i]) in (datetime.date, pd._libs.tslibs.timestamps.Timestamp, datetime):
-                    pass
+                    tmp_min_max[i] = x_min_max[i]
                 else:
                     raise TypeError('''If xtick label is set to a timeseries,
                     x_min_max must be a tuple with date strings in the format
                     YYYY-MM-DD or datetime objects''')
 
+            x_min_max = (tmp_min_max[0], tmp_min_max[1])
             xaxis_type = 'timeseries'
+            del tmp_min_max
 
         # ---- req for reference line
         self.xaxis_type = xaxis_type
@@ -104,9 +107,13 @@ class chart_skeleton:
             xrange = (x_min_max[1] - x_min_max[0]).days
             rd = relativedelta.relativedelta(x_min_max[1], x_min_max[0])
 
-            if xtick_labels in ['days', 'weeks', 'years']:
+            if xtick_labels == 'days':
                 def_error = True if xtick_interval > xrange else False
                 int_error = True if 20*xtick_interval < xrange else False
+            
+            elif xtick_labels == 'weeks':
+                def_error = True if xtick_interval > np.floor(xrange/7) else False
+                int_error = True if 20*xtick_interval < np.floor(xrange/7) else False
 
             elif xtick_labels == 'months':
                 if 2 > rd.years * 12 + rd.months:
@@ -123,6 +130,10 @@ class chart_skeleton:
                 elif 48 < rd.years * 12 + rd.months:
                     raise Exception('''xtick_interval not properly defined.
                     Use quarters if the date range > 16 quarters''')
+            
+            elif xtick_labels == 'years':
+                def_error = True if xtick_interval > rd.years else False
+                int_error = True if 20*xtick_interval < rd.years else False
 
         # ---- for everything else
         else:
