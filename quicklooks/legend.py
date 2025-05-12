@@ -38,10 +38,10 @@ class legend:
                                 borderpad = 0.75,
                                 labelspacing= 0.75,
                                 framealpha = 1,
-                                bbox_to_anchor = (chart_skeleton.x_min_max[1] + 0.025,0.5));
+                                bbox_to_anchor = (1.025,0.5));
         
         elif legend_location == 'below':
-            offset = 0.2 if chart_skeleton.xlabel else 0.1
+            offset = -0.2 if chart_skeleton.xlabel else -0.1
             legend = chart_skeleton.ax.legend(
                                 loc = 'upper center',
                                 prop = chart_skeleton.font_style.legend,
@@ -51,7 +51,8 @@ class legend:
                                 borderpad = 0.75,
                                 labelspacing= 0.75,
                                 framealpha = 1,
-                                bbox_to_anchor = (0.5, chart_skeleton.y_min_max[0] - offset));
+                                bbox_to_anchor = (0.5, offset),
+                                ncol=3 if chart_skeleton.size == 'half_slide' else 4);
             del offset
         else:
             legend = chart_skeleton.ax.legend(
