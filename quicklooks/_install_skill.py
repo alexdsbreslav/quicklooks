@@ -7,13 +7,13 @@ from pathlib import Path
 
 
 def install_skill() -> None:
-    """Copy the quicklooks Cursor skill to ``~/.cursor/skills/quicklooks-viz/``.
+    """Copy the quicklooks Cursor skill to ``~/.cursor/skills/ql-viz/``.
 
     Run this once after ``pip install quicklooks`` to make the skill available
     across all projects in Cursor.
     """
     src = Path(__file__).parent / "skill"
-    dst = Path.home() / ".cursor" / "skills" / "quicklooks-viz"
+    dst = Path.home() / ".cursor" / "skills" / "ql-viz"
 
     if not src.exists():
         raise FileNotFoundError(

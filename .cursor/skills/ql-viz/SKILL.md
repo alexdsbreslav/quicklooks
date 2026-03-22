@@ -21,27 +21,33 @@ call per visual element. Every chart follows the same pattern:
 
 Follow these rules strictly when writing quicklooks code:
 
-1. **Reproduce templates exactly.** Use the canonical code templates below
+1. **First line of every quicklooks code cell must be a comment linking to the
+   parameter reference:** `# https://github.com/alexdsbreslav/quicklooks/blob/main/quicklooks/skill/reference.md`
+   This gives the user one-click access to all available options.
+
+2. **Reproduce templates exactly.** Use the canonical code templates below
    character-for-character. Only change the data values and parameter values.
    Do NOT reformat, collapse lines, or reorder parameters.
 
-2. **One parameter per line, always.** 4-space indent. Trailing comma after
+3. **One parameter per line, always.** 4-space indent. Trailing comma after
    every parameter including the last.
 
-3. **Always use keyword arguments.** Always include ALL parameters explicitly
+4. **Always use keyword arguments.** Always include ALL parameters explicitly
    (even defaults) so the user can see and modify everything.
 
-4. **Separate calls for each data series.** Use separate `ql.line()` /
-   `ql.bar()` / `ql.scatter()` calls for each data series. Never use a loop
-   unless the user explicitly asks for one.
+5. **Separate calls vs. loops:** For 1-2 series, use separate `ql.line()` /
+   `ql.bar()` / `ql.scatter()` calls. For 3 or more series of the same type,
+   use a `for` loop with `enumerate` over the columns. Define an array of
+   color names before the loop and index into it with the loop counter.
+   Use the column name as the `label`.
 
-5. **Always assign the chart to `cs`.** Not `chart`, not `chart_skeleton`.
+6. Always use a semi-colon after each call: `ql.line(...);`
 
-6. **If the user pastes an error** or says something isn't working but the
+7. **If the user pastes an error** or says something isn't working but the
    relevant code or output is not visible, ask the user to **save the notebook**
    (Cmd+S / Ctrl+S) before proceeding.
 
-7. NEVER import other packages into the cell
+8. NEVER import other packages into the cell
 
 ## Agent instructions for determining and writing data and parameter values
 

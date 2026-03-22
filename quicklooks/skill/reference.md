@@ -157,29 +157,26 @@ Saves the chart to disk.
 
 ## Color libraries
 
+Utility colors (available in all libraries): `#e9ecef` light_gray · `#adb5bd` gray · `#343a40` dark_gray · `#000000` black · `#ffffff` white
+
 ### extended
-blue, red, green, orange, yellow, violet, indigo, cyan, teal, lime, pink, grape
 
-Each has light_ and dark_ variants: light_blue, dark_blue, etc.
+`#339af0` blue · `#ff6b6b` red · `#51cf66` green · `#ff922b` orange · `#fcc419` yellow · `#845ef7` violet · `#5c7cfa` indigo · `#22b8cf` cyan · `#20c997` teal · `#94d82d` lime · `#f06595` pink · `#cc5de8` grape
 
-Utility colors: light_gray, gray, dark_gray, black, white
+Each has light_ and dark_ variants (e.g. `#a5d8ff` light_blue · `#1971c2` dark_blue)
 
 ### neon
-blue (default), slate, teal, indigo, green, purple, orange, pink
 
-Utility colors: light_gray, gray, dark_gray, black, white
+`#3B82F6` blue (default) · `#475569` slate · `#06B6D4` teal · `#4F46E5` indigo · `#22C55E` green · `#8B5CF6` purple · `#F97316` orange · `#EC4899` pink
 
 ### gouache
-red (default), green, yellow, blue, pink, orange, lavender, teal
 
-Utility colors: light_gray, gray, dark_gray, black, white
+`#E63946` red (default) · `#10B981` green · `#FACC15` yellow · `#0EA5E9` blue · `#EC4899` pink · `#F97316` orange · `#A78BFA` lavender · `#14B8A6` teal
 
 ### bloom
-blue (default), purple, periwinkle, cornflower, yellow, green, coral, red
 
-Utility colors: light_gray, gray, dark_gray, black, white
+`#5659FB` blue (default) · `#A261FC` purple · `#C6BAFD` periwinkle · `#6B9DF4` cornflower · `#FEC62E` yellow · `#20A85B` green · `#FD857B` coral · `#EE4F2A` red
 
 ### hockney
-cobalt (default), turquoise, pink, navy, scarlet, cognac, cream, golden
 
-Utility colors: light_gray, gray, dark_gray, black, white
+`#2E86DE` cobalt (default) · `#1ABC9C` turquoise · `#E84393` pink · `#2C3E6B` navy · `#E74C3C` scarlet · `#C0792A` cognac · `#E8D5B5` cream · `#F59E0B` golden
