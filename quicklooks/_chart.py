@@ -71,7 +71,7 @@ def chart(
     xtick_interval: Union[int, float] = 0.25,
     ytick_interval: Union[int, float] = 0.25,
     size: str = "notebook",
-    colors: str = "opencolor",
+    colors: str = "extended",
     font: str = "rubik",
     xtick_labels: Union[str, list] = "default",
     ytick_labels: Union[str, list] = "default",

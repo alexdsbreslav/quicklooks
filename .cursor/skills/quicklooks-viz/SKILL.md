@@ -56,7 +56,7 @@ Write this cell once per notebook, above the first quicklooks code cell:
 | Parameter | Options |
 |-----------|---------|
 | size | "notebook", "half_slide", "full_slide" |
-| colors | "opencolor", "mariglow", "skygrove", "figma" |
+| colors | "extended", "neon", "gouache", "bloom", "hockney" |
 | font | "rubik", "lato", "montserrat", "oswald", "roboto", "source_sans", "work_sans" |
 | color | depends on library (see below) |
 | linestyle | "solid", "dashed", "dotted", "dashdot" |
@@ -66,10 +66,11 @@ Write this cell once per notebook, above the first quicklooks code cell:
 | legend location | "best", "upper right", "upper left", "lower left", "lower right", "outside right", "below" |
 
 **Colors by library:**
-- **opencolor:** blue, red, green, orange, yellow, violet, indigo, cyan, teal, lime, pink, grape (plus light_/dark_ variants, gray, black, white)
-- **mariglow:** blue, orange, peach, navy (plus gray, black, white)
-- **skygrove:** blue, periwinkle, sea_green, green_tea (plus gray, black, white)
-- **figma:** blue, purple, periwinkle, cornflower, yellow, green, coral, red (plus gray, black, white)
+- **extended:** blue, red, green, orange, yellow, violet, indigo, cyan, teal, lime, pink, grape (plus light_/dark_ variants, gray, black, white)
+- **neon:** blue, slate, teal, indigo, green, purple, orange, pink (plus gray, black, white)
+- **gouache:** red, green, yellow, blue, pink, orange, lavender, teal (plus gray, black, white)
+- **bloom:** blue, purple, periwinkle, cornflower, yellow, green, coral, red (plus gray, black, white)
+- **hockney:** cobalt (default), turquoise, pink, navy, scarlet, cognac, cream, golden (plus gray, black, white)
 ```
 
 ## Canonical code templates
@@ -86,7 +87,7 @@ cs = ql.chart(
     xtick_interval=0.25,
     ytick_interval=0.25,
     size="notebook",
-    colors="opencolor",
+    colors="extended",
     font="rubik",
     xtick_labels="default",
     ytick_labels="default",
@@ -229,7 +230,7 @@ cs = ql.chart(
     xtick_interval=2,
     ytick_interval=20,
     size="notebook",
-    colors="opencolor",
+    colors="extended",
     font="rubik",
     xtick_labels="default",
     ytick_labels="default",
@@ -282,7 +283,7 @@ cs = ql.chart(
     xtick_interval=0.25,
     ytick_interval=100,
     size="notebook",
-    colors="opencolor",
+    colors="extended",
     font="rubik",
     xtick_labels="default",
     ytick_labels="default",
@@ -334,7 +335,7 @@ cs = ql.chart(
     xtick_interval=14,
     ytick_interval=200,
     size="notebook",
-    colors="opencolor",
+    colors="extended",
     font="rubik",
     xtick_labels="days",
     ytick_labels="default",

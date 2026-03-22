@@ -36,7 +36,7 @@ cs = ql.chart(
     xtick_interval=2,
     ytick_interval=20,
     size="notebook",
-    colors="opencolor",
+    colors="extended",
     font="rubik",
     xtick_labels="default",
     ytick_labels="default",
@@ -77,7 +77,7 @@ Every function takes the chart object (`cs`) as its first argument. All other pa
 
 ## Color libraries
 
-quicklooks ships with four color libraries: **opencolor**, **mariglow**, **skygrove**, and **figma**. Pass color names as strings:
+quicklooks ships with five color libraries: **extended**, **neon**, **gouache**, **bloom**, and **hockney**. Pass color names as strings:
 
 ```python
 ql.line(cs, x=x, y=y, color="blue")

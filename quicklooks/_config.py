@@ -13,7 +13,7 @@ VALID_FONTS = (
     "rubik", "source_sans", "work_sans",
 )
 
-VALID_COLOR_LIBRARIES = ("opencolor", "mariglow", "skygrove", "figma")
+VALID_COLOR_LIBRARIES = ("extended", "neon", "gouache", "bloom", "hockney")
 
 VALID_XTICK_LABELS = (
     "default", "percents",

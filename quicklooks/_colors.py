@@ -76,54 +76,10 @@ _GRAY_COLORS: Dict[str, ColorTuple] = {
 
 
 # ---------------------------------------------------------------------------
-# Mariglow
+# Extended  (based on Open Color — https://yeun.github.io/open-color/)
 # ---------------------------------------------------------------------------
 
-_MARIGLOW_COLORS: Dict[str, ColorTuple] = {
-    "blue": ("#9AA7FE", "#4B64FE", "#203DFE"),
-    "orange": ("#EF7B57", "#E94819", "#BB3911"),
-    "peach": ("#FAF3EF", "#ECCFC0", "#DEAB91"),
-    "navy": ("#2C4177", "#1A2747", "#0B101E"),
-    **_GRAY_COLORS,
-}
-
-MARIGLOW = ColorLibrary(
-    name="mariglow",
-    background="#ffffff",
-    text="#000000",
-    default_color_name="blue",
-    colors=_MARIGLOW_COLORS,
-    iterable_keys=["orange", "peach", "navy", "blue"],
-)
-
-
-# ---------------------------------------------------------------------------
-# Skygrove
-# ---------------------------------------------------------------------------
-
-_SKYGROVE_COLORS: Dict[str, ColorTuple] = {
-    "blue": ("#6E80D8", "#3E56CC", "#2B3FA1"),
-    "periwinkle": ("#EBEFFF", "#ADBEFF", "#708DFF"),
-    "sea_green": ("#57B27C", "#3E885B", "#2D6242"),
-    "green_tea": ("#EAF0D1", "#D5E1A3", "#BFD274"),
-    **_GRAY_COLORS,
-}
-
-SKYGROVE = ColorLibrary(
-    name="skygrove",
-    background="#ffffff",
-    text="#000000",
-    default_color_name="blue",
-    colors=_SKYGROVE_COLORS,
-    iterable_keys=["blue", "periwinkle", "sea_green", "green_tea"],
-)
-
-
-# ---------------------------------------------------------------------------
-# Open Color  (https://yeun.github.io/open-color/)
-# ---------------------------------------------------------------------------
-
-_OPENCOLOR_COLORS: Dict[str, ColorTuple] = {
+_EXTENDED_COLORS: Dict[str, ColorTuple] = {
     "light_red": ("#ffe3e3", "#ffc9c9", "#ffa8a8"),
     "red": ("#ff8787", "#ff6b6b", "#fa5252"),
     "dark_red": ("#f03e3e", "#e03131", "#c92a2a"),
@@ -163,12 +119,12 @@ _OPENCOLOR_COLORS: Dict[str, ColorTuple] = {
     **_GRAY_COLORS,
 }
 
-OPENCOLOR = ColorLibrary(
-    name="opencolor",
+EXTENDED = ColorLibrary(
+    name="extended",
     background="#ffffff",
     text="#000000",
     default_color_name="blue",
-    colors=_OPENCOLOR_COLORS,
+    colors=_EXTENDED_COLORS,
     iterable_keys=[
         "light_red", "red", "dark_red",
         "light_pink", "pink", "dark_pink",
@@ -187,10 +143,68 @@ OPENCOLOR = ColorLibrary(
 
 
 # ---------------------------------------------------------------------------
-# Figma  (https://www.figma.com/blog/bringing-new-life-to-figmas-brand/)
+# Neon
 # ---------------------------------------------------------------------------
 
-_FIGMA_COLORS: Dict[str, ColorTuple] = {
+_NEON_COLORS: Dict[str, ColorTuple] = {
+    "blue": ("#93C5FD", "#3B82F6", "#1D4ED8"),
+    "slate": ("#94A3B8", "#475569", "#1E293B"),
+    "teal": ("#67E8F9", "#06B6D4", "#0E7490"),
+    "indigo": ("#818CF8", "#4F46E5", "#3730A3"),
+    "green": ("#86EFAC", "#22C55E", "#15803D"),
+    "purple": ("#C4B5FD", "#8B5CF6", "#6D28D9"),
+    "orange": ("#FDBA74", "#F97316", "#C2410C"),
+    "pink": ("#F9A8D4", "#EC4899", "#BE185D"),
+    **_GRAY_COLORS,
+}
+
+NEON = ColorLibrary(
+    name="neon",
+    background="#ffffff",
+    text="#000000",
+    default_color_name="blue",
+    colors=_NEON_COLORS,
+    iterable_keys=[
+        "blue", "slate", "teal", "indigo",
+        "green", "purple", "orange", "pink",
+    ],
+)
+
+
+# ---------------------------------------------------------------------------
+# Gouache  (inspired by Amber Vittoria)
+# ---------------------------------------------------------------------------
+
+_GOUACHE_COLORS: Dict[str, ColorTuple] = {
+    "red": ("#F9B4AB", "#E63946", "#B91C1C"),
+    "green": ("#A7F3D0", "#10B981", "#047857"),
+    "yellow": ("#FEF08A", "#FACC15", "#A16207"),
+    "blue": ("#BAE6FD", "#0EA5E9", "#0369A1"),
+    "pink": ("#FBCFE8", "#EC4899", "#9D174D"),
+    "orange": ("#FED7AA", "#F97316", "#9A3412"),
+    "lavender": ("#DDD6FE", "#A78BFA", "#6D28D9"),
+    "teal": ("#99F6E4", "#14B8A6", "#0F766E"),
+    **_GRAY_COLORS,
+}
+
+GOUACHE = ColorLibrary(
+    name="gouache",
+    background="#ffffff",
+    text="#000000",
+    default_color_name="red",
+    colors=_GOUACHE_COLORS,
+    iterable_keys=[
+        "red", "green", "yellow", "blue",
+        "pink", "orange", "lavender", "teal",
+    ],
+)
+
+
+# ---------------------------------------------------------------------------
+# Bloom
+# ---------------------------------------------------------------------------
+
+_BLOOM_COLORS: Dict[str, ColorTuple] = {
     "purple": ("#B887FD", "#A261FC", "#8835FD"),
     "periwinkle": ("#EFEBFE", "#C6BAFD", "#B29EFA"),
     "blue": ("#888AFC", "#5659FB", "#383BFA"),
@@ -202,15 +216,44 @@ _FIGMA_COLORS: Dict[str, ColorTuple] = {
     **_GRAY_COLORS,
 }
 
-FIGMA = ColorLibrary(
-    name="figma",
+BLOOM = ColorLibrary(
+    name="bloom",
     background="#ffffff",
     text="#000000",
     default_color_name="blue",
-    colors=_FIGMA_COLORS,
+    colors=_BLOOM_COLORS,
     iterable_keys=[
         "purple", "periwinkle", "blue", "cornflower",
         "yellow", "green", "coral", "red",
+    ],
+)
+
+
+# ---------------------------------------------------------------------------
+# Hockney  (inspired by David Hockney)
+# ---------------------------------------------------------------------------
+
+_HOCKNEY_COLORS: Dict[str, ColorTuple] = {
+    "cobalt": ("#89CFF0", "#2E86DE", "#1B4F72"),
+    "turquoise": ("#A3E4D7", "#1ABC9C", "#0E6655"),
+    "pink": ("#F8B4D9", "#E84393", "#9B2C6B"),
+    "navy": ("#A3B8D0", "#2C3E6B", "#1A2744"),
+    "scarlet": ("#F5B7B1", "#E74C3C", "#922B21"),
+    "cognac": ("#F0C89D", "#C0792A", "#6E3B12"),
+    "cream": ("#FDF6E3", "#E8D5B5", "#C4A97D"),
+    "golden": ("#FEF3C7", "#F59E0B", "#B45309"),
+    **_GRAY_COLORS,
+}
+
+HOCKNEY = ColorLibrary(
+    name="hockney",
+    background="#ffffff",
+    text="#000000",
+    default_color_name="cobalt",
+    colors=_HOCKNEY_COLORS,
+    iterable_keys=[
+        "cobalt", "turquoise", "pink", "navy",
+        "scarlet", "cognac", "cream", "golden",
     ],
 )
 
@@ -220,10 +263,11 @@ FIGMA = ColorLibrary(
 # ---------------------------------------------------------------------------
 
 COLOR_LIBRARIES: Dict[str, ColorLibrary] = {
-    "mariglow": MARIGLOW,
-    "skygrove": SKYGROVE,
-    "opencolor": OPENCOLOR,
-    "figma": FIGMA,
+    "extended": EXTENDED,
+    "neon": NEON,
+    "gouache": GOUACHE,
+    "bloom": BLOOM,
+    "hockney": HOCKNEY,
 }
 
 

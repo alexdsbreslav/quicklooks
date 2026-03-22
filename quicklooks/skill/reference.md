@@ -17,7 +17,7 @@ Creates the chart skeleton. Returns a `Chart` object to pass to all other functi
 | xtick_interval | int/float | 0.25 | Spacing between x-axis ticks |
 | ytick_interval | int/float | 0.25 | Spacing between y-axis ticks |
 | size | str | "notebook" | "notebook", "half_slide", "full_slide" |
-| colors | str | "opencolor" | "opencolor", "mariglow", "skygrove", "figma" |
+| colors | str | "extended" | "extended", "neon", "gouache", "bloom", "hockney" |
 | font | str | "rubik" | "rubik", "lato", "montserrat", "oswald", "roboto", "source_sans", "work_sans" |
 | xtick_labels | str/list | "default" | "default", "percents", "years", "quarters", "months", "weeks", "days", or list of strings |
 | ytick_labels | str/list | "default" | "default", "percents", "1k", "100k", "1m", or list of strings |
@@ -157,24 +157,29 @@ Saves the chart to disk.
 
 ## Color libraries
 
-### opencolor
+### extended
 blue, red, green, orange, yellow, violet, indigo, cyan, teal, lime, pink, grape
 
 Each has light_ and dark_ variants: light_blue, dark_blue, etc.
 
 Utility colors: light_gray, gray, dark_gray, black, white
 
-### mariglow
-blue (default), orange, peach, navy
+### neon
+blue (default), slate, teal, indigo, green, purple, orange, pink
 
 Utility colors: light_gray, gray, dark_gray, black, white
 
-### skygrove
-blue (default), periwinkle, sea_green, green_tea
+### gouache
+red (default), green, yellow, blue, pink, orange, lavender, teal
 
 Utility colors: light_gray, gray, dark_gray, black, white
 
-### figma
+### bloom
 blue (default), purple, periwinkle, cornflower, yellow, green, coral, red
+
+Utility colors: light_gray, gray, dark_gray, black, white
+
+### hockney
+cobalt (default), turquoise, pink, navy, scarlet, cognac, cream, golden
 
 Utility colors: light_gray, gray, dark_gray, black, white
