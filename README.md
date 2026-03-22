@@ -1,32 +1,100 @@
-![example_plot](https://github.com/alexdsbreslav/quicklook/assets/21344372/1eb05d0b-5712-4bda-8500-78a5aa76f110)
-
 # quicklooks
-quicklooks is a Python package for visualizing data quickly.  
-Check out the documentation by clicking [here](https://github.com/alexdsbreslav/quicklooks/tree/master/how_to_use_quicklooks) or by navigating to the folder `how_to_use_quicklooks`.
 
-## Why quicklooks?
-Creating attractive, ready-to-share data visualizations takes forever. quickooks is a cut-and-paste Python package that does the design work for you and makes it easy to create beautifully simple data visualizations.
+quicklooks is a Python package for creating presentation-ready data visualizations quickly. It wraps matplotlib with a simple, consistent API designed for data scientists, product managers, and researchers working in Jupyter notebooks.
 
-## Who is quicklooks best for?
-quicklooks is for any data scientist, product manager, or researcher that knows a little bit of Python and is analyzing their data in a Jupyter Notebook. My goal in writing quicklooks was to make data viz more efficient, but in the process, I've also created a package that is easy to use for beginners.
+## v2.0 — designed for AI agents
 
-## To install...
-In JupyterLab:
-1. Open the Launcher by clicking "+" in the top left of the window.
-2. Select "Terminal"
-3. Run...
-   ```
-   pip install quicklooks
-   ```
+quicklooks v2 is built for the AI-agent workflow. Every chart the agent writes follows the same template, making it easy to scan, understand, and modify. A companion [Cursor skill](#cursor-skill) guides agents to produce consistent, well-structured code every time.
 
-Once you've installed quicklooks, you can import it into each of your notebooks by using the follow code in the first cell:
+## Install
+
+```bash
+pip install quicklooks
+```
+
+Then in your notebook:
+
 ```python
 import quicklooks as ql
 ```
 
-## Documentation
-The [documentation is here](https://github.com/alexdsbreslav/quicklook/tree/master/how_to_use_quicklook).
+## Quick start
+
+```python
+import numpy as np
+import quicklooks as ql
+
+x = np.linspace(0, 10, 50)
+y = np.sin(x) * 40 + 50
+
+cs = ql.chart(
+    title="Sine Wave",
+    xlabel="X",
+    ylabel="Y",
+    x_min_max=(0, 10),
+    y_min_max=(0, 100),
+    xtick_interval=2,
+    ytick_interval=20,
+    size="notebook",
+    colors="opencolor",
+    font="rubik",
+    xtick_labels="default",
+    ytick_labels="default",
+    horizontal_gridlines=False,
+    vertical_gridlines=False,
+)
+
+ql.line(cs,
+    x=x,
+    y=y,
+    color="blue",
+    yerror=None,
+    linewidth=3,
+    linestyle="solid",
+    marker=None,
+    opacity=1,
+    label="sin(x)",
+    end_label=True,
+    layer_order=1,
+)
+```
+
+## API overview
+
+| Function | Purpose |
+|----------|---------|
+| `ql.chart()` | Create the chart skeleton (axes, title, styling) |
+| `ql.line()` | Add a line plot |
+| `ql.bar()` | Add a bar chart |
+| `ql.scatter()` | Add a scatter plot |
+| `ql.dist()` | Add a distribution (histogram / density) plot |
+| `ql.refline()` | Add a reference line (horizontal, vertical, diagonal) |
+| `ql.legend()` | Add a legend |
+| `ql.text()` | Add text annotation |
+| `ql.save()` | Save the chart to disk |
+
+Every function takes the chart object (`cs`) as its first argument. All other parameters are keyword-only with sensible defaults.
+
+## Color libraries
+
+quicklooks ships with four color libraries: **opencolor**, **mariglow**, **skygrove**, and **figma**. Pass color names as strings:
+
+```python
+ql.line(cs, x=x, y=y, color="blue")
+ql.line(cs, x=x, y=y2, color="red")
+```
+
+## Cursor skill
+
+quicklooks includes a companion Cursor skill that teaches AI agents how to use the package consistently. Install it once:
+
+```python
+import quicklooks as ql
+ql.install_skill()
+```
+
+This copies the skill files to `~/.cursor/skills/quicklooks-viz/`. Restart Cursor and the skill will be active across all your projects.
 
 ## Acknowledgments
-quicklook is built using [Matplotlib](https://matplotlib.org/), [NumPy](https://numpy.org/), [Pandas](https://pandas.pydata.org/), [Coolors](https://coolors.co/), [opencolor](https://yeun.github.io/open-color/), and [seaborn](https://seaborn.pydata.org/).
 
+quicklooks is built on [matplotlib](https://matplotlib.org/), [NumPy](https://numpy.org/), [pandas](https://pandas.pydata.org/), [seaborn](https://seaborn.pydata.org/), [Open Color](https://yeun.github.io/open-color/), and [Figma's brand colors](https://www.figma.com/blog/bringing-new-life-to-figmas-brand/).
