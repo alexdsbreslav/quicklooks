@@ -53,15 +53,21 @@ Follow these rules strictly when writing quicklooks code:
    The code enforces `range / 20 <= tick_interval <= range`. Violating this
    raises an error. Aim for 5-10 ticks with round numbers.
 
-4. **y_min_max and ytick_interval (all chart types):**
-    1. Find the min and max y values across all series.
+4. **Before choosing y_min_max, determine the actual range of each individual
+   series that will be plotted.** Read the data-generation code carefully.
+   y_min_max must cover the range of the *single* series with the largest
+   values — NOT the sum or aggregate across all series. For example, if
+   4 regions each have values 0-700, y_min_max should be based on 700, not
+   2800. Getting this wrong makes the chart unreadable.
+
+5. **y_min_max and ytick_interval (all chart types):**
+    1. Use the per-series min and max y values determined above.
     2. Set y_min_max[0] to 0 (or the data min rounded down, if values go negative).
-    3. Set y_min_max[1] so the data max sits at roughly 90% of the axis.
-       Formula: `y_max_axis = data_max / 0.9`, then round up to the nearest
-       clean number.
-    4. Compute yrange = y_min_max[1] - y_min_max[0].
-    5. Set ytick_interval = yrange / N where N is 5-10; pick the cleanest
-       round number. Must be an integer unless the range is < 1.
+    3. Pick ytick_interval first: choose a clean round number that would give
+       5-10 ticks for the data range. Must be an integer unless the range is < 1.
+    4. Set y_min_max[1] so the data max sits at roughly 90% of the axis AND
+       y_min_max[1] is evenly divisible by ytick_interval (no partial tick at
+       the top). Round up to the next multiple of ytick_interval if needed.
 
 5. **x_min_max and xtick_interval for NON-timeseries data:**
     1. Find the min and max x values; set x_min_max to cover the range,
@@ -98,7 +104,7 @@ Follow these rules strictly when writing quicklooks code:
 4. For timeseries lines, always pass the date object (e.g. a datetime Series
    or DatetimeIndex) as x — never pass date strings.
 
-
+<!-- IMPORTANT: include ALL parameters below, even defaults -->
 ## Canonical code templates
 
 ### Chart
