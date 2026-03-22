@@ -1,5 +1,5 @@
 ---
-name: quicklooks-viz
+name: ql-viz
 description: >-
   Create presentation-ready charts in Jupyter notebooks using the quicklooks
   package. Use when the user asks to visualize data, create charts, plot data,
@@ -17,61 +17,81 @@ call per visual element. Every chart follows the same pattern:
 3. Annotate: `ql.legend()`, `ql.text()`, `ql.refline()`
 4. Save (optional): `ql.save()`
 
-## Agent instructions
+## Agent instructions when writing quicklooks code
 
 Follow these rules strictly when writing quicklooks code:
 
-1. **Markdown reference cell (one-time per notebook):** Before writing any
-   quicklooks code into a notebook, check whether a cell containing
-   "quicklooks options" already exists. If it does NOT exist, write the
-   markdown cell shown below directly above your first code cell. If it
-   already exists, do NOT write another one.
-
-2. **Reproduce templates exactly.** Use the canonical code templates below
+1. **Reproduce templates exactly.** Use the canonical code templates below
    character-for-character. Only change the data values and parameter values.
    Do NOT reformat, collapse lines, or reorder parameters.
 
-3. **One parameter per line, always.** 4-space indent. Trailing comma after
+2. **One parameter per line, always.** 4-space indent. Trailing comma after
    every parameter including the last.
 
-4. **Always use keyword arguments.** Always include ALL parameters explicitly
+3. **Always use keyword arguments.** Always include ALL parameters explicitly
    (even defaults) so the user can see and modify everything.
 
-5. **Separate calls for each data series.** Use separate `ql.line()` /
+4. **Separate calls for each data series.** Use separate `ql.line()` /
    `ql.bar()` / `ql.scatter()` calls for each data series. Never use a loop
    unless the user explicitly asks for one.
 
-6. **Always assign the chart to `cs`.** Not `chart`, not `chart_skeleton`.
+5. **Always assign the chart to `cs`.** Not `chart`, not `chart_skeleton`.
 
-7. **If the user pastes an error** or says something isn't working but the
+6. **If the user pastes an error** or says something isn't working but the
    relevant code or output is not visible, ask the user to **save the notebook**
    (Cmd+S / Ctrl+S) before proceeding.
 
-## Markdown reference cell
+7. NEVER import other packages into the cell
 
-Write this cell once per notebook, above the first quicklooks code cell:
+## Agent instructions for determining and writing data and parameter values
 
-```markdown
-## quicklooks options
-| Parameter | Options |
-|-----------|---------|
-| size | "notebook", "half_slide", "full_slide" |
-| colors | "extended", "neon", "gouache", "bloom", "hockney" |
-| font | "rubik", "lato", "montserrat", "oswald", "roboto", "source_sans", "work_sans" |
-| color | depends on library (see below) |
-| linestyle | "solid", "dashed", "dotted", "dashdot" |
-| marker | None, "o", "v", "^", "s", "d", "x", "D", "X" |
-| xtick_labels | "default", "percents", "years", "quarters", "months", "weeks", "days" |
-| ytick_labels | "default", "percents", "1k", "100k", "1m" |
-| legend location | "best", "upper right", "upper left", "lower left", "lower right", "outside right", "below" |
+### cs
 
-**Colors by library:**
-- **extended:** blue, red, green, orange, yellow, violet, indigo, cyan, teal, lime, pink, grape (plus light_/dark_ variants, gray, black, white)
-- **neon:** blue, slate, teal, indigo, green, purple, orange, pink (plus gray, black, white)
-- **gouache:** red, green, yellow, blue, pink, orange, lavender, teal (plus gray, black, white)
-- **bloom:** blue, purple, periwinkle, cornflower, yellow, green, coral, red (plus gray, black, white)
-- **hockney:** cobalt (default), turquoise, pink, navy, scarlet, cognac, cream, golden (plus gray, black, white)
-```
+1. Always write a title, xlabel, and ylabel.
+2. Hard-code every min_max as a literal tuple — never use variables or expressions.
+3. **Validation constraint:** every axis must have between 2 and 20 ticks.
+   The code enforces `range / 20 <= tick_interval <= range`. Violating this
+   raises an error. Aim for 5-10 ticks with round numbers.
+
+4. **y_min_max and ytick_interval (all chart types):**
+    1. Find the min and max y values across all series.
+    2. Set y_min_max[0] to 0 (or the data min rounded down, if values go negative).
+    3. Set y_min_max[1] so the data max sits at roughly 80% of the axis.
+       Formula: `y_max_axis = data_max / 0.8`, then round up to the nearest
+       clean number.
+    4. Compute yrange = y_min_max[1] - y_min_max[0].
+    5. Set ytick_interval = yrange / N where N is 5-10; pick the cleanest
+       round number. Must be an integer unless the range is < 1.
+
+5. **x_min_max and xtick_interval for NON-timeseries data:**
+    1. Find the min and max x values; set x_min_max to cover the range,
+       rounding to clean numbers.
+    2. Compute xrange = x_min_max[1] - x_min_max[0].
+    3. Set xtick_interval = xrange / N where N is 5-10; pick the cleanest
+       round number. Must be an integer unless the range is < 1.
+
+6. **x_min_max and xtick_labels for TIMESERIES data:**
+    1. Hard-code x_min_max as date strings: ("YYYY-MM-DD", "YYYY-MM-DD").
+    2. Compute the date range in days / months.
+    3. Choose xtick_labels based on the date range (these constraints are
+       enforced by validation — choosing wrong will error):
+        - Under ~4 weeks: use "days" with xtick_interval that gives 5-15 ticks
+        - 4 weeks to 2 months: use "weeks" with xtick_interval=1
+        - 2-15 months: use "months" with xtick_interval=1
+        - 9 months to 4 years: use "quarters" with xtick_interval=1
+        - Over 4 years: use "years" with xtick_interval=1
+
+7. **ytick_labels formatting:**
+    - Values > 1,000,000: set ytick_labels="1m"
+    - Values > 100,000: set ytick_labels="100k"
+    - Values > 1,000: set ytick_labels="1k"
+    - Values are percentages (0-1 or 0-100): set ytick_labels="percents"
+    - Otherwise: leave as "default"
+
+### line
+
+Do not add a legend call if end_label=True (the labels already appear on the plot).
+
 
 ## Canonical code templates
 
@@ -182,7 +202,7 @@ ql.refline(cs,
 
 ```python
 ql.legend(cs,
-    location="best",
+    location="outside right",
     frame=False,
 )
 ```
@@ -211,150 +231,6 @@ ql.save(cs,
     name="chart",
     folder="./",
     format="png",
-)
-```
-
-## Full chart examples
-
-### Line chart (multiple lines)
-
-```python
-import quicklooks as ql
-
-cs = ql.chart(
-    title="Revenue by Quarter",
-    xlabel="Quarter",
-    ylabel="Revenue",
-    x_min_max=(0, 10),
-    y_min_max=(0, 100),
-    xtick_interval=2,
-    ytick_interval=20,
-    size="notebook",
-    colors="extended",
-    font="rubik",
-    xtick_labels="default",
-    ytick_labels="default",
-    horizontal_gridlines=False,
-    vertical_gridlines=False,
-)
-
-ql.line(cs,
-    x=x,
-    y=y_product_a,
-    color="blue",
-    yerror=None,
-    linewidth=3,
-    linestyle="solid",
-    marker=None,
-    opacity=1,
-    label="Product A",
-    end_label=True,
-    layer_order=1,
-)
-
-ql.line(cs,
-    x=x,
-    y=y_product_b,
-    color="red",
-    yerror=None,
-    linewidth=3,
-    linestyle="solid",
-    marker=None,
-    opacity=1,
-    label="Product B",
-    end_label=True,
-    layer_order=1,
-)
-```
-
-### Grouped bar chart
-
-```python
-import quicklooks as ql
-
-xlabels = ["Q1", "Q2", "Q3", "Q4"]
-
-cs = ql.chart(
-    title="Sales by Region",
-    xlabel="",
-    ylabel="Sales ($)",
-    x_min_max=(0, 1),
-    y_min_max=(0, 500),
-    xtick_interval=0.25,
-    ytick_interval=100,
-    size="notebook",
-    colors="extended",
-    font="rubik",
-    xtick_labels="default",
-    ytick_labels="default",
-    horizontal_gridlines=False,
-    vertical_gridlines=False,
-)
-
-ql.bar(cs,
-    xlabels=xlabels,
-    y=y_east,
-    color="blue",
-    yerror=None,
-    bars_per_group=2,
-    bar_index=0,
-    opacity=1,
-    label="East",
-    layer_order=1,
-)
-
-ql.bar(cs,
-    xlabels=xlabels,
-    y=y_west,
-    color="orange",
-    yerror=None,
-    bars_per_group=2,
-    bar_index=1,
-    opacity=1,
-    label="West",
-    layer_order=1,
-)
-
-ql.legend(cs,
-    location="upper right",
-    frame=False,
-)
-```
-
-### Timeseries
-
-```python
-import quicklooks as ql
-
-cs = ql.chart(
-    title="Daily Active Users",
-    xlabel="",
-    ylabel="Users",
-    x_min_max=("2025-01-01", "2025-03-31"),
-    y_min_max=(0, 1000),
-    xtick_interval=14,
-    ytick_interval=200,
-    size="notebook",
-    colors="extended",
-    font="rubik",
-    xtick_labels="days",
-    ytick_labels="default",
-    horizontal_gridlines=False,
-    vertical_gridlines=False,
-)
-
-ql.line(cs,
-    x=dates,
-    y=dau,
-    color="blue",
-    yerror=None,
-    linewidth=3,
-    linestyle="solid",
-    marker=None,
-    opacity=1,
-    label="DAU",
-    end_label=True,
-    layer_order=1,
 )
 ```
 
