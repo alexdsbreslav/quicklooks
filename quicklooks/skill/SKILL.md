@@ -56,8 +56,8 @@ Follow these rules strictly when writing quicklooks code:
 4. **y_min_max and ytick_interval (all chart types):**
     1. Find the min and max y values across all series.
     2. Set y_min_max[0] to 0 (or the data min rounded down, if values go negative).
-    3. Set y_min_max[1] so the data max sits at roughly 80% of the axis.
-       Formula: `y_max_axis = data_max / 0.8`, then round up to the nearest
+    3. Set y_min_max[1] so the data max sits at roughly 90% of the axis.
+       Formula: `y_max_axis = data_max / 0.9`, then round up to the nearest
        clean number.
     4. Compute yrange = y_min_max[1] - y_min_max[0].
     5. Set ytick_interval = yrange / N where N is 5-10; pick the cleanest
@@ -90,7 +90,13 @@ Follow these rules strictly when writing quicklooks code:
 
 ### line
 
-Do not add a legend call if end_label=True (the labels already appear on the plot).
+1. Prefer end_label=True — it places the series name at the end of each line,
+   which is cleaner than a separate legend.
+2. If end labels would overlap (multiple lines ending at similar y values),
+   set end_label=False on every line and add a `ql.legend()` call instead.
+3. Never combine end labels and a legend on the same chart.
+4. For timeseries lines, always pass the date object (e.g. a datetime Series
+   or DatetimeIndex) as x — never pass date strings.
 
 
 ## Canonical code templates
