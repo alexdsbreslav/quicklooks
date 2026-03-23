@@ -92,13 +92,20 @@ def stacked_bar(
     # -- resolve color ---------------------------------------------------------
     _, line_c, edge_c = resolve_color(chart.color_library, color, _fn)
 
+    # -- gap between segments --------------------------------------------------
+    # A small gap (matching _bar.py's baseline lift) prevents the 4-sided edge
+    # outlines of adjacent segments from overlapping at shared boundaries.
+    ylim = chart.ax.get_ylim()
+    gap = (ylim[1] - ylim[0]) * 0.006
+
     # -- draw bars -------------------------------------------------------------
     bar_artist = None
     _label = label
 
     if np.any(y_pos > 0):
+        seg_h = np.maximum(y_pos - gap, 0)
         bar_artist = chart.ax.bar(
-            x=x_loc, height=y_pos, bottom=pos_baseline,
+            x=x_loc, height=seg_h, bottom=pos_baseline + gap,
             width=width, color=line_c, edgecolor=edge_c, linewidth=2,
             joinstyle="round", alpha=opacity, label=_label,
             zorder=layer_order + 2,
@@ -106,8 +113,9 @@ def stacked_bar(
         _label = None
 
     if np.any(y_neg < 0):
+        seg_h = np.minimum(y_neg + gap, 0)
         neg_artist = chart.ax.bar(
-            x=x_loc, height=y_neg, bottom=neg_baseline,
+            x=x_loc, height=seg_h, bottom=neg_baseline - gap,
             width=width, color=line_c, edgecolor=edge_c, linewidth=2,
             joinstyle="round", alpha=opacity, label=_label,
             zorder=layer_order + 2,
