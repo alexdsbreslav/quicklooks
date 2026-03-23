@@ -11,29 +11,16 @@ Usage::
 """
 
 from ._chart import chart
-from ._line import line
-from ._area import area
-from ._bar import bar
-from ._scatter import scatter
-from ._dist import dist
-from ._refline import refline
+from .plots import area, bar, dist, line, refline, scatter, stacked_bar, text
 from ._legend import legend
-from ._text import text
 from ._save import save
 from ._install_skill import install_skill
-from ._validate import validate_cell
+from ._cell_linter import validate_cell
 
 __all__ = [
     "chart",
-    "line",
-    "area",
-    "bar",
-    "scatter",
-    "dist",
-    "refline",
-    "legend",
-    "text",
-    "save",
-    "install_skill",
-    "validate_cell",
+    "line", "area", "bar", "stacked_bar", "scatter", "dist",
+    "refline", "text",
+    "legend", "save",
+    "install_skill", "validate_cell",
 ]

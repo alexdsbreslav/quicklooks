@@ -40,6 +40,14 @@ class DistResult:
 
 
 @dataclass
+class StackedBarResult:
+    """Matplotlib artists created by ``ql.stacked_bar()``."""
+
+    bars: Any
+    xlim: tuple = (0, 0)
+
+
+@dataclass
 class AreaResult:
     """Matplotlib artists created by ``ql.area()``."""
 

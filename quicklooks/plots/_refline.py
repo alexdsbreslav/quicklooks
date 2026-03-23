@@ -8,12 +8,12 @@ from typing import Any, Optional, Union
 import numpy as np
 import pandas as pd  # type: ignore
 
-from ._chart import Chart
-from ._colors import resolve_color
-from ._config import VALID_LINESTYLES, VALID_MARKERS, VALID_REFLINE_DIRECTIONS
-from ._styling import get_marker_size
-from ._types import RefLineResult
-from ._validation import validate_chart, validate_option
+from .._chart import Chart
+from .._colors import resolve_color
+from .._config import VALID_LINESTYLES, VALID_MARKERS, VALID_REFLINE_DIRECTIONS
+from .._styling import get_marker_size
+from .._types import RefLineResult
+from .._validators import validate_chart, validate_option
 
 
 def refline(

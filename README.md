@@ -18,6 +18,22 @@ Then in your notebook:
 import quicklooks as ql
 ```
 
+## AI agent skill
+
+quicklooks includes a companion skill that teaches AI agents how to use the package consistently. Install it once after `pip install quicklooks`:
+
+```python
+import quicklooks as ql
+ql.install_skill()
+```
+
+This auto-detects which agents are installed on your machine:
+
+- **Cursor** — copies skill files to `~/.cursor/skills/ql-viz/`. Restart Cursor to activate.
+- **Claude Code** — copies skill files to `~/.claude/quicklooks/` and adds an import line to `~/.claude/CLAUDE.md`.
+
+If both are installed, both are set up in one call. Safe to re-run — it updates the skill files and won't duplicate the Claude Code import.
+
 ## Quick start
 
 ```python
@@ -26,7 +42,10 @@ import quicklooks as ql
 
 x = np.linspace(0, 10, 50)
 y = np.sin(x) * 40 + 50
+```
 
+```python
+# https://github.com/alexdsbreslav/quicklooks/blob/main/quicklooks/skill/reference.md
 cs = ql.chart(
     title="Sine Wave",
     xlabel="X",
@@ -36,18 +55,18 @@ cs = ql.chart(
     xtick_interval=2,
     ytick_interval=20,
     size="notebook",
-    colors="extended",
+    colors="bloom",
     font="rubik",
     xtick_labels="default",
     ytick_labels="default",
     horizontal_gridlines=False,
     vertical_gridlines=False,
-)
+);
 
 ql.line(cs,
     x=x,
     y=y,
-    color="blue",
+    color="default",
     yerror=None,
     linewidth=3,
     linestyle="solid",
@@ -56,7 +75,7 @@ ql.line(cs,
     label="sin(x)",
     end_label=True,
     layer_order=1,
-)
+);
 ```
 
 ## API overview
@@ -65,35 +84,25 @@ ql.line(cs,
 |----------|---------|
 | `ql.chart()` | Create the chart skeleton (axes, title, styling) |
 | `ql.line()` | Add a line plot |
+| `ql.area()` | Add a stacked area band |
 | `ql.bar()` | Add a bar chart |
+| `ql.stacked_bar()` | Add a segment to a stacked bar chart |
 | `ql.scatter()` | Add a scatter plot |
 | `ql.dist()` | Add a distribution (histogram / density) plot |
 | `ql.refline()` | Add a reference line (horizontal, vertical, diagonal) |
 | `ql.legend()` | Add a legend |
-| `ql.text()` | Add text annotation |
+| `ql.text()` | Add a text annotation |
 | `ql.save()` | Save the chart to disk |
-
-Every function takes the chart object (`cs`) as its first argument. All other parameters are keyword-only with sensible defaults.
 
 ## Color libraries
 
-quicklooks ships with five color libraries: **extended**, **neon**, **gouache**, **bloom**, and **hockney**. Pass color names as strings:
+quicklooks ships with five color libraries: **extended**, **neon**, **sorbet**, **bloom**, and **hockney**. Pass the library name to `ql.chart()` and color names as strings to each plot function:
 
 ```python
-ql.line(cs, x=x, y=y, color="blue")
-ql.line(cs, x=x, y=y2, color="red")
+cs = ql.chart(..., colors="bloom")
+ql.line(cs, x=x, y=y, color="cornflower")
+ql.line(cs, x=x, y=y2, color="purple")
 ```
-
-## Cursor skill
-
-quicklooks includes a companion Cursor skill that teaches AI agents how to use the package consistently. Install it once:
-
-```python
-import quicklooks as ql
-ql.install_skill()
-```
-
-This copies the skill files to `~/.cursor/skills/quicklooks-viz/`. Restart Cursor and the skill will be active across all your projects.
 
 ## Acknowledgments
 

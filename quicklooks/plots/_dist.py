@@ -9,11 +9,11 @@ import numpy as np
 import pandas as pd  # type: ignore
 import seaborn as sns  # type: ignore
 
-from ._chart import Chart
-from ._colors import resolve_color
-from ._config import VALID_DIST_TYPES
-from ._types import DistResult
-from ._validation import validate_1d_array, validate_chart, validate_option
+from .._chart import Chart
+from .._colors import resolve_color
+from .._config import VALID_DIST_TYPES
+from .._types import DistResult
+from .._validators import validate_1d_array, validate_chart, validate_option
 
 
 def dist(

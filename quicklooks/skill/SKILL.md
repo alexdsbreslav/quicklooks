@@ -129,6 +129,38 @@ ql.line(cs,
 );
 ```
 
+### `ql.stacked_bar()`
+
+```python
+ql.stacked_bar(cs,
+    xlabels=xlabels,    # same labels for every call on this chart
+    y=y,                # height of THIS segment only — stacking is automatic
+    color="blue",       # must be a valid name in the active color library — check reference.md
+    opacity=1,
+    label="",
+    layer_order=1,
+);
+```
+
+Each call stacks automatically on top of previous `ql.stacked_bar()` calls on the same chart.
+Positive values stack upward, negative values stack downward — handled internally.
+**`ql.chart()` and all `ql.stacked_bar()` calls must always be in the same cell.**
+
+For 3+ series, use a `for` loop:
+
+```python
+colors = ["blue", "red", "green"]
+for i, col in enumerate(df.columns):
+    ql.stacked_bar(cs,
+        xlabels=df.index,
+        y=df[col].values,
+        color=colors[i],
+        opacity=1,
+        label=col,
+        layer_order=1,
+    );
+```
+
 ### `ql.bar()`
 
 ```python

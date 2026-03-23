@@ -8,12 +8,12 @@ from typing import Any, Optional, Union
 import numpy as np
 import pandas as pd  # type: ignore
 
-from ._chart import Chart
-from ._colors import resolve_color
-from ._config import VALID_LINESTYLES, VALID_MARKERS
-from ._styling import get_marker_size
-from ._types import LineResult
-from ._validation import (
+from .._chart import Chart
+from .._colors import resolve_color
+from .._config import VALID_LINESTYLES, VALID_MARKERS
+from .._styling import get_marker_size
+from .._types import LineResult
+from .._validators import (
     validate_1d_array,
     validate_chart,
     validate_matching_shapes,

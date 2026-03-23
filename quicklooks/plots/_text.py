@@ -5,15 +5,15 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any, Optional, Union
 
-from ._chart import Chart
-from ._colors import resolve_color
-from ._config import (
+from .._chart import Chart
+from .._colors import resolve_color
+from .._config import (
     VALID_HORIZONTAL_ALIGNS,
     VALID_TEXT_SIZES,
     VALID_VERTICAL_ALIGNS,
 )
-from ._types import TextResult
-from ._validation import validate_chart, validate_option
+from .._types import TextResult
+from .._validators import validate_chart, validate_option
 
 
 def text(

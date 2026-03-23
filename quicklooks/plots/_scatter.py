@@ -7,12 +7,12 @@ from typing import Any, Optional, Union
 import matplotlib.patches as mpatches  # type: ignore
 import numpy as np
 
-from ._chart import Chart
-from ._colors import resolve_color
-from ._config import VALID_MARKERS
-from ._styling import get_marker_size
-from ._types import ScatterResult
-from ._validation import (
+from .._chart import Chart
+from .._colors import resolve_color
+from .._config import VALID_MARKERS
+from .._styling import get_marker_size
+from .._types import ScatterResult
+from .._validators import (
     validate_1d_array,
     validate_chart,
     validate_matching_shapes,

@@ -41,6 +41,10 @@ EXPECTED_PARAMS: dict[str, list[str]] = {
         "bars_per_group", "bar_index",
         "opacity", "label", "layer_order",
     ],
+    "stacked_bar": [
+        "xlabels", "y", "color",
+        "opacity", "label", "layer_order",
+    ],
     "scatter": [
         "x", "y", "color", "x_error", "y_error",
         "marker", "opacity", "label", "layer_order",
@@ -65,7 +69,7 @@ EXPECTED_PARAMS: dict[str, list[str]] = {
 }
 
 ALL_QL_FUNCS = set(EXPECTED_PARAMS.keys())
-DATA_ELEMENT_FUNCS = {"line", "area", "bar", "scatter", "dist"}
+DATA_ELEMENT_FUNCS = {"line", "area", "bar", "stacked_bar", "scatter", "dist"}
 
 # Build the valid-color-name lookup from _colors.py so it stays in sync
 # automatically when new palettes or colors are added.

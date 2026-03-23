@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt  # type: ignore
 
 from ._chart import Chart
 from ._config import VALID_SAVE_FORMATS
-from ._validation import validate_chart, validate_option
+from ._validators import validate_chart, validate_option
 
 
 _DPI = {"notebook": 300, "half_slide": 72, "full_slide": 72}

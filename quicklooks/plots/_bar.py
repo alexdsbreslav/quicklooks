@@ -7,10 +7,10 @@ from typing import Any, Optional, Union
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np
 
-from ._chart import Chart
-from ._colors import resolve_color
-from ._types import BarResult
-from ._validation import (
+from .._chart import Chart
+from .._colors import resolve_color
+from .._types import BarResult
+from .._validators import (
     validate_1d_array,
     validate_chart,
     validate_matching_shapes,

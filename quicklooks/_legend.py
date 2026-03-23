@@ -7,7 +7,7 @@ from typing import Any, Union
 from ._chart import Chart
 from ._config import VALID_LEGEND_LOCATIONS
 from ._types import LegendResult
-from ._validation import validate_chart, validate_option
+from ._validators import validate_chart, validate_option
 
 
 def legend(

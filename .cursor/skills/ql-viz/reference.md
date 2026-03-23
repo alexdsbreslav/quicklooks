@@ -59,6 +59,20 @@ Adds a line to the chart.
 | end_label | bool | True | Draw label at end of line |
 | layer_order | int | 1 | Z-order (higher = on top) |
 
+## ql.stacked_bar()
+
+Adds a segment to a stacked bar chart. Stacks automatically on prior calls; positive values stack up, negative values stack down.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| chart | Chart | required | Chart object (positional) |
+| xlabels | array | required | 1D array of category labels (same for every call) |
+| y | array | required | 1D array of segment heights (not cumulative) |
+| color | str/tuple | "default" | Color name or (fill, line, edge) tuple |
+| opacity | float | 1 | Transparency (0-1) |
+| label | str | "" | Legend text |
+| layer_order | int | 1 | Z-order (higher = on top) |
+
 ## ql.bar()
 
 Adds bars to the chart. Call once per group in a grouped bar chart.

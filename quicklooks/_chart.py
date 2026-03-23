@@ -21,7 +21,7 @@ from ._config import (
     VALID_YTICK_LABELS,
 )
 from ._styling import ChartStyle, FontStyle, set_tick_labels
-from ._validation import validate_bool, validate_option, validate_type
+from ._validators import validate_bool, validate_option, validate_type
 
 
 class Chart:
