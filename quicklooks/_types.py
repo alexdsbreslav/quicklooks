@@ -40,6 +40,14 @@ class DistResult:
 
 
 @dataclass
+class AreaResult:
+    """Matplotlib artists created by ``ql.area()``."""
+
+    fill: Any
+    line: Optional[Any] = None
+
+
+@dataclass
 class RefLineResult:
     """Matplotlib artists created by ``ql.refline()``."""
 

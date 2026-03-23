@@ -32,6 +32,10 @@ EXPECTED_PARAMS: dict[str, list[str]] = {
         "linewidth", "linestyle", "marker",
         "opacity", "label", "end_label", "layer_order",
     ],
+    "area": [
+        "x", "y", "color",
+        "linewidth", "opacity", "label", "end_label", "layer_order",
+    ],
     "bar": [
         "xlabels", "y", "color", "yerror",
         "bars_per_group", "bar_index",
@@ -61,7 +65,7 @@ EXPECTED_PARAMS: dict[str, list[str]] = {
 }
 
 ALL_QL_FUNCS = set(EXPECTED_PARAMS.keys())
-DATA_ELEMENT_FUNCS = {"line", "bar", "scatter", "dist"}
+DATA_ELEMENT_FUNCS = {"line", "area", "bar", "scatter", "dist"}
 
 # Build the valid-color-name lookup from _colors.py so it stays in sync
 # automatically when new palettes or colors are added.
@@ -107,9 +111,17 @@ def validate_cell(source: str) -> List[str]:
         violations.append("No ql.* calls found in cell.")
         return violations
 
-    # --- Rule 2: ql.chart() must come first ---
+    # --- Rule 2: ql.chart() must be present and come first ---
     func_names = [c["func"] for c in calls]
-    if func_names[0] != "chart":
+    has_data_elements = any(f in DATA_ELEMENT_FUNCS for f in func_names)
+    if "chart" not in func_names and has_data_elements:
+        violations.append(
+            "ql.chart() is missing. Every cell must be self-contained: "
+            "ql.chart() and all its data element calls must be in the same cell. "
+            "This is especially critical for ql.area(), whose stacking baseline "
+            "resets only when ql.chart() is called."
+        )
+    elif func_names[0] != "chart":
         violations.append(
             "ql.chart() must be the first ql.* call in the cell, "
             f"but found ql.{func_names[0]}() first."

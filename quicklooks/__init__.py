@@ -12,6 +12,7 @@ Usage::
 
 from ._chart import chart
 from ._line import line
+from ._area import area
 from ._bar import bar
 from ._scatter import scatter
 from ._dist import dist
@@ -25,6 +26,7 @@ from ._validate import validate_cell
 __all__ = [
     "chart",
     "line",
+    "area",
     "bar",
     "scatter",
     "dist",

@@ -24,6 +24,22 @@ Creates the chart skeleton. Returns a `Chart` object to pass to all other functi
 | horizontal_gridlines | bool | False | Show horizontal grid lines |
 | vertical_gridlines | bool | False | Show vertical grid lines |
 
+## ql.area()
+
+Adds a filled area band to the chart. Stack multiple series by advancing `y_bottom`.
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| chart | Chart | required | Chart object (positional) |
+| x | array | required | 1D array of x values |
+| y | array | required | 1D array of band heights (not cumulative) |
+| color | str/tuple | "default" | Color name or (fill, line, edge) tuple |
+| linewidth | int/float | 2 | Top-edge line width |
+| opacity | float | 0.8 | Transparency of the filled area (0-1) |
+| label | str | "" | Legend text — entry shows the top-edge line color (darker) |
+| end_label | bool | True | Draw label at right end, centered in the band |
+| layer_order | int | 1 | Z-order (higher = on top) |
+
 ## ql.line()
 
 Adds a line to the chart.

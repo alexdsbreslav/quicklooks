@@ -21,6 +21,11 @@ call per visual element. Follow the step-by-step procedure below.
 - NEVER import other packages into the cell.
 - NEVER define intermediate variables for data — pass expressions directly as arguments
   (e.g. `x=df[df.region == "APAC"].value.values`, not `apac = df[...]` then `x=apac`).
+- Every cell must be self-contained: `ql.chart()` and all its data element calls must
+  be in the same cell. Never put `ql.area()` (or any data element) in a separate cell
+  from the `ql.chart()` that created the chart object. This is especially critical for
+  `ql.area()`, which tracks a stacking baseline on the chart object that resets only
+  when `ql.chart()` is called.
 - If the user pastes an error but code/output isn't visible, ask them to save (Cmd+S) first.
 
 ## Step 1 — Reference link comment
@@ -67,6 +72,43 @@ cs = ql.chart(
 For 1–2 series, write separate calls. For 3+ series of the same type, use a `for` loop
 with `enumerate`. Define a color array before the loop — **names must exist in the active
 color library** (check reference.md). Use the column name as `label`.
+
+### `ql.area()`
+
+```python
+ql.area(cs,
+    x=x,
+    y=y,                # height of THIS band only — stacking is automatic
+    color="blue",       # must be a valid name in the active color library — check reference.md
+    linewidth=2,
+    opacity=0.8,
+    label="",
+    end_label=True,     # prefer True; if 2+ lines end near the same y value, set False on ALL
+                        # lines and add ql.legend() instead — never mix end labels and a legend
+    layer_order=1,
+);
+```
+
+Each call stacks automatically on top of previous `ql.area()` calls on the same chart.
+The baseline resets only when `ql.chart()` is called, so **`ql.chart()` and all `ql.area()`
+calls must always be in the same cell.**
+
+For stacked areas (3+ series), use a `for` loop:
+
+```python
+colors = ["blue", "red", "green"]
+for i, col in enumerate(df.columns):
+    ql.area(cs,
+        x=x,
+        y=df[col].values,
+        color=colors[i],
+        linewidth=2,
+        opacity=0.8,
+        label=col,
+        end_label=True,
+        layer_order=1,
+    );
+```
 
 ### `ql.line()`
 
@@ -169,8 +211,8 @@ ql.text(cs,
 ql.refline(cs,
     direction="horizontal",
     location=0,
-    color="black",
-    linewidth=1,
+    color="gray",
+    linewidth=2,
     linestyle="dashed",
     marker=None,
     opacity=1,
