@@ -32,10 +32,13 @@ def area(
 ) -> AreaResult:
     """Add a filled area band to a chart, stacking automatically on prior bands.
 
-    Each call stacks on top of any previous ``ql.area()`` calls on the same
-    chart. The baseline is tracked on the chart object and resets whenever
-    ``ql.chart()`` is called. Always call ``ql.chart()`` in the same cell as
-    all ``ql.area()`` calls to ensure a clean baseline on every run.
+    Positive values stack upward from zero; negative values stack downward,
+    each tracked on independent baselines. A series with mixed signs is split
+    and drawn correctly on both sides. All-positive data behaves identically
+    to a single-baseline implementation.
+
+    The baselines reset whenever ``ql.chart()`` is called, so ``ql.chart()``
+    and all ``ql.area()`` calls must always be in the same cell.
 
     Args:
         chart: Chart object created by ``ql.chart()``.
@@ -64,36 +67,82 @@ def area(
 
     y_arr = np.nan_to_num(np.asarray(y, dtype=float))
 
-    # -- stacking baseline (lazily initialised on first call) ------------------
-    if not hasattr(chart, "_area_baseline"):
-        chart._area_baseline = np.zeros(len(y_arr))
+    # -- diverging baselines (lazily initialised on first call) ----------------
+    if not hasattr(chart, "_area_baseline_pos"):
+        chart._area_baseline_pos = np.zeros(len(y_arr))
+    if not hasattr(chart, "_area_baseline_neg"):
+        chart._area_baseline_neg = np.zeros(len(y_arr))
 
-    y_bottom_arr = chart._area_baseline
-    y_top_arr = y_bottom_arr + y_arr
-    chart._area_baseline = y_top_arr.copy()
+    y_pos = np.maximum(y_arr, 0)
+    y_neg = np.minimum(y_arr, 0)
+
+    pos_bottom = chart._area_baseline_pos.copy()
+    neg_bottom = chart._area_baseline_neg.copy()
+    pos_top = pos_bottom + y_pos
+    neg_top = neg_bottom + y_neg
+
+    chart._area_baseline_pos = pos_top.copy()
+    chart._area_baseline_neg = neg_top.copy()
+
+    has_pos = np.any(y_pos > 0)
+    has_neg = np.any(y_neg < 0)
 
     # -- resolve color ---------------------------------------------------------
     fill_c, line_c, _ = resolve_color(chart.color_library, color, _fn)
 
-    # -- filled area -----------------------------------------------------------
-    fill_artist = chart.ax.fill_between(
-        x, y_bottom_arr, y_top_arr,
-        color=fill_c, alpha=opacity, label=None,
-        zorder=layer_order + 2,
-    )
+    # -- filled areas ----------------------------------------------------------
+    fill_artist = None
+    if has_pos:
+        fill_artist = chart.ax.fill_between(
+            x, pos_bottom, pos_top,
+            color=fill_c, alpha=opacity, label=None,
+            zorder=layer_order + 2,
+        )
+    if has_neg:
+        fill_neg = chart.ax.fill_between(
+            x, neg_top, neg_bottom,
+            color=fill_c, alpha=opacity, label=None,
+            zorder=layer_order + 2,
+        )
+        if fill_artist is None:
+            fill_artist = fill_neg
 
-    # -- top edge line (carries the label so the legend shows the darker color)
-    line_artist = chart.ax.plot(
-        x, y_top_arr,
-        linewidth=linewidth, color=line_c,
-        solid_capstyle="round", label=label,
-        zorder=layer_order + 3,
-    )
+    # -- top/bottom edge lines -------------------------------------------------
+    # Use NaN where the series has no contribution so matplotlib draws a gap
+    # rather than a misleading connecting line across zero.
+    line_artist = None
+    _label = label  # consume label on first line drawn to avoid double entries
+
+    if has_pos:
+        pos_line = np.where(y_arr > 0, pos_top, np.nan)
+        line_artist = chart.ax.plot(
+            x, pos_line,
+            linewidth=linewidth, color=line_c,
+            solid_capstyle="round", label=_label,
+            zorder=layer_order + 3,
+        )
+        _label = None
+
+    if has_neg:
+        neg_line = np.where(y_arr < 0, neg_top, np.nan)
+        neg_line_artist = chart.ax.plot(
+            x, neg_line,
+            linewidth=linewidth, color=line_c,
+            solid_capstyle="round", label=_label,
+            zorder=layer_order + 3,
+        )
+        if line_artist is None:
+            line_artist = neg_line_artist
 
     # -- end label -------------------------------------------------------------
     if end_label and label:
         x_end = x.iloc[-1] if isinstance(x, pd.Series) else np.asarray(x)[-1]
-        y_mid = (y_bottom_arr[-1] + y_top_arr[-1]) / 2
+
+        last_y = y_arr[-1]
+        if last_y >= 0:
+            y_mid = (pos_bottom[-1] + pos_top[-1]) / 2
+        else:
+            y_mid = (neg_bottom[-1] + neg_top[-1]) / 2
 
         if chart.xaxis_type == "timeseries":
             x_loc = x_end + timedelta(days=chart.xrange * 0.01)
