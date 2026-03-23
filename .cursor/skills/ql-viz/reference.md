@@ -17,7 +17,7 @@ Creates the chart skeleton. Returns a `Chart` object to pass to all other functi
 | xtick_interval | int/float | 0.25 | Spacing between x-axis ticks |
 | ytick_interval | int/float | 0.25 | Spacing between y-axis ticks |
 | size | str | "notebook" | "notebook", "half_slide", "full_slide" |
-| colors | str | "extended" | "extended", "neon", "gouache", "bloom", "hockney" |
+| colors | str | "extended" | "extended", "neon", "sorbet", "bloom", "hockney" |
 | font | str | "rubik" | "rubik", "lato", "montserrat", "oswald", "roboto", "source_sans", "work_sans" |
 | xtick_labels | str/list | "default" | "default", "percents", "years", "quarters", "months", "weeks", "days", or list of strings |
 | ytick_labels | str/list | "default" | "default", "percents", "1k", "100k", "1m", or list of strings |
@@ -114,6 +114,7 @@ Adds a reference line (horizontal, vertical, or diagonal).
 | marker | str/None | None | None, "o", "v", "^", "s", "d", "x", "D", "X" |
 | opacity | float | 1 | Transparency (0-1) |
 | label | str | "" | Legend text |
+| end_label | bool | False | Draw label at the end of the line |
 | layer_order | int | 1 | Z-order (higher = on top) |
 
 ## ql.legend()
@@ -169,13 +170,13 @@ Each has light_ and dark_ variants (e.g. `#a5d8ff` light_blue · `#1971c2` dark_
 
 `#3B82F6` blue (default) · `#475569` slate · `#06B6D4` teal · `#4F46E5` indigo · `#22C55E` green · `#8B5CF6` purple · `#F97316` orange · `#EC4899` pink
 
-### gouache
+### sorbet
 
 `#E63946` red (default) · `#10B981` green · `#FACC15` yellow · `#0EA5E9` blue · `#EC4899` pink · `#F97316` orange · `#A78BFA` lavender · `#14B8A6` teal
 
 ### bloom
 
-`#5659FB` blue (default) · `#A261FC` purple · `#C6BAFD` periwinkle · `#6B9DF4` cornflower · `#FEC62E` yellow · `#20A85B` green · `#FD857B` coral · `#EE4F2A` red
+`#5CAAFF` cornflower (default) · `#A261FC` purple · `#C6BAFD` periwinkle · `#5659FB` blue · `#FEC62E` yellow · `#20A85B` green · `#FD857B` coral · `#EE4F2A` red
 
 ### hockney
 

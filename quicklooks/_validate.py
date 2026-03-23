@@ -49,7 +49,7 @@ EXPECTED_PARAMS: dict[str, list[str]] = {
     "refline": [
         "direction", "location", "color",
         "linewidth", "linestyle", "marker",
-        "opacity", "label", "layer_order",
+        "opacity", "label", "end_label", "layer_order",
     ],
     "legend": ["location", "frame"],
     "text": [

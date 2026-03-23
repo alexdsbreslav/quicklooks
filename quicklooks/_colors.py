@@ -172,10 +172,10 @@ NEON = ColorLibrary(
 
 
 # ---------------------------------------------------------------------------
-# Gouache  (inspired by Amber Vittoria)
+# Sorbet  (inspired by Amber Vittoria)
 # ---------------------------------------------------------------------------
 
-_GOUACHE_COLORS: Dict[str, ColorTuple] = {
+_SORBET_COLORS: Dict[str, ColorTuple] = {
     "red": ("#F9B4AB", "#E63946", "#B91C1C"),
     "green": ("#A7F3D0", "#10B981", "#047857"),
     "yellow": ("#FEF08A", "#FACC15", "#A16207"),
@@ -187,12 +187,12 @@ _GOUACHE_COLORS: Dict[str, ColorTuple] = {
     **_GRAY_COLORS,
 }
 
-GOUACHE = ColorLibrary(
-    name="gouache",
+SORBET = ColorLibrary(
+    name="sorbet",
     background="#ffffff",
     text="#000000",
     default_color_name="red",
-    colors=_GOUACHE_COLORS,
+    colors=_SORBET_COLORS,
     iterable_keys=[
         "red", "green", "yellow", "blue",
         "pink", "orange", "lavender", "teal",
@@ -205,14 +205,14 @@ GOUACHE = ColorLibrary(
 # ---------------------------------------------------------------------------
 
 _BLOOM_COLORS: Dict[str, ColorTuple] = {
-    "purple": ("#B887FD", "#A261FC", "#8835FD"),
-    "periwinkle": ("#EFEBFE", "#C6BAFD", "#B29EFA"),
-    "blue": ("#888AFC", "#5659FB", "#383BFA"),
-    "cornflower": ("#C6D9FB", "#6B9DF4", "#2E75EF"),
-    "yellow": ("#FED35D", "#FEC62E", "#FEBD0B"),
-    "green": ("#27CE6F", "#20A85B", "#1A894A"),
-    "coral": ("#FEB5AF", "#FD857B", "#FD6B5D"),
-    "red": ("#F17255", "#EE4F2A", "#E23912"),
+    "purple":     ("#D4B3FD", "#A261FC", "#7020E8"),
+    "periwinkle": ("#EFEBFE", "#C6BAFD", "#7A69F0"),
+    "blue":       ("#ADADFC", "#5659FB", "#1A1DC4"),
+    "cornflower": ("#BDE0FF", "#5CAAFF", "#1A7FCC"),
+    "yellow":     ("#FFE89A", "#FEC62E", "#CC8D00"),
+    "green":      ("#85DBAA", "#20A85B", "#0F7840"),
+    "coral":      ("#FDCBC8", "#FD857B", "#F04030"),
+    "red":        ("#F8AD9A", "#EE4F2A", "#B03010"),
     **_GRAY_COLORS,
 }
 
@@ -220,7 +220,7 @@ BLOOM = ColorLibrary(
     name="bloom",
     background="#ffffff",
     text="#000000",
-    default_color_name="blue",
+    default_color_name="cornflower",
     colors=_BLOOM_COLORS,
     iterable_keys=[
         "purple", "periwinkle", "blue", "cornflower",
@@ -265,7 +265,7 @@ HOCKNEY = ColorLibrary(
 COLOR_LIBRARIES: Dict[str, ColorLibrary] = {
     "extended": EXTENDED,
     "neon": NEON,
-    "gouache": GOUACHE,
+    "sorbet": SORBET,
     "bloom": BLOOM,
     "hockney": HOCKNEY,
 }

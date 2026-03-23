@@ -10,23 +10,18 @@ description: >-
 # quicklooks
 
 quicklooks creates presentation-ready charts in Jupyter notebooks. One function
-call per visual element. Follow the step-by-step procedure below to write a
-quicklooks cell.
+call per visual element. Follow the step-by-step procedure below.
 
 ## Ground rules
 
-These apply to every quicklooks call you write:
-
-- Copy the templates below exactly — only change data and parameter values.
-  Do NOT reformat, collapse lines, or reorder parameters.
-- One parameter per line, 4-space indent, trailing comma after every parameter
-  including the last.
-- Always use keyword arguments. Always include ALL parameters explicitly
-  (even defaults) so the user can see and modify everything.
-- End every call with a semi-colon: `ql.line(...);`
+- Copy templates exactly — only change values. Never reformat, reorder, or collapse lines.
+- One parameter per line, 4-space indent, trailing comma on every parameter including the last.
+- Always use keyword arguments. Always include ALL parameters explicitly.
+- End every call with a semicolon: `ql.chart(...);`
 - NEVER import other packages into the cell.
-- If the user pastes an error but the relevant code or output is not visible,
-  ask the user to save the notebook (Cmd+S / Ctrl+S) before proceeding.
+- NEVER define intermediate variables for data — pass expressions directly as arguments
+  (e.g. `x=df[df.region == "APAC"].value.values`, not `apac = df[...]` then `x=apac`).
+- If the user pastes an error but code/output isn't visible, ask them to save (Cmd+S) first.
 
 ## Step 1 — Reference link comment
 
@@ -38,130 +33,75 @@ The first line of every quicklooks code cell must be:
 
 ## Step 2 — Create the chart skeleton with `ql.chart()`
 
-Copy this template and fill in the parameter values:
-`
 ```python
 cs = ql.chart(
-    title="",
-    xlabel="",
+    title="",                    # always write a descriptive title
+    xlabel="",                   # always write axis labels
     ylabel="",
-    x_min_max=(0, 1),
-    y_min_max=(0, 1),
-    xtick_interval=0.25,
-    ytick_interval=0.25,
-    size="notebook",
-    colors="extended",
-    font="rubik",
-    xtick_labels="default",
-    ytick_labels="default",
+    x_min_max=(0, 10),           # literal tuple only — no variables or expressions
+                                 # TIMESERIES: use date strings ("YYYY-MM-DD", "YYYY-MM-DD")
+                                 # NON-TIMESERIES: must be divisible by xtick_interval
+    y_min_max=(0, 100),          # literal tuple only — no variables or expressions
+                                 # based on SINGLE series max, NOT the sum across series
+                                 # y_min_max[1] MUST be divisible by ytick_interval (no partial tick)
+    xtick_interval=1,            # NON-TIMESERIES: xrange / N where N = 5–10, clean round number
+                                 # x_min_max[1] must be divisible by this — round up if needed
+                                 # TIMESERIES: interval that gives 5–15 ticks for "days"; 1 for all others
+    ytick_interval=10,           # PICK THIS FIRST: clean round number giving 5–10 ticks for the data range
+                                 # THEN set y_min_max[1] = ceil(data_max / ytick_interval) * ytick_interval
+    size="notebook",             # "notebook" | "wide" | "presentation"
+    colors="bloom",              # "extended" | "neon" | "sorbet" | "bloom" | "hockney"
+                                 # see reference.md for the exact color names in each library
+    font="rubik",                # "rubik" | "default"
+    xtick_labels="default",      # NON-TIMESERIES: "default"
+                                 # TIMESERIES: "days" (<4 wks) | "weeks" (4 wks–2 mo) |
+                                 #             "months" (2–15 mo) | "quarters" (9 mo–4 yr) | "years" (>4 yr)
+    ytick_labels="default",      # "default" | ">1k" → "1k" | ">100k" → "100k" | ">1M" → "1m" | percentages → "percents"
     horizontal_gridlines=False,
     vertical_gridlines=False,
 );
 ```
 
-### How to choose chart parameter values
-
-1. Always write a title, xlabel, and ylabel.
-2. Hard-code every min_max as a literal tuple — never use variables or expressions.
-3. **Validation constraint:** every axis must have between 2 and 20 ticks.
-   The code enforces `range / 20 <= tick_interval <= range`. Violating this
-   raises an error. Aim for 5-10 ticks with round numbers.
-4. **Before choosing y_min_max, determine the actual range of each individual
-   series that will be plotted.** Read the data-generation code carefully.
-   y_min_max must cover the range of the *single* series with the largest
-   values — NOT the sum or aggregate across all series. For example, if
-   4 regions each have values 0-700, y_min_max should be based on 700, not
-   2800. Getting this wrong makes the chart unreadable.
-5. **y_min_max and ytick_interval:**
-    1. Use the per-series min and max y values determined above.
-    2. Set y_min_max[0] to 0 (or the data min rounded down, if values go negative).
-    3. Pick ytick_interval first: choose a clean round number that would give
-       5-10 ticks for the data range. Must be an integer unless the range is < 1.
-    4. Set y_min_max[1] so the data max sits at roughly 90% of the axis AND
-       y_min_max[1] is evenly divisible by ytick_interval (no partial tick at
-       the top). Round up to the next multiple of ytick_interval if needed.
-6. **x_min_max and xtick_interval for NON-timeseries data:**
-    1. Find the min and max x values; set x_min_max to cover the range,
-       rounding to clean numbers.
-    2. Compute xrange = x_min_max[1] - x_min_max[0].
-    3. Set xtick_interval = xrange / N where N is 5-10; pick the cleanest
-       round number. Must be an integer unless the range is < 1.
-7. **x_min_max and xtick_labels for TIMESERIES data:**
-    1. Hard-code x_min_max as date strings: ("YYYY-MM-DD", "YYYY-MM-DD").
-    2. Compute the date range in days / months.
-    3. Choose xtick_labels based on the date range (these constraints are
-       enforced by validation — choosing wrong will error):
-        - Under ~4 weeks: use "days" with xtick_interval that gives 5-15 ticks
-        - 4 weeks to 2 months: use "weeks" with xtick_interval=1
-        - 2-15 months: use "months" with xtick_interval=1
-        - 9 months to 4 years: use "quarters" with xtick_interval=1
-        - Over 4 years: use "years" with xtick_interval=1
-8. **ytick_labels formatting:**
-    - Values > 1,000,000: set ytick_labels="1m"
-    - Values > 100,000: set ytick_labels="100k"
-    - Values > 1,000: set ytick_labels="1k"
-    - Values are percentages (0-1 or 0-100): set ytick_labels="percents"
-    - Otherwise: leave as "default"
-
 ## Step 3 — Add data elements
 
-Pick the template that matches the chart type the user wants. Copy it exactly
-and fill in the data and parameter values.
-
-For 1-2 series, write separate calls. For 3 or more series of the same type,
-use a `for` loop with `enumerate` over the columns. Define an array of color
-names before the loop and index into it with the loop counter. Use the column
-name as the `label`. The color names in the array must exist in the color
-library set in `ql.chart()` — check reference.md for available names per library.
+For 1–2 series, write separate calls. For 3+ series of the same type, use a `for` loop
+with `enumerate`. Define a color array before the loop — **names must exist in the active
+color library** (check reference.md). Use the column name as `label`.
 
 ### `ql.line()`
 
 ```python
 ql.line(cs,
-    x=x,
+    x=x,                # TIMESERIES: pass date objects (DatetimeIndex / datetime Series), NOT strings
     y=y,
-    color="blue",
+    color="blue",       # must be a valid name in the active color library — check reference.md
     yerror=None,
     linewidth=3,
     linestyle="solid",
     marker=None,
     opacity=1,
     label="",
-    end_label=True,
+    end_label=True,     # prefer True; if 2+ lines end near the same y value, set False on ALL
+                        # lines and add ql.legend() instead — never mix end labels and a legend
     layer_order=1,
 );
 ```
-
-**Choosing line parameter values:**
-
-- Prefer end_label=True — it places the series name at the end of each line,
-  which is cleaner than a separate legend.
-- If end labels would overlap (multiple lines ending at similar y values),
-  set end_label=False on every line and add a `ql.legend()` call instead.
-- Never combine end labels and a legend on the same chart.
-- For timeseries lines, always pass the date object (e.g. a datetime Series
-  or DatetimeIndex) as x — never pass date strings.
 
 ### `ql.bar()`
 
 ```python
 ql.bar(cs,
-    xlabels=xlabels,
+    xlabels=xlabels,    # any series — strings, dates, and numbers all work
     y=y,
-    color="blue",
+    color="blue",       # must be a valid name in the active color library — check reference.md
     yerror=None,
-    bars_per_group=1,
-    bar_index=0,
+    bars_per_group=1,   # total bars at each x position (e.g. 3 for a grouped bar chart)
+    bar_index=0,        # 0-indexed position of this bar within the group
     opacity=1,
     label="",
     layer_order=1,
 );
 ```
-
-**Choosing bar parameter values:**
-
-- xlabels can take any series, they do not need to be strings (e.g. a datetime Series
-  or DatetimeIndex)
 
 ### `ql.scatter()`
 
@@ -169,7 +109,7 @@ ql.bar(cs,
 ql.scatter(cs,
     x=x,
     y=y,
-    color="blue",
+    color="blue",       # must be a valid name in the active color library — check reference.md
     x_error=None,
     y_error=None,
     marker="o",
@@ -184,7 +124,7 @@ ql.scatter(cs,
 ```python
 ql.dist(cs,
     data=data,
-    color="blue",
+    color="blue",       # must be a valid name in the active color library — check reference.md
     dist_type="binned_counts",
     auto_fit=True,
     distribution_min_max=(None, None),
@@ -235,6 +175,7 @@ ql.refline(cs,
     marker=None,
     opacity=1,
     label="",
+    end_label=False,    # True draws the label at the end of the line
     layer_order=1,
 );
 ```
@@ -251,17 +192,14 @@ ql.save(cs,
 
 ## Step 6 — Validate before finishing
 
-After writing the cell, run the built-in validator to catch template
-deviations. Add a new cell below with:
+After writing the cell, add a new cell below with:
 
 ```python
 ql.validate_cell(In[-2])
 ```
 
-`In[-2]` grabs the source of the cell you just wrote (the one before this
-validation cell). If the list is empty, the cell passes. If violations are
-returned, go back and fix every one before proceeding. Delete the validation
-cell when the output is clean.
+`In[-2]` grabs the source of the cell you just wrote. If the list is empty, the cell
+passes. Fix every violation before proceeding, then delete the validation cell.
 
 ## Additional resources
 
