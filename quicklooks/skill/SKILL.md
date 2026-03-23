@@ -39,7 +39,7 @@ The first line of every quicklooks code cell must be:
 ## Step 2 — Create the chart skeleton with `ql.chart()`
 
 Copy this template and fill in the parameter values:
-
+`
 ```python
 cs = ql.chart(
     title="",
@@ -111,7 +111,8 @@ and fill in the data and parameter values.
 For 1-2 series, write separate calls. For 3 or more series of the same type,
 use a `for` loop with `enumerate` over the columns. Define an array of color
 names before the loop and index into it with the loop counter. Use the column
-name as the `label`.
+name as the `label`. The color names in the array must exist in the color
+library set in `ql.chart()` — check reference.md for available names per library.
 
 ### `ql.line()`
 
@@ -156,6 +157,11 @@ ql.bar(cs,
     layer_order=1,
 );
 ```
+
+**Choosing bar parameter values:**
+
+- xlabels can take any series, they do not need to be strings (e.g. a datetime Series
+  or DatetimeIndex)
 
 ### `ql.scatter()`
 
@@ -242,6 +248,20 @@ ql.save(cs,
     format="png",
 );
 ```
+
+## Step 6 — Validate before finishing
+
+After writing the cell, run the built-in validator to catch template
+deviations. Add a new cell below with:
+
+```python
+ql.validate_cell(In[-2])
+```
+
+`In[-2]` grabs the source of the cell you just wrote (the one before this
+validation cell). If the list is empty, the cell passes. If violations are
+returned, go back and fix every one before proceeding. Delete the validation
+cell when the output is clean.
 
 ## Additional resources
 

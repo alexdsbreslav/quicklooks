@@ -20,6 +20,7 @@ from ._legend import legend
 from ._text import text
 from ._save import save
 from ._install_skill import install_skill
+from ._validate import validate_cell
 
 __all__ = [
     "chart",
@@ -32,4 +33,5 @@ __all__ = [
     "text",
     "save",
     "install_skill",
+    "validate_cell",
 ]
