@@ -89,6 +89,20 @@ def _end_label_pad_points(chart: Chart) -> float:
     return max(4.0, 0.28 * chart.font_style.size.l)
 
 
+def _last_end_label_xy_index(x: Any, y: Any) -> Optional[int]:
+    """Last index where *x* and *y* are both defined and *y* is finite."""
+    y_arr = np.asarray(y, dtype=float)
+    n = int(y_arr.shape[0])
+    for i in range(n - 1, -1, -1):
+        if not np.isfinite(y_arr[i]):
+            continue
+        xi = x.iloc[i] if isinstance(x, pd.Series) else x[i]
+        if pd.isna(xi):
+            continue
+        return i
+    return None
+
+
 def _end_label_offset_from_anchor(
     chart: Chart,
     *,

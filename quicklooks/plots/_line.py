@@ -7,7 +7,7 @@ from typing import Any, Optional, Union
 import numpy as np
 import pandas as pd  # type: ignore
 
-from .._chart import Chart, _end_label_right_of_anchor
+from .._chart import Chart, _end_label_right_of_anchor, _last_end_label_xy_index
 from .._colors import resolve_color
 from .._config import VALID_LINESTYLES, VALID_MARKERS
 from .._styling import get_marker_size
@@ -107,16 +107,18 @@ def line(
 
     # -- end label -------------------------------------------------------------
     if end_label and label:
-        x_end = x.iloc[-1] if isinstance(x, pd.Series) else x[-1]
-        y_end = y.iloc[-1] if isinstance(y, pd.Series) else y[-1]
-        _end_label_right_of_anchor(
-            chart,
-            x_anchor=x_end,
-            y=y_end,
-            text=label,
-            color=line_c,
-            zorder=layer_order + 2,
-        )
+        idx = _last_end_label_xy_index(x, y)
+        if idx is not None:
+            x_end = x.iloc[idx] if isinstance(x, pd.Series) else x[idx]
+            y_end = y.iloc[idx] if isinstance(y, pd.Series) else y[idx]
+            _end_label_right_of_anchor(
+                chart,
+                x_anchor=x_end,
+                y=y_end,
+                text=label,
+                color=line_c,
+                zorder=layer_order + 2,
+            )
 
     return LineResult(
         line=line_artist,
