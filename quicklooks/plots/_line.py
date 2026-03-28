@@ -2,13 +2,12 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
 from typing import Any, Optional, Union
 
 import numpy as np
 import pandas as pd  # type: ignore
 
-from .._chart import Chart
+from .._chart import Chart, _end_label_right_of_anchor
 from .._colors import resolve_color
 from .._config import VALID_LINESTYLES, VALID_MARKERS
 from .._styling import get_marker_size
@@ -110,18 +109,11 @@ def line(
     if end_label and label:
         x_end = x.iloc[-1] if isinstance(x, pd.Series) else x[-1]
         y_end = y.iloc[-1] if isinstance(y, pd.Series) else y[-1]
-
-        if chart.xaxis_type == "timeseries":
-            x_loc = x_end + timedelta(days=chart.xrange * 0.01)
-        else:
-            x_loc = x_end + chart.xrange * 0.01
-
-        chart.ax.text(
-            x_loc, y_end, label,
-            fontproperties=chart.font_style.label,
-            horizontalalignment="left",
-            verticalalignment="center",
-            size=chart.font_style.size.l,
+        _end_label_right_of_anchor(
+            chart,
+            x_anchor=x_end,
+            y=y_end,
+            text=label,
             color=line_c,
             zorder=layer_order + 2,
         )

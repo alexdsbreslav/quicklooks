@@ -7,7 +7,7 @@ from typing import Any, Union
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np
 
-from .._chart import Chart
+from .._chart import Chart, _record_stacked_legend_label
 from .._colors import resolve_color
 from .._types import StackedBarResult
 from .._validators import (
@@ -88,6 +88,12 @@ def stacked_bar(
 
     pos_baseline = chart._sbar_baseline_pos.copy()
     neg_baseline = chart._sbar_baseline_neg.copy()
+
+    has_pos = np.any(y_pos > 0)
+    has_neg = np.any(y_neg < 0)
+    _record_stacked_legend_label(
+        chart, label, has_pos=has_pos, has_neg=has_neg,
+    )
 
     # -- resolve color ---------------------------------------------------------
     _, line_c, edge_c = resolve_color(chart.color_library, color, _fn)

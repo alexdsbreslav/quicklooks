@@ -2,13 +2,12 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
 from typing import Any, Union
 
 import numpy as np
 import pandas as pd  # type: ignore
 
-from .._chart import Chart
+from .._chart import Chart, _end_label_right_of_anchor, _record_stacked_legend_label
 from .._colors import resolve_color
 from .._types import AreaResult
 from .._validators import (
@@ -86,6 +85,9 @@ def area(
 
     has_pos = np.any(y_pos > 0)
     has_neg = np.any(y_neg < 0)
+    _record_stacked_legend_label(
+        chart, label, has_pos=has_pos, has_neg=has_neg,
+    )
 
     # -- resolve color ---------------------------------------------------------
     fill_c, line_c, _ = resolve_color(chart.color_library, color, _fn)
@@ -144,17 +146,11 @@ def area(
         else:
             y_mid = (neg_bottom[-1] + neg_top[-1]) / 2
 
-        if chart.xaxis_type == "timeseries":
-            x_loc = x_end + timedelta(days=chart.xrange * 0.01)
-        else:
-            x_loc = x_end + chart.xrange * 0.01
-
-        chart.ax.text(
-            x_loc, y_mid, label,
-            fontproperties=chart.font_style.label,
-            horizontalalignment="left",
-            verticalalignment="center",
-            size=chart.font_style.size.l,
+        _end_label_right_of_anchor(
+            chart,
+            x_anchor=x_end,
+            y=y_mid,
+            text=label,
             color=line_c,
             zorder=layer_order + 3,
         )
