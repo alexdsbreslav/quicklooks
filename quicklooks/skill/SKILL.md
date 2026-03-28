@@ -219,6 +219,7 @@ ql.dist(cs,
 ql.legend(cs,
     location="outside right",
     frame=False,
+    stacked_plot=False,  # True for ql.area / ql.stacked_bar charts — orders legend to match stack
 );
 ```
 
