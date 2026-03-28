@@ -59,7 +59,7 @@ EXPECTED_PARAMS: dict[str, list[str]] = {
         "linewidth", "linestyle", "marker",
         "opacity", "label", "end_label", "layer_order",
     ],
-    "legend": ["location", "frame"],
+    "legend": ["location", "frame", "stacked_plot"],
     "text": [
         "text", "x", "y", "size", "color",
         "horizontal_align", "vertical_align",

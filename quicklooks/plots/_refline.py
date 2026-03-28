@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Any, Optional, Union
 
 import numpy as np
 import pandas as pd  # type: ignore
 
-from .._chart import Chart
+from .._chart import Chart, _end_label_offset_from_anchor, _end_label_pad_points, _end_label_right_of_anchor
 from .._colors import resolve_color
 from .._config import VALID_LINESTYLES, VALID_MARKERS, VALID_REFLINE_DIRECTIONS
 from .._styling import get_marker_size
@@ -111,37 +111,39 @@ def refline(
 
     # -- end label -------------------------------------------------------------
     if end_label and label:
-        yrange = chart.y_min_max[1] - chart.y_min_max[0]
-
         if direction == "horizontal":
-            if chart.xaxis_type == "timeseries":
-                x_loc = x[-1] + timedelta(days=chart.xrange * 0.01)
-            else:
-                x_loc = x[-1] + chart.xrange * 0.01
-            y_loc = location
-            ha, va = "left", "center"
+            _end_label_right_of_anchor(
+                chart,
+                x_anchor=x[-1],
+                y=location,
+                text=label,
+                color=line_c,
+                zorder=layer_order + 2,
+            )
 
         elif direction == "vertical":
-            x_loc = parsed_location
-            y_loc = chart.y_min_max[1] + yrange * 0.01
-            ha, va = "center", "bottom"
+            p = _end_label_pad_points(chart)
+            _end_label_offset_from_anchor(
+                chart,
+                x_anchor=parsed_location,
+                y_anchor=chart.y_min_max[1],
+                text=label,
+                color=line_c,
+                zorder=layer_order + 2,
+                dx_pts=0.0,
+                dy_pts=p,
+                horizontalalignment="center",
+                verticalalignment="bottom",
+            )
 
         else:  # diagonal_up / diagonal_down — label at the right end
-            if chart.xaxis_type == "timeseries":
-                x_loc = x[-1] + timedelta(days=chart.xrange * 0.01)
-            else:
-                x_loc = x[-1] + chart.xrange * 0.01
-            y_loc = y[-1]
-            ha, va = "left", "center"
-
-        chart.ax.text(
-            x_loc, y_loc, label,
-            fontproperties=chart.font_style.label,
-            horizontalalignment=ha,
-            verticalalignment=va,
-            size=chart.font_style.size.l,
-            color=line_c,
-            zorder=layer_order + 2,
-        )
+            _end_label_right_of_anchor(
+                chart,
+                x_anchor=x[-1],
+                y=y[-1],
+                text=label,
+                color=line_c,
+                zorder=layer_order + 2,
+            )
 
     return RefLineResult(line=line_artist)

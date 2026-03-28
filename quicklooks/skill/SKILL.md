@@ -46,6 +46,7 @@ cs = ql.chart(
     x_min_max=(0, 10),           # literal tuple only — no variables or expressions
                                  # TIMESERIES: use date strings ("YYYY-MM-DD", "YYYY-MM-DD")
                                  # NON-TIMESERIES: must be divisible by xtick_interval
+                                 # BAR PLOT: (-0.5, len(xlabels)-0.5)
     y_min_max=(0, 100),          # literal tuple only — no variables or expressions
                                  # based on SINGLE series max, NOT the sum across series
                                  # y_min_max[1] MUST be divisible by ytick_interval (no partial tick)
@@ -61,6 +62,7 @@ cs = ql.chart(
     xtick_labels="default",      # NON-TIMESERIES: "default"
                                  # TIMESERIES: "days" (<4 wks) | "weeks" (4 wks–2 mo) |
                                  #             "months" (2–15 mo) | "quarters" (9 mo–4 yr) | "years" (>4 yr)
+                                 # BAR PLOT: "default"
     ytick_labels="default",      # "default" | ">1k" → "1k" | ">100k" → "100k" | ">1M" → "1m" | percentages → "percents"
     horizontal_gridlines=False,
     vertical_gridlines=False,
@@ -165,7 +167,7 @@ for i, col in enumerate(df.columns):
 
 ```python
 ql.bar(cs,
-    xlabels=xlabels,    # any series — strings, dates, and numbers all work
+    xlabels=xlabels,    # any series — strings, dates, and numbers all work; these will overwrite the chart x labels
     y=y,
     color="blue",       # must be a valid name in the active color library — check reference.md
     yerror=None,
@@ -217,6 +219,7 @@ ql.dist(cs,
 ql.legend(cs,
     location="outside right",
     frame=False,
+    stacked_plot=False,  # True for ql.area / ql.stacked_bar charts — orders legend to match stack
 );
 ```
 

@@ -156,6 +156,7 @@ Adds a legend to the chart.
 | chart | Chart | required | Chart object (positional) |
 | location | str | "best" | "best", "upper right", "upper left", "lower left", "lower right", "right", "center left", "center right", "lower center", "upper center", "center", "outside right", "below" |
 | frame | bool | False | Draw border around legend |
+| stacked_plot | bool | False | Order legend rows to match stacked layers (for ql.area / ql.stacked_bar) |
 
 ## ql.text()
 

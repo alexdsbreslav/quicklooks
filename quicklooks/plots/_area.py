@@ -2,13 +2,17 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
 from typing import Any, Union
 
 import numpy as np
 import pandas as pd  # type: ignore
 
-from .._chart import Chart
+from .._chart import (
+    Chart,
+    _end_label_right_of_anchor,
+    _last_end_label_xy_index,
+    _record_stacked_legend_label,
+)
 from .._colors import resolve_color
 from .._types import AreaResult
 from .._validators import (
@@ -44,7 +48,8 @@ def area(
         chart: Chart object created by ``ql.chart()``.
         x: 1D array of x-axis values.
         y: 1D array of y values for this band (the height of this band, not
-            the cumulative total).
+            the cumulative total). Non-finite entries add no stacked height and
+            are left out of the filled polygon so bands do not extend past real data.
         color: Color name from the chart's color library, or a 3-tuple.
         linewidth: Width of the top-edge line.
         opacity: Alpha transparency for the filled area (0 to 1).
@@ -65,16 +70,19 @@ def area(
     validate_1d_array(y, "y", _fn)
     validate_matching_shapes(x, y, "x", "y", _fn)
 
-    y_arr = np.nan_to_num(np.asarray(y, dtype=float))
+    y_raw = np.asarray(y, dtype=float)
+    # Stacking: missing values contribute no height (same as zero). Drawing uses
+    # NaN below so fill_between does not span across trailing gaps.
+    y_stk = np.where(np.isfinite(y_raw), y_raw, 0.0)
 
     # -- diverging baselines (lazily initialised on first call) ----------------
     if not hasattr(chart, "_area_baseline_pos"):
-        chart._area_baseline_pos = np.zeros(len(y_arr))
+        chart._area_baseline_pos = np.zeros(len(y_stk))
     if not hasattr(chart, "_area_baseline_neg"):
-        chart._area_baseline_neg = np.zeros(len(y_arr))
+        chart._area_baseline_neg = np.zeros(len(y_stk))
 
-    y_pos = np.maximum(y_arr, 0)
-    y_neg = np.minimum(y_arr, 0)
+    y_pos = np.maximum(y_stk, 0)
+    y_neg = np.minimum(y_stk, 0)
 
     pos_bottom = chart._area_baseline_pos.copy()
     neg_bottom = chart._area_baseline_neg.copy()
@@ -84,23 +92,32 @@ def area(
     chart._area_baseline_pos = pos_top.copy()
     chart._area_baseline_neg = neg_top.copy()
 
-    has_pos = np.any(y_pos > 0)
-    has_neg = np.any(y_neg < 0)
+    valid = np.isfinite(y_raw)
+    has_pos = np.any(valid & (y_raw > 0))
+    has_neg = np.any(valid & (y_raw < 0))
+    _record_stacked_legend_label(
+        chart, label, has_pos=has_pos, has_neg=has_neg,
+    )
 
     # -- resolve color ---------------------------------------------------------
     fill_c, line_c, _ = resolve_color(chart.color_library, color, _fn)
 
     # -- filled areas ----------------------------------------------------------
+    pos_bottom_d = np.where(valid, pos_bottom, np.nan)
+    pos_top_d = np.where(valid, pos_top, np.nan)
+    neg_bottom_d = np.where(valid, neg_bottom, np.nan)
+    neg_top_d = np.where(valid, neg_top, np.nan)
+
     fill_artist = None
     if has_pos:
         fill_artist = chart.ax.fill_between(
-            x, pos_bottom, pos_top,
+            x, pos_bottom_d, pos_top_d,
             color=fill_c, alpha=opacity, label=None,
             zorder=layer_order + 2,
         )
     if has_neg:
         fill_neg = chart.ax.fill_between(
-            x, neg_top, neg_bottom,
+            x, neg_top_d, neg_bottom_d,
             color=fill_c, alpha=opacity, label=None,
             zorder=layer_order + 2,
         )
@@ -114,7 +131,7 @@ def area(
     _label = label  # consume label on first line drawn to avoid double entries
 
     if has_pos:
-        pos_line = np.where(y_arr > 0, pos_top, np.nan)
+        pos_line = np.where(valid & (y_stk > 0), pos_top, np.nan)
         line_artist = chart.ax.plot(
             x, pos_line,
             linewidth=linewidth, color=line_c,
@@ -124,7 +141,7 @@ def area(
         _label = None
 
     if has_neg:
-        neg_line = np.where(y_arr < 0, neg_top, np.nan)
+        neg_line = np.where(valid & (y_stk < 0), neg_top, np.nan)
         neg_line_artist = chart.ax.plot(
             x, neg_line,
             linewidth=linewidth, color=line_c,
@@ -136,27 +153,20 @@ def area(
 
     # -- end label -------------------------------------------------------------
     if end_label and label:
-        x_end = x.iloc[-1] if isinstance(x, pd.Series) else np.asarray(x)[-1]
-
-        last_y = y_arr[-1]
-        if last_y >= 0:
-            y_mid = (pos_bottom[-1] + pos_top[-1]) / 2
-        else:
-            y_mid = (neg_bottom[-1] + neg_top[-1]) / 2
-
-        if chart.xaxis_type == "timeseries":
-            x_loc = x_end + timedelta(days=chart.xrange * 0.01)
-        else:
-            x_loc = x_end + chart.xrange * 0.01
-
-        chart.ax.text(
-            x_loc, y_mid, label,
-            fontproperties=chart.font_style.label,
-            horizontalalignment="left",
-            verticalalignment="center",
-            size=chart.font_style.size.l,
-            color=line_c,
-            zorder=layer_order + 3,
-        )
+        idx = _last_end_label_xy_index(x, y_raw)
+        if idx is not None:
+            x_end = x.iloc[idx] if isinstance(x, pd.Series) else np.asarray(x)[idx]
+            if y_raw[idx] >= 0:
+                y_mid = (pos_bottom[idx] + pos_top[idx]) / 2
+            else:
+                y_mid = (neg_bottom[idx] + neg_top[idx]) / 2
+            _end_label_right_of_anchor(
+                chart,
+                x_anchor=x_end,
+                y=y_mid,
+                text=label,
+                color=line_c,
+                zorder=layer_order + 3,
+            )
 
     return AreaResult(fill=fill_artist, line=line_artist)

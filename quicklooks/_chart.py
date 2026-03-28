@@ -59,6 +59,103 @@ class Chart:
         self.yrange = yrange
         self.xaxis_type = xaxis_type
         self.xlabel = xlabel
+        # (label, "pos"|"neg") per ql.area / ql.stacked_bar call with a label;
+        # used by ql.legend(..., stacked_plot=True) for diverging charts.
+        self._stacked_legend_entries: list[tuple[str, str]] = []
+
+
+def _record_stacked_legend_label(
+    chart: Chart,
+    label: str,
+    *,
+    has_pos: bool,
+    has_neg: bool,
+) -> None:
+    """Append legend metadata for stacked area/bar (see ql.legend stacked_plot)."""
+    if not label:
+        return
+    if has_pos and not has_neg:
+        side = "pos"
+    elif has_neg and not has_pos:
+        side = "neg"
+    else:
+        # Mixed-sign series: label is attached to the positive artist first.
+        side = "pos"
+    chart._stacked_legend_entries.append((label, side))
+
+
+def _end_label_pad_points(chart: Chart) -> float:
+    """Horizontal/vertical gap from anchor for end-style labels (typography-based)."""
+    return max(4.0, 0.28 * chart.font_style.size.l)
+
+
+def _last_end_label_xy_index(x: Any, y: Any) -> Optional[int]:
+    """Last index where *x* and *y* are both defined and *y* is finite."""
+    y_arr = np.asarray(y, dtype=float)
+    n = int(y_arr.shape[0])
+    for i in range(n - 1, -1, -1):
+        if not np.isfinite(y_arr[i]):
+            continue
+        xi = x.iloc[i] if isinstance(x, pd.Series) else x[i]
+        if pd.isna(xi):
+            continue
+        return i
+    return None
+
+
+def _end_label_offset_from_anchor(
+    chart: Chart,
+    *,
+    x_anchor: Any,
+    y_anchor: Any,
+    text: str,
+    color: Any,
+    zorder: int,
+    dx_pts: float,
+    dy_pts: float,
+    horizontalalignment: str = "left",
+    verticalalignment: str = "center",
+) -> None:
+    """Draw *text* using ``annotate`` + ``offset points`` from data (*x_anchor*, *y_anchor*)."""
+    chart.ax.annotate(
+        text,
+        xy=(x_anchor, y_anchor),
+        xytext=(dx_pts, dy_pts),
+        textcoords="offset points",
+        xycoords="data",
+        horizontalalignment=horizontalalignment,
+        verticalalignment=verticalalignment,
+        color=color,
+        fontproperties=chart.font_style.label,
+        zorder=zorder,
+    )
+
+
+def _end_label_right_of_anchor(
+    chart: Chart,
+    *,
+    x_anchor: Any,
+    y: Any,
+    text: str,
+    color: Any,
+    zorder: int,
+    horizontalalignment: str = "left",
+    verticalalignment: str = "center",
+) -> None:
+    """End label to the right of the anchor (``dx`` = pad pts, ``dy`` = 0)."""
+    p = _end_label_pad_points(chart)
+    _end_label_offset_from_anchor(
+        chart,
+        x_anchor=x_anchor,
+        y_anchor=y,
+        text=text,
+        color=color,
+        zorder=zorder,
+        dx_pts=p,
+        dy_pts=0.0,
+        horizontalalignment=horizontalalignment,
+        verticalalignment=verticalalignment,
+    )
 
 
 def chart(
