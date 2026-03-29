@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quicklooks"
-version = "2.0.0"
+version = "2.0.4"
 description = "Create presentation-ready data visualizations quickly."
 readme = "README.md"
 license = {text = "MIT"}
